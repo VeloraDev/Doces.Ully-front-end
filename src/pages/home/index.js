@@ -1,12 +1,10 @@
 import React from "react";
-import ProductCard from "../../components/productCard/index";
+import ProductContainer from "../../components/productContainer/index";
 
 function Home() {
   return(
     <>
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      <ProductContainer />
     </>
   )
 }

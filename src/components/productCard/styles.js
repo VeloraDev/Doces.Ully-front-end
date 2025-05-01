@@ -7,8 +7,9 @@ export const ProductContainer = styled.div`
     align-items: center;
     border-radius: 5px;
     background-color: #fff;
-    width: max-content;
+    min-width: max-content;
     padding: 4px;
+    scroll-snap-align: center;
 `
 
 export const ImageContainer = styled.div`
