@@ -1,9 +1,14 @@
 import React from "react";
+import ProductCard from "../../components/productCard/index";
 
 function Home() {
   return(
-    <h1>HomePage</h1>
-  ) 
+    <>
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+    </>
+  )
 }
 
 export default Home;

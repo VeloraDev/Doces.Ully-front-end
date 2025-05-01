@@ -12,6 +12,7 @@ export default createGlobalStyle`
     body {
       font-family: 'Dongle', sans-serif;
       background-color: ${colors.primaryColor};
+      line-height: 0;
     }
 
     button {
