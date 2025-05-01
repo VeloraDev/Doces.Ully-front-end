@@ -1,9 +1,14 @@
-import React from "react";
+import React from 'react';
+import ProductContainer from '../../components/productContainer/index';
+import Navbar from '../../components/navBar';
 
 function Home() {
-  return(
-    <h1>HomePage</h1>
-  ) 
+  return (
+    <>
+      <Navbar />
+      <ProductContainer />
+    </>
+  );
 }
 
 export default Home;
