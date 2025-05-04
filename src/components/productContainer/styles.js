@@ -5,14 +5,14 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: ${colors.background};
+  margin-top: 30px;
 `;
 
 export const Title = styled.h1`
   font-size: 40px;
   font-weight: bold;
   color: ${colors.secondaryColor};
-  margin: 20px 0 0 20px;
+  margin: 0 0 0 20px;
 `;
 
 export const CardsContainer = styled.div`

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ProductContainer, ImageContainer, Content, ContentDown, Title, Price, Button, FavIcon } from './styles';
-import FavOff from '../../assets/FavIcon.svg';
-import FavOn from '../../assets/FavIconActive.svg';
+import FavOff from '../../assets/icons/FavIcon.svg';
+import FavOn from '../../assets/icons/FavIconActive.svg';
 
 function ProductCard() {
   const [favorited, setFavorited] = useState(false);

@@ -11,7 +11,7 @@ export default createGlobalStyle`
 
     body {
       font-family: 'Dongle', sans-serif;
-      background-color: #ccc;
+      background-color: ${colors.background};
       line-height: 100%;
     }
 

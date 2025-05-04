@@ -5,7 +5,6 @@ export const Container = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background-color: ${colors.background};
 `;
 
 export const Button = styled.button`
@@ -18,19 +17,20 @@ export const MenuOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
 export const OverlayContainer = styled.div`
   background-color: ${colors.background};
   width: 60%;
+  height: 50vh;
   padding: 18px 14px;
-  animation: entrar 200ms ease-in;
   display: flex;
   flex-direction: column;
   gap: 25px;
   border-radius: 0 0 20px 0;
+  animation: entrar 200ms ease-in;
 
   button {
     background-color: transparent;
@@ -75,6 +75,7 @@ export const LinksContainer = styled.div`
     height: 1.5px;
   }
 `;
+
 export const ContainerLine = styled.div`
   display: flex;
   justify-content: space-between;
