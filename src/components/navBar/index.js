@@ -9,10 +9,10 @@ import {
   OverlayContainer,
   LinksContainer,
 } from './styles';
-import CartIcon from '../../assets/cart-icon.svg';
-import HamburguerBtn from '../../assets/hamburguer-btn.svg';
-import Logo from '../../assets/logo-navbar.svg';
-import EscIcon from '../../assets/esc-icon.svg';
+import CartIcon from '../../assets/icons/cart-icon.svg';
+import HamburguerBtn from '../../assets/icons/hamburguer-btn.svg';
+import Logo from '../../assets/icons/logo-navbar.svg';
+import EscIcon from '../../assets/icons/esc-icon.svg';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -37,9 +37,7 @@ function Navbar() {
               <img src={EscIcon} />
             </button>
             <LinksContainer>
-              <a onClick={() => navigate('/login')} href="#">
-                Login
-              </a>
+              <a onClick={() => navigate('/login')}>Login</a>
               <hr />
               <a href="#">Logout</a>
               <hr />
@@ -54,7 +52,7 @@ function Navbar() {
           <img src={HamburguerBtn} />
         </Button>
         <img src={Logo} />
-        <Button>
+        <Button onClick={() => navigate('/carrinho')}>
           <img src={CartIcon} />
         </Button>
       </ContainerNavBar>
