@@ -1,41 +1,35 @@
 import js from "@eslint/js";
 import globals from "globals";
 import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import prettierPlugin from "eslint-plugin-prettier";
+import { FlatCompat } from "@eslint/eslintrc";
 
+const compat = new FlatCompat();
 
-export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,jsx}"], plugins: { js }, extends: ["js/recommended"] },
-  { files: ["**/*.{js,mjs,cjs,jsx}"], languageOptions: { globals: globals.browser } },
-  pluginReact.configs.flat.recommended,
-
+export default [
   {
-    "parser": "@babel/eslint-parser",
-    "extends": [
-      "plugin:react/recommended",
-      "airbnb",
-      "prettier"
-    ],
-    "plugins": [
-      "react",
-      "react-hooks",
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": "error",
-      "react/jsx-filename-extension": 0,
-      "import/prefer-default-export": 0,
+    files: ["**/*.{js,jsx}"],
+    languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      globals: {
+        ...globals.browser,
+      },
+    },
+    plugins: {
+      react: pluginReact,
+      "react-hooks": pluginReactHooks,
+      prettier: prettierPlugin,
+    },
+    rules: {
+      ...pluginReact.configs.recommended.rules,
+      "react/jsx-filename-extension": "off",
+      "import/prefer-default-export": "off",
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/exhaustive-deps": "warn",
+      "prettier/prettier": "error",
     },
-    "env": {
-      "browser": true,
-      "es2021": true
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    }
-  }  
-]);
+  },
+  ...compat.extends("airbnb"),
+];
