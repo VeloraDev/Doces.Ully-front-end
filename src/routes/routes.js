@@ -15,14 +15,18 @@ function AppRoutes() {
     { path: '/login', element: <Login /> },
     { path: '/cadastro', element: <Register /> },
     { path: '/carrinho', element: <Cart />, isClosed: true },
-    { path: '/produto/:id', element: <Product />, isClosed: true },
+    { path: '/produto/:id', element: <Product />, isClosed: false },
     { path: '*', element: <Page404 /> },
   ];
 
   return (
     <Routes>
       {routes.map(({ path, element, isClosed }) => (
-        <Route key={path} path={path} element={<MyRoute isClosed={isClosed}>{element}</MyRoute>} />
+        <Route
+          key={path}
+          path={path}
+          element={<MyRoute isClosed={isClosed}>{element}</MyRoute>}
+        />
       ))}
     </Routes>
   );

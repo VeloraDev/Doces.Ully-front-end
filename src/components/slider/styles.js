@@ -1,15 +1,21 @@
 import styled, { keyframes, css } from 'styled-components';
+import '@fontsource/crushed';
 import * as colors from '../../config/colors';
 
 export const Container = styled.div`
-  margin-top: 45px;
+  margin-top: 28px;
 `;
 
-export const Title = styled.div`
-  font-size: 40px;
-  font-weight: bold;
-  color: ${colors.secondaryColor};
-  margin: 0 0 20px 20px;
+export const TitleContainer = styled.div`
+  background-color: ${colors.primaryColor};
+  padding: 5px 0;
+  text-align: center;
+
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    color: #fff;
+  }
 `;
 
 export const SliderContainer = styled.div`
@@ -17,7 +23,6 @@ export const SliderContainer = styled.div`
   height: 220px;
   position: relative;
   overflow: hidden;
-  margin-bottom: 22px;
 `;
 
 export const BtnContainer = styled.div`
@@ -112,6 +117,4 @@ const sairPrev = keyframes`
 export const Line = styled.hr`
   width: 100%;
   height: 2px;
-  background-color: ${colors.primaryColor};
-  border: none;
 `;

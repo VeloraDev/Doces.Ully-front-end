@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Container, Title, SliderContainer, Image, BtnContainer, Line } from './styles';
+import {
+  Container,
+  TitleContainer,
+  SliderContainer,
+  Image,
+  BtnContainer,
+  Line,
+} from './styles';
 import ArrowBack from '../../assets/icons/arrow-back.svg';
 import ArrowFront from '../../assets/icons/arrow-front.svg';
 
@@ -41,7 +48,8 @@ function Slider() {
   // Botão "anterior"
   function handlePrev() {
     clearInterval(intervalRef.current);
-    const prevIndex = indexRef.current === 0 ? images.length - 1 : indexRef.current - 1;
+    const prevIndex =
+      indexRef.current === 0 ? images.length - 1 : indexRef.current - 1;
     updateSlide(prevIndex, 'prev');
     startAutoSlide(); // Reinicia o slider com base no novo index
   }
@@ -57,11 +65,13 @@ function Slider() {
   useEffect(() => {
     startAutoSlide();
     return () => clearInterval(intervalRef.current); // limpeza
-  }, []);
+  }, [intervalRef]);
 
   return (
     <Container>
-      <Title>Para você</Title>
+      <TitleContainer>
+        <h1>Para você</h1>
+      </TitleContainer>
       <SliderContainer>
         <BtnContainer>
           <button onClick={handlePrev}>
@@ -78,7 +88,11 @@ function Slider() {
             alt={`slide-${index}`}
             $active={index === currentIndex ? true : false}
             $animation={
-              index === currentIndex ? 'in' : index === (currentIndex - 1 + images.length) % images.length ? 'out' : ''
+              index === currentIndex
+                ? 'in'
+                : index === (currentIndex - 1 + images.length) % images.length
+                  ? 'out'
+                  : ''
             }
             $direction={direction}
           />
