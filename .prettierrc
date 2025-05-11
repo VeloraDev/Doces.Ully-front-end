@@ -3,11 +3,8 @@
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
-  "printWidth": 120,
-  "proseWrap": "never",
   "bracketSpacing": true,
   "arrowParens": "avoid",
-  "endOfLine": "lf",
   "bracketSameLine": true,
-  "arrayBracketNewline": "never"
+  "endOfLine": "lf"
 }

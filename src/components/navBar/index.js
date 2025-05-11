@@ -1,66 +1,105 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Button,
-  ContainerLine,
-  Line,
-  ContainerNavBar,
-  MenuOverlay,
-  OverlayContainer,
-  LinksContainer,
-} from './styles';
-import CartIcon from '../../assets/icons/cart-icon.svg';
-import HamburguerBtn from '../../assets/icons/hamburguer-btn.svg';
-import Logo from '../../assets/icons/logo-navbar.svg';
-import EscIcon from '../../assets/icons/esc-icon.svg';
-
 import { useNavigate } from 'react-router-dom';
+
+import {
+  ContainerNavBar,
+  Overlay,
+  Sidebar,
+  ExitButton,
+  NavList,
+  NavLink,
+  NavLine,
+  SidebarLogo,
+  NavbarSection,
+  NavButton,
+  LineSection,
+  Line,
+} from './styles';
+
+import {
+  CartIcon,
+  HambIcon,
+  EscIcon,
+  LogoNavBarIcon,
+  LogoHambIcon,
+} from '../../assets/index';
 
 function Navbar() {
   const [active, setActive] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
-
-  function handleOverlayClick() {
-    setActive(false);
-  }
 
   function stopPropagation(e) {
     e.stopPropagation();
   }
 
-  return (
-    <Container>
-      {active && (
-        <MenuOverlay onClick={handleOverlayClick}>
-          <OverlayContainer onClick={stopPropagation}>
-            <button onClick={() => setActive(false)}>
-              <img src={EscIcon} />
-            </button>
-            <LinksContainer>
-              <a onClick={() => navigate('/login')}>Login</a>
-              <hr />
-              <a href="#">Logout</a>
-              <hr />
-              <a href="#">Contate-nos</a>
-            </LinksContainer>
-          </OverlayContainer>
-        </MenuOverlay>
-      )}
+  function handleCloseMenu() {
+    setActive(false);
 
-      <ContainerNavBar>
-        <Button onClick={() => setActive(true)}>
-          <img src={HamburguerBtn} />
-        </Button>
-        <img src={Logo} />
-        <Button onClick={() => navigate('/carrinho')}>
-          <img src={CartIcon} />
-        </Button>
-      </ContainerNavBar>
-      <ContainerLine>
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 250);
+  }
+
+  function handleOpenMenu() {
+    setIsVisible(true);
+
+    setActive(true);
+  }
+
+  return (
+    <ContainerNavBar>
+      <Overlay isVisible={isVisible} onClick={handleCloseMenu}>
+        <Sidebar onClick={stopPropagation} animation={active ? 'in' : 'out'}>
+          <ExitButton onClick={() => handleCloseMenu()}>
+            <EscIcon />
+          </ExitButton>
+
+          <NavList>
+            <NavLink
+              onClick={() => {
+                navigate('/login');
+                handleCloseMenu();
+              }}>
+              Login
+            </NavLink>
+            <NavLine />
+            <NavLink
+              onClick={() => {
+                navigate('/cadastro');
+                handleCloseMenu();
+              }}>
+              Registro
+            </NavLink>
+            <NavLine />
+            <NavLink onClick={handleCloseMenu}>Quem somos</NavLink>
+            <NavLine />
+            <NavLink onClick={handleCloseMenu}>Sair</NavLink>
+          </NavList>
+
+          <SidebarLogo>
+            <LogoHambIcon />
+          </SidebarLogo>
+        </Sidebar>
+      </Overlay>
+
+      <NavbarSection>
+        <NavButton onClick={handleOpenMenu}>
+          <HambIcon />
+        </NavButton>
+        <NavButton onClick={() => navigate('/')}>
+          <LogoNavBarIcon />
+        </NavButton>
+        <NavButton onClick={() => navigate('/carrinho')}>
+          <CartIcon />
+        </NavButton>
+      </NavbarSection>
+
+      <LineSection>
         <Line />
         <Line />
-      </ContainerLine>
-    </Container>
+      </LineSection>
+    </ContainerNavBar>
   );
 }
 

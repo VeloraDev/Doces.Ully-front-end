@@ -10,6 +10,7 @@ export default createGlobalStyle`
     }
 
     body {
+      height: 100%;
       font-family: 'Dongle', sans-serif;
       background-color: ${colors.background};
       line-height: 100%;
@@ -22,5 +23,15 @@ export default createGlobalStyle`
 
     a {
       text-decoration: none;
+    }
+
+    hr {
+      border: none;
+      background-color: ${colors.primaryColor};
+    }
+
+    h1 {
+      font-family: 'Crushed', sans-serif;
+      line-height: 100%;
     }
 `;

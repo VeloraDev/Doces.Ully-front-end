@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Container, Title, SliderContainer, Image, BtnContainer, Line } from './styles';
-import ArrowBack from '../../assets/icons/arrow-back.svg';
-import ArrowFront from '../../assets/icons/arrow-front.svg';
+import {
+  Container,
+  TitleSection,
+  Title,
+  SliderContainer,
+  ImageSlider,
+  ActionGroup,
+  ActionButton,
+  Line,
+} from './styles';
+
+import { ArrowBack, ArrowFront } from '../../assets/index';
 
 import Bolo1 from '../../assets/images/bolo-de-pote-2.png';
 import Bolo2 from '../../assets/images/bolo-de-pote.png';
@@ -41,7 +50,8 @@ function Slider() {
   // Botão "anterior"
   function handlePrev() {
     clearInterval(intervalRef.current);
-    const prevIndex = indexRef.current === 0 ? images.length - 1 : indexRef.current - 1;
+    const prevIndex =
+      indexRef.current === 0 ? images.length - 1 : indexRef.current - 1;
     updateSlide(prevIndex, 'prev');
     startAutoSlide(); // Reinicia o slider com base no novo index
   }
@@ -57,28 +67,35 @@ function Slider() {
   useEffect(() => {
     startAutoSlide();
     return () => clearInterval(intervalRef.current); // limpeza
-  }, []);
+  }, [intervalRef]);
 
   return (
     <Container>
-      <Title>Para você</Title>
+      <TitleSection>
+        <Title>Para você</Title>
+      </TitleSection>
+
       <SliderContainer>
-        <BtnContainer>
-          <button onClick={handlePrev}>
-            <img src={ArrowBack} />
-          </button>
-          <button onClick={handleNext}>
-            <img src={ArrowFront} />
-          </button>
-        </BtnContainer>
+        <ActionGroup>
+          <ActionButton onClick={handlePrev}>
+            <ArrowBack />
+          </ActionButton>
+          <ActionButton onClick={handleNext}>
+            <ArrowFront />
+          </ActionButton>
+        </ActionGroup>
         {images.map((src, index) => (
-          <Image
+          <ImageSlider
             key={index}
             src={src}
             alt={`slide-${index}`}
             $active={index === currentIndex ? true : false}
             $animation={
-              index === currentIndex ? 'in' : index === (currentIndex - 1 + images.length) % images.length ? 'out' : ''
+              index === currentIndex
+                ? 'in'
+                : index === (currentIndex - 1 + images.length) % images.length
+                  ? 'out'
+                  : ''
             }
             $direction={direction}
           />
