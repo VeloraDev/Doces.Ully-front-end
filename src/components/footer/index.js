@@ -1,10 +1,11 @@
 import React from 'react';
-import { FooterContainer } from './styles';
+import { FooterContainer, Line, Text } from './styles';
 
 function Footer() {
   return (
     <FooterContainer>
-      <h1>DESENVOLVIDO POR VÉLORA</h1>
+      <Line />
+      <Text>DESENVOLVIDO POR VÉLORA</Text>
     </FooterContainer>
   );
 }

@@ -1,0 +1,17 @@
+export { ReactComponent as FavOnIcon } from './icons/fav-iconActive.svg';
+export { ReactComponent as FavOffIcon } from './icons/fav-icon.svg';
+export { ReactComponent as ShareIcon } from './icons/share-icon.svg';
+export { ReactComponent as BuyIcon } from './icons/buyBtn-icon.svg';
+export { ReactComponent as AddCartIcon } from './icons/addCart-icon.svg';
+export { ReactComponent as ArrowBack } from './icons/arrow-back.svg';
+export { ReactComponent as ArrowFront } from './icons/arrow-front.svg';
+export { ReactComponent as ArrowCategory } from './icons/arrow-category.svg';
+export { ReactComponent as CadIcon } from './icons/cad-icon.svg';
+export { ReactComponent as CartIcon } from './icons/cart-icon.svg';
+export { ReactComponent as CellIcon } from './icons/cell-icon.svg';
+export { ReactComponent as EscIcon } from './icons/esc-icon.svg';
+export { ReactComponent as EyeCloseIcon } from './icons/eyeClose-icon.svg';
+export { ReactComponent as HambIcon } from './icons/hamburguer-btn.svg';
+export { ReactComponent as UserIcon } from './icons/user-icon.svg';
+export { ReactComponent as LogoHambIcon } from './icons/logos/logo-btn-hamb.svg';
+export { ReactComponent as LogoNavBarIcon } from './icons/logos/logo-navbar.svg';

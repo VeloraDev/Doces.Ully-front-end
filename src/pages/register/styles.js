@@ -5,10 +5,10 @@ export const RegisterContainer = styled.div`
   margin-top: 20px;
   background-color: ${colors.lightPrimaryColor};
   padding-top: 38px;
+`;
 
-  hr {
-    height: 2px;
-  }
+export const Line = styled.hr`
+  height: 2px;
 `;
 
 export const Form = styled.form`
@@ -19,20 +19,19 @@ export const Form = styled.form`
   width: 100%;
   margin-top: 42px;
   background-color: ${colors.primaryColor};
-  padding: 100px 65px;
+  padding: 60px 65px;
   border-radius: 70px 70px 0 0;
+`;
 
-  button {
-    margin-top: 40px;
-    background-color: ${colors.secondaryColor};
-    color: #fff;
-    padding: 12px 35px;
-    border-radius: 30px;
-    font-size: 26px;
-  }
+export const Title = styled.h1`
+  font-family: sans-serif;
+  color: ${colors.secondaryColor};
+  font-size: 44px;
+  font-weight: 700;
 `;
 
 export const InputContainer = styled.div`
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -44,7 +43,6 @@ export const Input = styled.div`
   gap: 5px;
   padding: 10px;
   background-color: ${colors.lightPrimaryColor};
-  width: 100%;
   border-radius: 15px;
   border: 2px solid ${colors.borderColor};
 
@@ -56,4 +54,13 @@ export const Input = styled.div`
     font-size: 18px;
     color: ${colors.secondaryColor};
   }
+`;
+
+export const ActionButton = styled.button`
+  margin-top: 40px;
+  background-color: ${colors.secondaryColor};
+  color: #fff;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-size: 26px;
 `;

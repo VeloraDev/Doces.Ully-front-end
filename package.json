@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fontsource/bangers": "^5.2.5",
     "@fontsource/crushed": "^5.2.5",
     "@fontsource/dongle": "^5.2.5",
+    "@fontsource/luckiest-guy": "^5.2.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",

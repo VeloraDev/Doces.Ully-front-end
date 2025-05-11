@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Container,
-  TitleContainer,
+  TitleSection,
+  Title,
   SliderContainer,
-  Image,
-  BtnContainer,
+  ImageSlider,
+  ActionGroup,
+  ActionButton,
   Line,
 } from './styles';
-import ArrowBack from '../../assets/icons/arrow-back.svg';
-import ArrowFront from '../../assets/icons/arrow-front.svg';
+
+import { ArrowBack, ArrowFront } from '../../assets/index';
 
 import Bolo1 from '../../assets/images/bolo-de-pote-2.png';
 import Bolo2 from '../../assets/images/bolo-de-pote.png';
@@ -69,20 +71,21 @@ function Slider() {
 
   return (
     <Container>
-      <TitleContainer>
-        <h1>Para você</h1>
-      </TitleContainer>
+      <TitleSection>
+        <Title>Para você</Title>
+      </TitleSection>
+
       <SliderContainer>
-        <BtnContainer>
-          <button onClick={handlePrev}>
-            <img src={ArrowBack} />
-          </button>
-          <button onClick={handleNext}>
-            <img src={ArrowFront} />
-          </button>
-        </BtnContainer>
+        <ActionGroup>
+          <ActionButton onClick={handlePrev}>
+            <ArrowBack />
+          </ActionButton>
+          <ActionButton onClick={handleNext}>
+            <ArrowFront />
+          </ActionButton>
+        </ActionGroup>
         {images.map((src, index) => (
-          <Image
+          <ImageSlider
             key={index}
             src={src}
             alt={`slide-${index}`}

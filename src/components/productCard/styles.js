@@ -5,15 +5,15 @@ export const ProductContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
   border-radius: 10px;
   background-color: #fff;
   min-width: max-content;
   padding: 5px;
   scroll-snap-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
-export const ImageContainer = styled.div`
+export const ProductImage = styled.div`
   position: relative;
   top: -11px;
   width: 100%;
@@ -22,7 +22,7 @@ export const ImageContainer = styled.div`
   background-color: #e0e0e0;
 `;
 
-export const Content = styled.div`
+export const ProductContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -45,25 +45,16 @@ export const Price = styled.div`
   padding: 8px 10px;
   border-radius: 15px;
 
-  p {
-    color: #fff;
-    font-weight: 500;
-    font-size: 30px;
-  }
+  color: #fff;
+  font-weight: 500;
+  font-size: 30px;
 `;
 
-export const Button = styled.button`
+export const FavButton = styled.button`
   position: absolute;
   right: -17px;
   top: -18px;
   z-index: 1;
   background-color: transparent;
   border-radius: 100%;
-  height: min-content;
-`;
-
-export const FavIcon = styled.img`
-  display: block;
-  width: 35px;
-  height: 35px;
 `;

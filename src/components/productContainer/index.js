@@ -1,23 +1,29 @@
 import React from 'react';
-import { Container, Title, CardsContainer, Line } from './styles';
+import {
+  Container,
+  SectionTop,
+  Title,
+  ActionButton,
+  CardsContainer,
+} from './styles';
+
 import ProductCard from '../productCard';
-import ArrowCatogory from '../../assets/icons/arrow-category.svg';
+import { ArrowCategory } from '../../assets/index';
 
 function ProductContainer() {
   return (
     <Container>
-      <Title>
-        <h1>Produtos</h1>
-        <button>
-          <img src={ArrowCatogory} />
-        </button>
-      </Title>
+      <SectionTop>
+        <Title>Produtos</Title>
+        <ActionButton>
+          <ArrowCategory width={30} height={21} />
+        </ActionButton>
+      </SectionTop>
       <CardsContainer>
         <ProductCard />
         <ProductCard />
         <ProductCard />
       </CardsContainer>
-      <Line />
     </Container>
   );
 }

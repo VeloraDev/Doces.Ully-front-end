@@ -1,9 +1,17 @@
 import React, { useState, useRef } from 'react';
-import { RegisterContainer, Form, Input, InputContainer } from './styles';
-import User from '../../assets/icons/user-icon.svg';
-import Cell from '../../assets/icons/cell-icon.svg';
-import Cad from '../../assets/icons/cad-icon.svg';
-import EyeClose from '../../assets/icons/eyeClose-icon.svg';
+import {
+  RegisterContainer,
+  Line,
+  Title,
+  Form,
+  Input,
+  InputContainer,
+  ActionButton,
+} from './styles';
+
+import { UserIcon, CellIcon, CadIcon, EyeCloseIcon } from '../../assets/index';
+
+import { toast } from 'react-toastify';
 
 function Register() {
   const [user, setUser] = useState('');
@@ -18,15 +26,53 @@ function Register() {
   const passRef = useRef(null);
   const confirmPassRef = useRef(null);
 
-  function handleSubmit() {}
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    let formErrors = false;
+    const soNumeros = /^\d+$/;
+
+    if (user.length < 3 || user.length > 20) {
+      toast.error('Nome precisa ter entre 3 e 20 caracteres!');
+      formErrors = true;
+    }
+
+    if (!soNumeros.test(phone)) {
+      toast.error('Telefone só pode conter números!');
+      formErrors = true;
+    }
+
+    if (phone.length !== 11) {
+      toast.error('Telefone precisa ter 11 números!');
+      formErrors = true;
+    }
+
+    if (
+      password.length < 3 ||
+      password.length > 10 ||
+      password !== confirmPassword
+    ) {
+      toast.error('As senhas não conferem!');
+      toast.error('A senha precisa ter entre 3 e 10 caracteres!');
+      formErrors = true;
+    }
+
+    if (soNumeros.test(password)) {
+      toast.error('A senha precisa ter letras!');
+      formErrors = true;
+    }
+
+    if (formErrors) return;
+  }
 
   return (
     <RegisterContainer>
-      <hr />
+      <Line />
       <Form action={'/cadastro'} method="POST" onSubmit={handleSubmit}>
+        <Title>CADASTRO</Title>
         <InputContainer>
           <Input onClick={() => userRef.current?.focus()}>
-            <img src={User} />
+            <UserIcon />
             <input
               ref={userRef}
               type="text"
@@ -37,7 +83,7 @@ function Register() {
           </Input>
 
           <Input onClick={() => phoneRef.current?.focus()}>
-            <img src={Cell} />
+            <CellIcon />
             <input
               ref={phoneRef}
               type="text"
@@ -48,7 +94,7 @@ function Register() {
           </Input>
 
           <Input onClick={() => passRef.current?.focus()}>
-            <img src={Cad} />
+            <CadIcon />
             <input
               type={isVisible ? 'text' : 'password'}
               placeholder="Senha"
@@ -56,11 +102,11 @@ function Register() {
               onChange={e => setPassword(e.target.value)}
               ref={passRef}
             />
-            <img onClick={() => setIsVisible(prev => !prev)} src={EyeClose} />
+            <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
           </Input>
 
           <Input onClick={() => confirmPassRef.current?.focus()}>
-            <img src={Cad} />
+            <CadIcon />
             <input
               type={confirmIsVisible ? 'text' : 'password'}
               placeholder="Confirmar senha"
@@ -68,13 +114,10 @@ function Register() {
               onChange={e => setConfirmPassword(e.target.value)}
               ref={confirmPassRef}
             />
-            <img
-              onClick={() => setConfirmIsVisible(prev => !prev)}
-              src={EyeClose}
-            />
+            <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
           </Input>
         </InputContainer>
-        <button>Cadastrar</button>
+        <ActionButton>Cadastrar</ActionButton>
       </Form>
     </RegisterContainer>
   );

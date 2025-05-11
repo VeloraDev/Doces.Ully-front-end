@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import {
   ProductContainer,
-  ImageContainer,
-  Content,
+  ProductImage,
+  ProductContent,
   TitleCategory,
   TitleFlavor,
   Price,
-  Button,
-  FavIcon,
+  FavButton,
 } from './styles';
-import FavOff from '../../assets/icons/fav-icon.svg';
-import FavOn from '../../assets/icons/fav-iconActive.svg';
+
+import { FavOnIcon, FavOffIcon } from '../../assets/index';
 
 function ProductCard() {
   const [favorited, setFavorited] = useState(false);
 
   return (
     <ProductContainer>
-      <Button onClick={() => setFavorited(favorited ? false : true)} data-id="bolo-pote">
-        <FavIcon src={favorited ? FavOn : FavOff} alt="Botão favoritar" />
-      </Button>
-      <ImageContainer></ImageContainer>
-      <Content>
+      <FavButton
+        onClick={() => setFavorited(favorited ? false : true)}
+        data-id="bolo-pote">
+        {favorited ? (
+          <FavOnIcon width={35} height={35} />
+        ) : (
+          <FavOffIcon width={35} height={35} />
+        )}
+      </FavButton>
+      <ProductImage></ProductImage>
+      <ProductContent>
         <TitleCategory>Bolo de pote</TitleCategory>
         <TitleFlavor>Sabor</TitleFlavor>
-        <Price>
-          <p>R$ 99,99</p>
-        </Price>
-      </Content>
+        <Price>R$ 99,99</Price>
+      </ProductContent>
     </ProductContainer>
   );
 }
