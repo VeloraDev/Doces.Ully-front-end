@@ -1,5 +1,6 @@
 import React from 'react';
-import { FooterContainer, Line, Text } from './styles';
+import { Line } from '../../styles/GlobalStyles';
+import { FooterContainer, Text } from './styles';
 
 function Footer() {
   return (

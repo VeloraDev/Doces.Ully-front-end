@@ -113,8 +113,3 @@ const sairPrev = keyframes`
     opacity: 1;
   }
 `;
-
-export const Line = styled.hr`
-  width: 100%;
-  height: 2px;
-`;

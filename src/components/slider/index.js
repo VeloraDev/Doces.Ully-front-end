@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Line } from '../../styles/GlobalStyles';
 import {
   Container,
   TitleSection,
@@ -7,7 +8,6 @@ import {
   ImageSlider,
   ActionGroup,
   ActionButton,
-  Line,
 } from './styles';
 
 import { ArrowBack, ArrowFront } from '../../assets/index';

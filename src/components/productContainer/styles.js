@@ -18,6 +18,7 @@ export const Title = styled.h1`
   font-size: 40px;
   font-weight: 400;
   color: #fff;
+  text-transform: uppercase;
 `;
 
 export const ActionButton = styled.button`
@@ -25,21 +26,4 @@ export const ActionButton = styled.button`
   right: 12px;
   background-color: transparent;
   height: 21px;
-`;
-
-export const CardsContainer = styled.div`
-  display: flex;
-  gap: 30px;
-  padding: 40px 16px 35px 16px;
-  background-color: ${colors.lightPrimaryColor};
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
   RegisterContainer,
-  Line,
   Title,
   Form,
   Input,
@@ -10,6 +9,7 @@ import {
 } from './styles';
 
 import { UserIcon, CellIcon, CadIcon, EyeCloseIcon } from '../../assets/index';
+import { Line } from '../../styles/GlobalStyles';
 
 import { toast } from 'react-toastify';
 

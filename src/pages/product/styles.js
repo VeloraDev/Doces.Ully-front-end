@@ -37,6 +37,7 @@ export const Title = styled.h1`
   font-size: 30px;
   font-weight: 400;
   color: ${colors.secondaryColor};
+  text-transform: uppercase;
 `;
 
 export const ButtonIcon = styled.button`

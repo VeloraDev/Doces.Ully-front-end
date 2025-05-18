@@ -6,6 +6,7 @@ export { ReactComponent as AddCartIcon } from './icons/addCart-icon.svg';
 export { ReactComponent as ArrowBack } from './icons/arrow-back.svg';
 export { ReactComponent as ArrowFront } from './icons/arrow-front.svg';
 export { ReactComponent as ArrowCategory } from './icons/arrow-category.svg';
+export { ReactComponent as ArrowCategoryDark } from './icons/arrow-category-dark-icon.svg';
 export { ReactComponent as CadIcon } from './icons/cad-icon.svg';
 export { ReactComponent as CartIcon } from './icons/cart-icon.svg';
 export { ReactComponent as CellIcon } from './icons/cell-icon.svg';
