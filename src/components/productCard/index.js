@@ -10,12 +10,14 @@ import {
 } from './styles';
 
 import { FavOnIcon, FavOffIcon } from '../../assets/index';
+import { useNavigate } from 'react-router-dom';
 
-function ProductCard() {
+function ProductCard({ isHome }) {
   const [favorited, setFavorited] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <ProductContainer>
+    <ProductContainer onClick={() => navigate('/produto/1')}>
       <FavButton
         onClick={() => setFavorited(favorited ? false : true)}
         data-id="bolo-pote">
@@ -27,7 +29,7 @@ function ProductCard() {
       </FavButton>
       <ProductImage></ProductImage>
       <ProductContent>
-        <TitleCategory>Bolo de pote</TitleCategory>
+        {isHome && <TitleCategory>Bolo de pote</TitleCategory>}
         <TitleFlavor>Sabor</TitleFlavor>
         <Price>R$ 99,99</Price>
       </ProductContent>

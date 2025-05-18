@@ -11,6 +11,11 @@ export const ProductContainer = styled.div`
   padding: 5px;
   scroll-snap-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    scale: 1.2;
+    transition: 200ms;
+  }
 `;
 
 export const ProductImage = styled.div`

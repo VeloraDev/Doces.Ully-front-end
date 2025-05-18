@@ -5,3 +5,4 @@ export const lightSecondaryColor = '#976154';
 export const textCardColor = '#B37B6C';
 export const borderColor = '#BE9588';
 export const background = '#FDFDFD';
+export const lightSecondaryColor2 = '#B6887B';

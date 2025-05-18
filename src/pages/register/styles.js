@@ -3,12 +3,8 @@ import * as colors from '../../config/colors';
 
 export const RegisterContainer = styled.div`
   margin-top: 20px;
-  background-color: ${colors.lightPrimaryColor};
+  background-color: rgba(254, 233, 227, 0.3);
   padding-top: 38px;
-`;
-
-export const Line = styled.hr`
-  height: 2px;
 `;
 
 export const Form = styled.form`
@@ -18,23 +14,27 @@ export const Form = styled.form`
   flex-direction: column;
   width: 100%;
   margin-top: 42px;
-  background-color: ${colors.primaryColor};
+  background-color: ${colors.lightPrimaryColor};
   padding: 60px 65px;
   border-radius: 70px 70px 0 0;
+  box-sizing: border-box;
+  z-index: 1;
 `;
 
 export const Title = styled.h1`
   font-family: sans-serif;
-  color: ${colors.secondaryColor};
   font-size: 44px;
+  color: ${colors.secondaryColor};
   font-weight: 700;
+  text-transform: uppercase;
 `;
 
 export const InputContainer = styled.div`
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 22px;
+  width: 100%;
+  margin-top: 20px;
 `;
 
 export const Input = styled.div`
@@ -63,4 +63,5 @@ export const ActionButton = styled.button`
   padding: 12px 40px;
   border-radius: 30px;
   font-size: 26px;
+  letter-spacing: 1px;
 `;

@@ -35,15 +35,15 @@ function Product() {
 
   return (
     <ProductContainer>
-      <PathSection>
+      {/* <PathSection>
         <Branch>...</Branch>
-        <Branch>></Branch>
+        <Branch></Branch>
         <Branch>PRODUTOS</Branch>
-        <Branch>></Branch>
+        <Branch></Branch>
         <Branch>cATEGORIA</Branch>
-        <Branch>></Branch>
+        <Branch></Branch>
         <Branch>NOME</Branch>
-      </PathSection>
+      </PathSection> */}
       <SectionTop>
         <TitleSection>
           <Title>Nome do produto</Title>

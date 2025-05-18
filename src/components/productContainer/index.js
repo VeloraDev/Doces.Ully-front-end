@@ -1,28 +1,26 @@
 import React from 'react';
-import {
-  Container,
-  SectionTop,
-  Title,
-  ActionButton,
-  CardsContainer,
-} from './styles';
+import { CardsContainer } from '../../styles/GlobalStyles';
+import { Container, SectionTop, Title, ActionButton } from './styles';
 
+import { useNavigate } from 'react-router-dom';
 import ProductCard from '../productCard';
 import { ArrowCategory } from '../../assets/index';
 
 function ProductContainer() {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <SectionTop>
         <Title>Produtos</Title>
-        <ActionButton>
+        <ActionButton onClick={() => navigate('/produtos')}>
           <ArrowCategory width={30} height={21} />
         </ActionButton>
       </SectionTop>
-      <CardsContainer>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+      <CardsContainer $isHome={true}>
+        <ProductCard isHome={true} />
+        <ProductCard isHome={true} />
+        <ProductCard isHome={true} />
       </CardsContainer>
     </Container>
   );

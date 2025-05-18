@@ -5,9 +5,11 @@ import Cart from '../pages/cart';
 import Home from '../pages/home';
 import Login from '../pages/login';
 import Page404 from '../pages/page404';
+import Products from '../pages/products';
 import Product from '../pages/product';
 import Register from '../pages/register';
 import MyRoute from './myRoute';
+import CategoryProducts from '../pages/categoryProducts';
 
 function AppRoutes() {
   const routes = [
@@ -15,6 +17,12 @@ function AppRoutes() {
     { path: '/login', element: <Login /> },
     { path: '/cadastro', element: <Register /> },
     { path: '/carrinho', element: <Cart />, isClosed: true },
+    { path: '/produtos', element: <Products />, isClosed: false },
+    {
+      path: '/produtos/:categoria',
+      element: <CategoryProducts />,
+      isClosed: false,
+    },
     { path: '/produto/:id', element: <Product />, isClosed: false },
     { path: '*', element: <Page404 /> },
   ];
