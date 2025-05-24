@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Line } from '../../styles/GlobalStyles';
+import { Line } from '../../styles/ComponentsStyles';
 import {
   Container,
   TitleSection,

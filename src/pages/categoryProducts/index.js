@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { CategoryProductsContainer, Title } from './styles';
+import { CategoryProductsContainer, Title, ContentContainer } from './styles';
 import ProductCardCategory from './productCardCategory/index';
+import Footer from '../../components/footer';
 
 function CategoryProducts() {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -10,12 +11,14 @@ function CategoryProducts() {
       id: 1,
       flavor: 'Bolo de pote',
       price: 'R$ 99,99',
+      category: 'Bolo de pote',
       inStock: true,
     },
     {
       id: 2,
       flavor: 'Bolo de pote',
       price: 'R$ 99,99',
+      category: 'Bolo de pote',
       inStock: false,
     },
   ];
@@ -29,19 +32,19 @@ function CategoryProducts() {
 
   return (
     <CategoryProductsContainer>
-      <Title>categoria</Title>
+      <ContentContainer>
+        <Title>categoria</Title>
 
-      {products.map(product => (
-        <ProductCardCategory
-          key={product.id}
-          id={product.id}
-          flavor={product.flavor}
-          price={product.price}
-          inStock={product.inStock}
-          isFavorited={isFavorited[product.id]}
-          onToggleFavorited={handleFavoriteToggle}
-        />
-      ))}
+        {products.map(product => (
+          <ProductCardCategory
+            key={product.id}
+            product={product}
+            isFavorited={isFavorited[product.id]}
+            onToggleFavorited={handleFavoriteToggle}
+          />
+        ))}
+      </ContentContainer>
+      <Footer />
     </CategoryProductsContainer>
   );
 }

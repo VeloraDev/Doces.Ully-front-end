@@ -49,8 +49,8 @@ function Navbar() {
 
   return (
     <ContainerNavBar>
-      <Overlay isVisible={isVisible} onClick={handleCloseMenu}>
-        <Sidebar onClick={stopPropagation} animation={active ? 'in' : 'out'}>
+      <Overlay $isVisible={isVisible} onClick={handleCloseMenu}>
+        <Sidebar onClick={stopPropagation} $animation={active ? 'in' : 'out'}>
           <ExitButton onClick={() => handleCloseMenu()}>
             <EscIcon />
           </ExitButton>

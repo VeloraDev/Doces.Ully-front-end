@@ -15,34 +15,36 @@ export const Form = styled.form`
   width: 100%;
   margin-top: 42px;
   background-color: ${colors.lightPrimaryColor};
-  padding: 60px 65px;
+  padding: 40px 0;
   border-radius: 70px 70px 0 0;
   box-sizing: border-box;
   z-index: 1;
 `;
 
 export const Title = styled.h1`
-  font-family: sans-serif;
-  font-size: 44px;
+  font-family: 'Dongle', sans-serif;
+  font-size: 70px;
   color: ${colors.secondaryColor};
   font-weight: 700;
   text-transform: uppercase;
+  line-height: 1;
 `;
 
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 22px;
   width: 100%;
-  margin-top: 20px;
 `;
 
 export const Input = styled.div`
   display: flex;
+  width: 70%;
   align-items: center;
   gap: 5px;
   padding: 10px;
-  background-color: ${colors.lightPrimaryColor};
+  background-color: ${colors.background};
   border-radius: 15px;
   border: 2px solid ${colors.borderColor};
 

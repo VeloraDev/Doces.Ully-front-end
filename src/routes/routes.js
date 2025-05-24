@@ -16,14 +16,14 @@ function AppRoutes() {
     { path: '/', element: <Home /> },
     { path: '/login', element: <Login /> },
     { path: '/cadastro', element: <Register /> },
-    { path: '/carrinho', element: <Cart />, isClosed: true },
+    { path: '/carrinho', element: <Cart />, isClosed: false },
     { path: '/produtos', element: <Products />, isClosed: false },
     {
       path: '/produtos/:categoria',
       element: <CategoryProducts />,
       isClosed: false,
     },
-    { path: '/produto/:id', element: <Product />, isClosed: false },
+    { path: '/produto/:categoria/:id', element: <Product />, isClosed: false },
     { path: '*', element: <Page404 /> },
   ];
 

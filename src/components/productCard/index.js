@@ -17,9 +17,12 @@ function ProductCard({ isHome }) {
   const navigate = useNavigate();
 
   return (
-    <ProductContainer onClick={() => navigate('/produto/1')}>
+    <ProductContainer onClick={() => navigate(`/produto/category/2`)}>
       <FavButton
-        onClick={() => setFavorited(favorited ? false : true)}
+        onClick={e => {
+          e.stopPropagation();
+          setFavorited(favorited ? false : true);
+        }}
         data-id="bolo-pote">
         {favorited ? (
           <FavOnIcon width={35} height={35} />
@@ -29,9 +32,9 @@ function ProductCard({ isHome }) {
       </FavButton>
       <ProductImage></ProductImage>
       <ProductContent>
-        {isHome && <TitleCategory>Bolo de pote</TitleCategory>}
-        <TitleFlavor>Sabor</TitleFlavor>
-        <Price>R$ 99,99</Price>
+        {isHome && <TitleCategory>category</TitleCategory>}
+        <TitleFlavor>flavor</TitleFlavor>
+        <Price>R$ 99,00</Price>
       </ProductContent>
     </ProductContainer>
   );

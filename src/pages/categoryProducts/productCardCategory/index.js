@@ -6,24 +6,14 @@ import {
   ProductContent,
   ContentTop,
   FavButton,
-  ProductFlavor,
-  Price,
   ContentDown,
-  InStock,
-  SeeMore,
-} from './styles';
+} from '../../../styles/ComponentsStyles';
 
+import { ProductFlavor, Price, InStock, SeeMore } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { FavOnIcon, FavOffIcon } from '../../../assets/index';
 
-function ProductCardCategory({
-  id,
-  flavor,
-  price,
-  inStock,
-  isFavorited,
-  onToggleFavorited,
-}) {
+function ProductCardCategory({ product, isFavorited, onToggleFavorited }) {
   const navigate = useNavigate();
 
   return (
@@ -31,8 +21,10 @@ function ProductCardCategory({
       <ProductImage></ProductImage>
       <ProductContent>
         <ContentTop>
-          <ProductFlavor>{flavor}</ProductFlavor>
-          <FavButton onClick={() => onToggleFavorited(id)} data-id="bolo-pote">
+          <ProductFlavor>{product.flavor}</ProductFlavor>
+          <FavButton
+            onClick={() => onToggleFavorited(product.id)}
+            data-id="bolo-pote">
             {isFavorited ? (
               <FavOnIcon width={35} height={35} />
             ) : (
@@ -40,12 +32,17 @@ function ProductCardCategory({
             )}
           </FavButton>
         </ContentTop>
-        <Price>{price}</Price>
+        <Price>{product.price}</Price>
         <ContentDown>
-          <InStock inStock={inStock}>
-            {inStock ? 'Em estoque' : 'Esgotado'}
+          <InStock inStock={product.inStock}>
+            {product.inStock ? 'Em estoque' : 'Esgotado'}
           </InStock>
-          <SeeMore onClick={() => navigate(`/produto/${id}`)}>Ver mais</SeeMore>
+          <SeeMore
+            onClick={() =>
+              navigate(`/produto/${product.category}/${product.id}`)
+            }>
+            Ver mais
+          </SeeMore>
         </ContentDown>
       </ProductContent>
     </ProductCard>
