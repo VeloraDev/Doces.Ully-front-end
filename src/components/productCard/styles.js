@@ -12,10 +12,10 @@ export const ProductContainer = styled.div`
   scroll-snap-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-  &:hover {
+  /* &:hover {
     scale: 1.2;
     transition: 200ms;
-  }
+  } */
 `;
 
 export const ProductImage = styled.div`

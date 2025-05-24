@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardsContainer, Line } from '../../styles/GlobalStyles';
+import { CardsContainer, Line } from '../../styles/ComponentsStyles';
 import {
   ProductsContainer,
   PathSection,

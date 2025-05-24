@@ -16,3 +16,4 @@ export { ReactComponent as HambIcon } from './icons/hamburguer-btn.svg';
 export { ReactComponent as UserIcon } from './icons/user-icon.svg';
 export { ReactComponent as LogoHambIcon } from './icons/logos/logo-btn-hamb.svg';
 export { ReactComponent as LogoNavBarIcon } from './icons/logos/logo-navbar.svg';
+export { ReactComponent as CatIcon } from './icons/cat-icon.svg';

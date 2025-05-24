@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardsContainer } from '../../styles/GlobalStyles';
+import { CardsContainer } from '../../styles/ComponentsStyles';
 import { Container, SectionTop, Title, ActionButton } from './styles';
 
 import { useNavigate } from 'react-router-dom';
