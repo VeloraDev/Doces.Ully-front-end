@@ -43,7 +43,7 @@ function Cart() {
         <CartTitle>Seu carrinho</CartTitle>
         <Line />
       </TitleContainer>
-      <ProductContainer isEmpty={isEmpty}>
+      <ProductContainer $isEmpty={isEmpty}>
         {isEmpty ? (
           <CatIcon onClick={() => navigate('/produtos')} />
         ) : (
@@ -56,7 +56,7 @@ function Cart() {
       <CheckoutContainer>
         <CheckoutPriceContainer>
           <CheckoutText>valor final({totalQuantity}): </CheckoutText>
-          <CheckoutPrice>R$ {totalPrice.toFixed(2)}</CheckoutPrice>
+          <CheckoutPrice>R${totalPrice.toFixed(2)}</CheckoutPrice>
         </CheckoutPriceContainer>
         <CheckoutButton>Finalizar compra</CheckoutButton>
       </CheckoutContainer>

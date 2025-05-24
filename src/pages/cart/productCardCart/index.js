@@ -11,8 +11,8 @@ import {
 
 import {
   ProductCategory,
-  ProductFlavor,
   PriceContainer,
+  Text,
   QuantContainer,
   ProductPrice,
 } from './styles';
@@ -22,6 +22,8 @@ import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
 
 function ProductCardCart({ product }) {
   const [isFavorited, setIsFavorited] = useState(false);
+
+  if (!product) return null;
 
   return (
     <ProductCard>
@@ -37,7 +39,7 @@ function ProductCardCart({ product }) {
             )}
           </FavButton>
         </ContentTop>
-        <ProductFlavor>{product.flavor}</ProductFlavor>
+        <Text>{product.flavor}</Text>
         <ContentDown>
           <QuantContainer>
             <CiCircleMinus />
@@ -45,8 +47,10 @@ function ProductCardCart({ product }) {
             <CiCirclePlus />
           </QuantContainer>
           <PriceContainer>
-            <ProductFlavor>total</ProductFlavor>
-            <ProductPrice>r$ {product.price * product.quantity}</ProductPrice>
+            <Text>total</Text>
+            <ProductPrice>
+              r$ {(product.price * product.quantity).toFixed(2)}
+            </ProductPrice>
           </PriceContainer>
         </ContentDown>
       </ProductContent>

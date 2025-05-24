@@ -3,6 +3,8 @@ import * as colors from '../../config/colors';
 
 export const CartContainer = styled.div`
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const TitleContainer = styled.div`
@@ -21,8 +23,8 @@ export const ProductContainer = styled.div`
   background-color: ${colors.lightPrimaryColor};
   padding: 40px 10px;
   display: flex;
-  justify-content: center;
-  align-items: ${props => (props.isEmpty ? 'center' : 'none')};
+  justify-content: flex-start;
+  align-items: ${props => (props.$isEmpty ? 'center' : 'none')};
   flex-direction: column;
   gap: 22px;
 `;

@@ -7,13 +7,13 @@ export const ProductCategory = styled.div`
   color: ${colors.secondaryColor};
 `;
 
-export const ProductFlavor = styled.div`
+export const PriceContainer = styled.div``;
+
+export const Text = styled.div`
   font-size: 26px;
   font-weight: 700;
   color: ${colors.lightSecondaryColor2};
 `;
-
-export const PriceContainer = styled.div``;
 
 export const QuantContainer = styled.div`
   display: flex;

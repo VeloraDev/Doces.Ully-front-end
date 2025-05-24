@@ -15,7 +15,7 @@ export const Overlay = styled.div`
   left: 0;
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.3);
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
 `;
 
 export const entrar = keyframes`
@@ -46,7 +46,7 @@ export const Sidebar = styled.div`
   align-items: flex-end;
   gap: 15px;
   border-radius: 0 0 20px 0;
-  animation: ${({ animation }) => (animation === 'in' ? entrar : sair)} 0.3s
+  animation: ${({ $animation }) => ($animation === 'in' ? entrar : sair)} 0.3s
     ease-in-out;
 `;
 
