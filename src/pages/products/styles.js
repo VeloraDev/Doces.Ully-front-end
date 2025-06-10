@@ -1,23 +1,30 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as colors from '../../config/colors';
 
-export const ProductsContainer = styled.div`
+const flexColumn = css`
   display: flex;
   flex-direction: column;
 `;
 
-export const PathSection = styled.div`
+const flexCenter = css`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+`;
+
+export const ProductsContainer = styled.div`
+  ${flexColumn};
+`;
+
+export const PathSection = styled.div`
+  ${flexCenter};
   padding: 8px;
   gap: 5px;
 `;
 
 export const SectionTop = styled.div`
-  display: flex;
+  ${flexCenter};
   justify-content: space-between;
-  align-items: center;
   margin: 14px 12px 0;
 `;
 
@@ -30,13 +37,11 @@ export const Title = styled.h1`
 `;
 
 export const SectionCategory = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexColumn};
   gap: 28px;
 `;
 
 export const SectionProducts = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexColumn};
   background-color: ${colors.lightPrimaryColor};
 `;

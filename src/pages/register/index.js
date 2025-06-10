@@ -1,16 +1,20 @@
 import React, { useState, useRef } from 'react';
 import {
   RegisterContainer,
-  Title,
   Form,
-  Input,
   InputContainer,
   ActionButton,
 } from './styles';
+import {
+  UserIcon,
+  CellIcon,
+  CadIcon,
+  EyeCloseIcon,
+  CadastroTextIcon,
+} from '../../assets/index';
 
-import { UserIcon, CellIcon, CadIcon, EyeCloseIcon } from '../../assets/index';
 import { Line } from '../../styles/ComponentsStyles';
-
+import { Input } from '../../styles/ComponentsStyles';
 import { toast } from 'react-toastify';
 
 function Register() {
@@ -21,10 +25,12 @@ function Register() {
   const [isVisible, setIsVisible] = useState(false);
   const [confirmIsVisible, setConfirmIsVisible] = useState(false);
 
-  const userRef = useRef(null);
-  const phoneRef = useRef(null);
-  const passRef = useRef(null);
-  const confirmPassRef = useRef(null);
+  const refs = {
+    user: useRef(null),
+    phone: useRef(null),
+    password: useRef(null),
+    confirmPassword: useRef(null),
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -68,13 +74,14 @@ function Register() {
   return (
     <RegisterContainer>
       <Line />
-      <Form action={'/cadastro'} method="POST" onSubmit={handleSubmit}>
-        <Title>CADASTRO</Title>
+      <Form onSubmit={handleSubmit}>
+        <CadastroTextIcon />
+
         <InputContainer>
-          <Input onClick={() => userRef.current?.focus()}>
+          <Input onClick={() => refs.user.current?.focus()}>
             <UserIcon />
             <input
-              ref={userRef}
+              ref={refs.user}
               type="text"
               placeholder="Usuário"
               value={user}
@@ -82,10 +89,10 @@ function Register() {
             />
           </Input>
 
-          <Input onClick={() => phoneRef.current?.focus()}>
+          <Input onClick={() => refs.phone.current?.focus()}>
             <CellIcon />
             <input
-              ref={phoneRef}
+              ref={refs.phone}
               type="text"
               placeholder="Telefone"
               value={phone}
@@ -93,31 +100,34 @@ function Register() {
             />
           </Input>
 
-          <Input onClick={() => passRef.current?.focus()}>
+          <Input onClick={() => refs.password.current?.focus()}>
             <CadIcon />
             <input
+              ref={refs.password}
               type={isVisible ? 'text' : 'password'}
               placeholder="Senha"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              ref={passRef}
             />
             <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
           </Input>
 
-          <Input onClick={() => confirmPassRef.current?.focus()}>
+          <Input onClick={() => refs.confirmPassword.current?.focus()}>
             <CadIcon />
             <input
+              ref={refs.confirmPassword}
               type={confirmIsVisible ? 'text' : 'password'}
               placeholder="Confirmar senha"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
-              ref={confirmPassRef}
             />
             <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
           </Input>
         </InputContainer>
-        <ActionButton>Cadastrar</ActionButton>
+
+        <ActionButton>
+          <p>Cadastrar</p>
+        </ActionButton>
       </Form>
     </RegisterContainer>
   );

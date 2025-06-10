@@ -3,6 +3,7 @@ import * as colors from '../../config/colors';
 
 export const FooterContainer = styled.div`
   text-align: center;
+  width: 100%;
 `;
 
 export const Text = styled.h1`

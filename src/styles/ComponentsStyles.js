@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import * as colors from '../config/colors';
 
+//------------------------------------------------------
+//CARROSSEL PRODUCTS
 export const CardsContainer = styled.div`
   display: flex;
   gap: 28px;
@@ -23,10 +25,11 @@ export const Line = styled.hr`
   width: 100%;
   height: 2px;
 `;
+//------------------------------------------------------
 
+//------------------------------------------------------
 //PRODUCT CARD CATEGORY
 //PRODUCT CARD CART
-//--------------------------------
 export const ProductCard = styled.div`
   display: flex;
   gap: 15px;
@@ -34,6 +37,7 @@ export const ProductCard = styled.div`
   border-radius: 12px;
   padding: 5px;
   min-height: 95px;
+  max-width: 576px;
 `;
 
 export const ProductImage = styled.div`
@@ -68,7 +72,30 @@ export const FavButton = styled.button`
 
 export const ContentDown = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 `;
-//--------------------------------
+//------------------------------------------------------
+
+//------------------------------------------------------
+//INPUT
+export const Input = styled.div`
+  display: flex;
+  width: 70%;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: ${colors.background};
+  border-radius: 15px;
+  border: 2px solid ${colors.borderColor};
+
+  input {
+    font-size: 30px;
+    height: 30px;
+  }
+
+  input::placeholder {
+    color: ${colors.textCardColor};
+  }
+`;
+//------------------------------------------------------

@@ -12,14 +12,14 @@ function CategoryProducts() {
       flavor: 'Bolo de pote',
       price: 'R$ 99,99',
       category: 'Bolo de pote',
-      inStock: true,
+      quantity: 1,
     },
     {
       id: 2,
       flavor: 'Bolo de pote',
       price: 'R$ 99,99',
       category: 'Bolo de pote',
-      inStock: false,
+      quantity: 1,
     },
   ];
 

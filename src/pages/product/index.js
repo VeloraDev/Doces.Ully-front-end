@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   ProductContainer,
   SectionTop,
+  SectionTopContent,
   TitleSection,
   Title,
   IconsSection,
@@ -28,11 +29,17 @@ import {
 
 import { useParams } from 'react-router-dom';
 import Footer from '../../components/footer';
+import { toast } from 'react-toastify';
 
 function Product() {
   const [favorited, setFavorited] = useState(false);
   const { id } = useParams();
+  const numberId = parseInt(id);
 
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const product = cart.find(item => item.id === numberId);
+
+  //SIMULANDO OS PRODUTOS NA API
   const products = [
     {
       id: 1,
@@ -61,40 +68,48 @@ function Product() {
   ];
 
   function addToCart() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const productToAdd = products.find(product => product.id === numberId);
 
-    const numberId = parseInt(id);
-    const existingProduct = cart.findIndex(item => item.id === numberId);
+    if (productToAdd.quantity === 0) {
+      toast.error('Produto está zerado no estoque!');
+      return;
+    }
 
-    if (existingProduct !== -1) {
-      cart[existingProduct].quantity += 1;
+    const productIndex = cart.findIndex(item => item.id === numberId);
+
+    if (productIndex !== -1) {
+      cart[productIndex].quantity += 1;
     } else {
-      const productToAdd = products.find(product => product.id === numberId);
       cart.push({ ...productToAdd });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
+    toast.success('Produto adicionado ao carrinho :)');
   }
 
   return (
     <ProductContainer>
       <SectionTop>
-        <TitleSection>
-          <Title>Nome do produto</Title>
-          <IconsSection>
-            <ButtonIcon>
-              <ShareIcon />
-            </ButtonIcon>
-            <ButtonIcon onClick={() => setFavorited(prev => !prev)}>
-              {favorited ? (
-                <FavOnIcon width={35} height={35} />
-              ) : (
-                <FavOffIcon width={35} height={35} />
-              )}
-            </ButtonIcon>
-          </IconsSection>
-        </TitleSection>
-        <StockBadge>EM ESTOQUE</StockBadge>
-        <ProductFigure></ProductFigure>
+        <SectionTopContent>
+          <TitleSection>
+            <Title>Nome do produto</Title>
+            <IconsSection>
+              <ButtonIcon>
+                <ShareIcon />
+              </ButtonIcon>
+              <ButtonIcon onClick={() => setFavorited(prev => !prev)}>
+                {favorited ? (
+                  <FavOnIcon width={35} height={35} />
+                ) : (
+                  <FavOffIcon width={35} height={35} />
+                )}
+              </ButtonIcon>
+            </IconsSection>
+          </TitleSection>
+          <StockBadge $InStock={product?.quantity > 0}>
+            {product?.quantity > 0 ? 'EM ESTOQUE' : 'ESGOTADO'}
+          </StockBadge>
+          <ProductFigure></ProductFigure>
+        </SectionTopContent>
       </SectionTop>
 
       <Details>

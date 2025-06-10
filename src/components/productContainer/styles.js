@@ -4,9 +4,10 @@ import * as colors from '../../config/colors';
 export const Container = styled.div`
   margin-top: 30px;
   position: relative;
+  width: 100%;
 `;
 
-export const SectionTop = styled.h1`
+export const SectionTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

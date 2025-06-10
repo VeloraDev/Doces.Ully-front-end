@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ProductContainer,
   ProductImage,
@@ -16,8 +16,12 @@ function ProductCard({ isHome }) {
   const [favorited, setFavorited] = useState(false);
   const navigate = useNavigate();
 
+  const handleProductPage = useCallback(() => {
+    navigate('/produto/bolopote/2');
+  }, [navigate]);
+
   return (
-    <ProductContainer onClick={() => navigate(`/produto/category/2`)}>
+    <ProductContainer onClick={handleProductPage}>
       <FavButton
         onClick={e => {
           e.stopPropagation();

@@ -1,43 +1,46 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as colors from '../../config/colors';
+
+const flexCenter = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const heading = css`
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+`;
 
 export const ProductContainer = styled.div`
   margin-top: 20px;
 `;
 
-export const PathSection = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  gap: 5px;
-`;
-
-export const Branch = styled.h1`
-  font-size: 28px;
-  color: ${colors.textCardColor};
-  font-weight: 400;
-`;
-
 export const SectionTop = styled.div`
   background-color: ${colors.lightPrimaryColor};
   padding: 15px 35px;
+  ${flexCenter};
+`;
+
+export const SectionTopContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
+  max-width: 576px;
 `;
 
 export const TitleSection = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexCenter};
   justify-content: space-between;
 `;
 
 export const Title = styled.h1`
   font-size: 30px;
   font-weight: 400;
-  color: ${colors.secondaryColor};
   text-transform: uppercase;
+  color: ${colors.secondaryColor};
 `;
 
 export const ButtonIcon = styled.button`
@@ -45,7 +48,7 @@ export const ButtonIcon = styled.button`
 `;
 
 export const IconsSection = styled.h1`
-  display: flex;
+  ${flexCenter};
   gap: 12px;
 `;
 
@@ -57,7 +60,8 @@ export const StockBadge = styled.div`
   width: max-content;
   padding: 7px 12px;
   border-radius: 15px;
-  background-color: ${colors.primaryColor};
+  background-color: ${({ InStock }) =>
+    InStock ? colors.primaryColor : colors.secondaryColor};
 `;
 
 export const ProductFigure = styled.div`
