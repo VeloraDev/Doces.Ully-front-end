@@ -39,35 +39,10 @@ function Product() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const product = cart.find(item => item.id === numberId);
 
-  //SIMULANDO OS PRODUTOS NA API
-  const products = [
-    {
-      id: 1,
-      name: 'Produto 1',
-      price: 99.99,
-      category: 'Bolo de pote',
-      flavor: 'Chocolate',
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: 'Produto 2',
-      price: 49.99,
-      category: 'Bolo de pote',
-      flavor: 'Morango',
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: 'Produto 3',
-      price: 29.99,
-      category: 'Bolo de pote',
-      flavor: 'Baunilha',
-      quantity: 1,
-    },
-  ];
-
   function addToCart() {
+    alert('Ainda não funciona :(');
+    return;
+
     const productToAdd = products.find(product => product.id === numberId);
 
     if (productToAdd.quantity === 0) {

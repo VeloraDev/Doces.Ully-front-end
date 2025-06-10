@@ -18,7 +18,7 @@ import { Input } from '../../styles/ComponentsStyles';
 import { toast } from 'react-toastify';
 
 function Register() {
-  const [user, setUser] = useState('');
+  const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,7 +26,7 @@ function Register() {
   const [confirmIsVisible, setConfirmIsVisible] = useState(false);
 
   const refs = {
-    user: useRef(null),
+    name: useRef(null),
     phone: useRef(null),
     password: useRef(null),
     confirmPassword: useRef(null),
@@ -38,7 +38,7 @@ function Register() {
     let formErrors = false;
     const soNumeros = /^\d+$/;
 
-    if (user.length < 3 || user.length > 20) {
+    if (name.length < 3 || name.length > 20) {
       toast.error('Nome precisa ter entre 3 e 20 caracteres!');
       formErrors = true;
     }
@@ -78,14 +78,14 @@ function Register() {
         <CadastroTextIcon />
 
         <InputContainer>
-          <Input onClick={() => refs.user.current?.focus()}>
+          <Input onClick={() => refs.name.current?.focus()}>
             <UserIcon />
             <input
-              ref={refs.user}
+              ref={refs.name}
               type="text"
-              placeholder="Usuário"
-              value={user}
-              onChange={e => setUser(e.target.value)}
+              placeholder="Nome"
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </Input>
 

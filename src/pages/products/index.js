@@ -18,27 +18,12 @@ import { useNavigate } from 'react-router-dom';
 function Products() {
   const navigate = useNavigate();
 
-  const categorys = [
-    {
-      id: 1,
-      name: 'Bolo de pote',
-    },
-    {
-      id: 2,
-      name: 'Palha italiana',
-    },
-    {
-      id: 3,
-      name: 'Bolo encomendado',
-    },
-  ];
-
   return (
     <ProductsContainer>
       <PathSection></PathSection>
 
       <SectionCategory>
-        {categorys.map(category => (
+        {/* {categorys.map(category => (
           <SectionProducts key={category.id}>
             <SectionTop>
               <Title>{category.name}</Title>
@@ -56,7 +41,7 @@ function Products() {
             </CardsContainer>
             <Line />
           </SectionProducts>
-        ))}
+        ))} */}
       </SectionCategory>
 
       <Footer />

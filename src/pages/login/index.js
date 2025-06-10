@@ -13,11 +13,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function Login() {
-  const [user, setUser] = useState('');
+  const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
 
   const refs = {
-    user: useRef(null),
+    name: useRef(null),
     phone: useRef(null),
   };
 
@@ -29,8 +29,8 @@ function Login() {
     let formErrors = false;
     const soNumeros = /^\d+$/;
 
-    if (user.length < 3 || user.length > 20) {
-      toast.error('Usuário precisa ter entre 3 e 20 caracteres!');
+    if (name.length < 3 || name.length > 20) {
+      toast.error('Nome precisa ter entre 3 e 20 caracteres!');
       formErrors = true;
     }
 
@@ -53,14 +53,14 @@ function Login() {
         <LoginTextIcon />
 
         <InputContainer>
-          <Input onClick={() => refs.user.current?.focus()}>
+          <Input onClick={() => refs.name.current?.focus()}>
             <UserIcon />
             <input
-              ref={refs.user}
+              ref={refs.name}
               type="text"
               placeholder="Nome"
-              value={user}
-              onChange={e => setUser(e.target.value)}
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </Input>
 

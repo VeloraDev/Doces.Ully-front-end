@@ -17,7 +17,7 @@ function ProductCard({ isHome }) {
   const navigate = useNavigate();
 
   const handleProductPage = useCallback(() => {
-    navigate('/produto/bolopote/2');
+    navigate('');
   }, [navigate]);
 
   return (
