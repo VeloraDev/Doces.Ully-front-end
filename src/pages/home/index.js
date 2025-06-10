@@ -1,9 +1,17 @@
-import React from "react";
+import React from 'react';
+import Slider from '../../components/slider';
+import ProductContainer from '../../components/productContainer/index';
+import Footer from '../../components/footer';
+import { HomeContainer } from './styles';
 
 function Home() {
-  return(
-    <h1>HomePage</h1>
-  ) 
+  return (
+    <HomeContainer>
+      <Slider />
+      <ProductContainer />
+      <Footer />
+    </HomeContainer>
+  );
 }
 
 export default Home;
