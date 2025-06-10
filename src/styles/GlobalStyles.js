@@ -16,8 +16,10 @@ export default createGlobalStyle`
       background-color: ${colors.background};
       line-height: 100%;
     }
-
+    
     button {
+      font-family: 'Dongle', sans-serif;
+      line-height: 1;
       border: none;
       cursor: pointer;
     }
@@ -34,5 +36,18 @@ export default createGlobalStyle`
     h1 {
       font-family: 'Crushed', sans-serif;
       line-height: 100%;
+    }
+
+    p {
+      font-family: 'Dongle';
+    }
+
+    input {
+      font-family: 'Dongle';
+      outline: none;
+      background-color: transparent;
+      width: 100%;
+      color: ${colors.lightSecondaryColor2};
+      border: none;
     }
 `;

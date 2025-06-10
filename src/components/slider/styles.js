@@ -4,12 +4,18 @@ import * as colors from '../../config/colors';
 
 export const Container = styled.div`
   margin-top: 28px;
+  max-width: 576px;
+  width: 100%;
 `;
 
 export const TitleSection = styled.div`
   background-color: ${colors.primaryColor};
   padding: 5px 0;
   text-align: center;
+
+  @media (min-width: 576px) {
+    border-radius: 10px 10px 0 0;
+  }
 `;
 
 export const Title = styled.h1`
@@ -23,6 +29,10 @@ export const SliderContainer = styled.div`
   height: 220px;
   position: relative;
   overflow: hidden;
+
+  @media (min-width: 576px) {
+    border-radius: 0 0 10px 10px;
+  }
 `;
 
 export const ActionGroup = styled.div`

@@ -6,23 +6,6 @@ import Footer from '../../components/footer';
 function CategoryProducts() {
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const products = [
-    {
-      id: 1,
-      flavor: 'Bolo de pote',
-      price: 'R$ 99,99',
-      category: 'Bolo de pote',
-      inStock: true,
-    },
-    {
-      id: 2,
-      flavor: 'Bolo de pote',
-      price: 'R$ 99,99',
-      category: 'Bolo de pote',
-      inStock: false,
-    },
-  ];
-
   function handleFavoriteToggle(id) {
     setIsFavorited(prev => ({
       ...prev,
@@ -35,14 +18,14 @@ function CategoryProducts() {
       <ContentContainer>
         <Title>categoria</Title>
 
-        {products.map(product => (
+        {/* {products.map(product => (
           <ProductCardCategory
             key={product.id}
             product={product}
             isFavorited={isFavorited[product.id]}
             onToggleFavorited={handleFavoriteToggle}
           />
-        ))}
+        ))} */}
       </ContentContainer>
       <Footer />
     </CategoryProductsContainer>

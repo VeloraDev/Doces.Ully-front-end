@@ -1,30 +1,36 @@
 import React, { useState, useRef } from 'react';
 import {
   RegisterContainer,
-  Title,
   Form,
-  Input,
   InputContainer,
   ActionButton,
 } from './styles';
+import {
+  UserIcon,
+  CellIcon,
+  CadIcon,
+  EyeCloseIcon,
+  CadastroTextIcon,
+} from '../../assets/index';
 
-import { UserIcon, CellIcon, CadIcon, EyeCloseIcon } from '../../assets/index';
 import { Line } from '../../styles/ComponentsStyles';
-
+import { Input } from '../../styles/ComponentsStyles';
 import { toast } from 'react-toastify';
 
 function Register() {
-  const [user, setUser] = useState('');
+  const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [confirmIsVisible, setConfirmIsVisible] = useState(false);
 
-  const userRef = useRef(null);
-  const phoneRef = useRef(null);
-  const passRef = useRef(null);
-  const confirmPassRef = useRef(null);
+  const refs = {
+    name: useRef(null),
+    phone: useRef(null),
+    password: useRef(null),
+    confirmPassword: useRef(null),
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -32,7 +38,7 @@ function Register() {
     let formErrors = false;
     const soNumeros = /^\d+$/;
 
-    if (user.length < 3 || user.length > 20) {
+    if (name.length < 3 || name.length > 20) {
       toast.error('Nome precisa ter entre 3 e 20 caracteres!');
       formErrors = true;
     }
@@ -68,24 +74,25 @@ function Register() {
   return (
     <RegisterContainer>
       <Line />
-      <Form action={'/cadastro'} method="POST" onSubmit={handleSubmit}>
-        <Title>CADASTRO</Title>
+      <Form onSubmit={handleSubmit}>
+        <CadastroTextIcon />
+
         <InputContainer>
-          <Input onClick={() => userRef.current?.focus()}>
+          <Input onClick={() => refs.name.current?.focus()}>
             <UserIcon />
             <input
-              ref={userRef}
+              ref={refs.name}
               type="text"
-              placeholder="Usuário"
-              value={user}
-              onChange={e => setUser(e.target.value)}
+              placeholder="Nome"
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </Input>
 
-          <Input onClick={() => phoneRef.current?.focus()}>
+          <Input onClick={() => refs.phone.current?.focus()}>
             <CellIcon />
             <input
-              ref={phoneRef}
+              ref={refs.phone}
               type="text"
               placeholder="Telefone"
               value={phone}
@@ -93,31 +100,34 @@ function Register() {
             />
           </Input>
 
-          <Input onClick={() => passRef.current?.focus()}>
+          <Input onClick={() => refs.password.current?.focus()}>
             <CadIcon />
             <input
+              ref={refs.password}
               type={isVisible ? 'text' : 'password'}
               placeholder="Senha"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              ref={passRef}
             />
             <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
           </Input>
 
-          <Input onClick={() => confirmPassRef.current?.focus()}>
+          <Input onClick={() => refs.confirmPassword.current?.focus()}>
             <CadIcon />
             <input
+              ref={refs.confirmPassword}
               type={confirmIsVisible ? 'text' : 'password'}
               placeholder="Confirmar senha"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
-              ref={confirmPassRef}
             />
             <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
           </Input>
         </InputContainer>
-        <ActionButton>Cadastrar</ActionButton>
+
+        <ActionButton>
+          <p>Cadastrar</p>
+        </ActionButton>
       </Form>
     </RegisterContainer>
   );
