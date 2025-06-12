@@ -29,9 +29,8 @@ export const SectionTop = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 400;
-  letter-spacing: 1px;
   color: ${colors.secondaryColor};
   text-transform: uppercase;
 `;

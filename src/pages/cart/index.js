@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductCardCart from './productCardCart';
 
-import { Line } from '../../styles/ComponentsStyles';
 import {
   CartContainer,
   TitleContainer,
@@ -14,8 +13,10 @@ import {
   CheckoutButton,
 } from './styles';
 
+import { Line } from '../../styles/ComponentsStyles';
 import Footer from '../../components/footer';
 import { CatIcon } from '../../assets';
+
 import { useNavigate } from 'react-router-dom';
 
 function Cart() {
@@ -41,9 +42,10 @@ function Cart() {
       setConfirmId(null);
       return;
     }
+
     const updatedCart = products.filter(item => item.id !== id);
     setProducts(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(products));
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
     setConfirmId(null);
   }
 

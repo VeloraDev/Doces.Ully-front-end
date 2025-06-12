@@ -40,10 +40,9 @@ export const ProductCard = styled.div`
   max-width: 576px;
 `;
 
-export const ProductImage = styled.div`
-  min-width: 95px;
-  height: 100%;
-  min-height: 90px;
+export const ProductImage = styled.img`
+  width: 105px;
+  height: 95px;
   background-color: #d9d9d9;
   border-radius: 16px;
   flex-shrink: 0;

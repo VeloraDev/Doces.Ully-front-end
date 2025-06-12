@@ -3,6 +3,9 @@ import * as colors from '../../config/colors';
 
 export const OrderContainer = styled.div`
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export const pathSection = styled.div``;
@@ -10,14 +13,14 @@ export const pathSection = styled.div``;
 export const AddressContainer = styled.div`
   background-color: ${colors.lightPrimaryColor};
   padding: 15px 25px 40px 25px;
+  flex: 1;
 `;
 
 export const Title = styled.h1`
   color: ${colors.secondaryColor};
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
 `;
 
 export const OptionPaymentSection = styled.div`
@@ -180,7 +183,7 @@ export const CheckoutSection = styled.div`
 
 export const Paragraph = styled.p`
   color: ${colors.secondaryColor};
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   letter-spacing: 0.5px;
 `;

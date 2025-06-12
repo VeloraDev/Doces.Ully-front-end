@@ -13,8 +13,13 @@ import { FavOnIcon, FavOffIcon } from '../../../assets/index';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-function ProductCardCategory({ product, isFavorited, onToggleFavorited }) {
-  const { id, name, price, category, flavor, quantity } = product || {};
+function ProductCardCategory({
+  product,
+  category,
+  isFavorited,
+  onToggleFavorited,
+}) {
+  const { id, name, quantity, img_url, priceFormatted } = product || {};
   const navigate = useNavigate();
 
   const handleFavorite = useCallback(() => {
@@ -27,10 +32,10 @@ function ProductCardCategory({ product, isFavorited, onToggleFavorited }) {
 
   return (
     <ProductCard>
-      <ProductImage></ProductImage>
+      <ProductImage src={img_url} />
       <ProductContent>
         <ContentTop>
-          <ProductFlavor>{flavor}</ProductFlavor>
+          <ProductFlavor>{name}</ProductFlavor>
           <FavButton onClick={handleFavorite} data-id="bolo-pote">
             {isFavorited ? (
               <FavOnIcon width={35} height={35} />
@@ -39,7 +44,7 @@ function ProductCardCategory({ product, isFavorited, onToggleFavorited }) {
             )}
           </FavButton>
         </ContentTop>
-        <Price>{price}</Price>
+        <Price>R$ {priceFormatted}</Price>
         <ContentDown>
           <InStock $inStock={quantity > 0}>
             {quantity > 0 ? 'Em estoque' : 'Esgotado'}
@@ -55,11 +60,11 @@ ProductCardCategory.PropTypes = {
   product: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    category: PropTypes.string.isRequired,
-    flavor: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
+    img_url: PropTypes.string.isRequired,
+    priceFormatted: PropTypes.string.isRequired,
   }),
+  category: PropTypes.string.isRequired,
   isFavorited: PropTypes.bool,
   onToggleFavorited: PropTypes.func.isRequired,
 };

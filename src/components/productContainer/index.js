@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { CardsContainer } from '../../styles/ComponentsStyles';
 import { Container, SectionTop, Title, ActionButton } from './styles';
 
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../productCard';
 import { ArrowCategory } from '../../assets/index';
+import { ProductContext } from '../../services/contextprovider';
 
 function ProductContainer() {
+  const { products } = useContext(ProductContext);
   const navigate = useNavigate();
 
   return (
@@ -18,9 +20,9 @@ function ProductContainer() {
         </ActionButton>
       </SectionTop>
       <CardsContainer $isHome={true}>
-        <ProductCard isHome={true} />
-        <ProductCard isHome={true} />
-        <ProductCard isHome={true} />
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} isHome={true} />
+        ))}
       </CardsContainer>
     </Container>
   );

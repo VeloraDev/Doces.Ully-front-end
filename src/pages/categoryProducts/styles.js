@@ -20,7 +20,7 @@ export const ContentContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 400;
   color: ${colors.secondaryColor};
   text-transform: uppercase;
