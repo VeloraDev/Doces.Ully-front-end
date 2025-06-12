@@ -7,12 +7,6 @@ const flexCenter = css`
   justify-content: center;
 `;
 
-const heading = css`
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-`;
-
 export const ProductContainer = styled.div`
   margin-top: 20px;
 `;
@@ -64,7 +58,7 @@ export const StockBadge = styled.div`
     InStock ? colors.primaryColor : colors.secondaryColor};
 `;
 
-export const ProductFigure = styled.div`
+export const ProductFigure = styled.img`
   height: 215px;
   background-color: #bebebe;
   border-radius: 15px;

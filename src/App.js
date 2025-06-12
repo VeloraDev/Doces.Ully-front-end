@@ -6,6 +6,7 @@ import AppRoutes from './routes/routes';
 import Navbar from './components/navBar';
 import ScrollToTop from './config/scrollToTop';
 import { AppContainer } from './styles/AppStyles';
+import { ProductProvider } from './services/contextprovider';
 
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -13,14 +14,16 @@ import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <BrowserRouter>
-      <AppContainer>
-        <GlobalStyles />
-        <Navbar />
-        <ScrollToTop />
-        <AppRoutes />
-        <ToastStyles />
-        <ToastContainer autoClose={3000} />
-      </AppContainer>
+      <ProductProvider>
+        <AppContainer>
+          <GlobalStyles />
+          <Navbar />
+          <ScrollToTop />
+          <AppRoutes />
+          <ToastStyles />
+          <ToastContainer autoClose={3000} />
+        </AppContainer>
+      </ProductProvider>
     </BrowserRouter>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { CardsContainer, Line } from '../../styles/ComponentsStyles';
 import {
   ProductsContainer,
@@ -12,18 +12,25 @@ import {
 import { ArrowCategoryDark } from '../../assets';
 import ProductCard from '../../components/productCard';
 import Footer from '../../components/footer';
+import BreadCrumbs from '../../components/breadCrumbs';
+import { ProductContext } from '../../services/contextprovider';
 
 import { useNavigate } from 'react-router-dom';
 
 function Products() {
   const navigate = useNavigate();
+  const { products, categories } = useContext(ProductContext);
+
+  const CrumbItems = [
+    { label: 'Página inicial', to: '/' },
+    { label: 'Produtos', to: '/produtos' },
+  ];
 
   return (
     <ProductsContainer>
-      <PathSection></PathSection>
-
+      <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <SectionCategory>
-        {/* {categorys.map(category => (
+        {categories.map(category => (
           <SectionProducts key={category.id}>
             <SectionTop>
               <Title>{category.name}</Title>
@@ -34,16 +41,20 @@ function Products() {
               />
             </SectionTop>
             <CardsContainer $isHome={false}>
-              <ProductCard isHome={false} />
-              <ProductCard isHome={false} />
-              <ProductCard isHome={false} />
-              <ProductCard isHome={false} />
+              {products
+                .filter(product => product.category_id === category.id)
+                .map(product => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    isHome={false}
+                  />
+                ))}
             </CardsContainer>
             <Line />
           </SectionProducts>
-        ))} */}
+        ))}
       </SectionCategory>
-
       <Footer />
     </ProductsContainer>
   );

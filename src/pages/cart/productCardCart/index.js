@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   ProductCard,
   ProductImage,
@@ -9,6 +8,7 @@ import {
   ContentDown,
   Line,
 } from '../../../styles/ComponentsStyles';
+
 import {
   ProductCategory,
   ConfirmContainer,
@@ -25,14 +25,16 @@ import {
 import { FavOnIcon, FavOffIcon } from '../../../assets/index';
 import { PlusIcon, MinusIcon } from '../../../assets/index';
 
+import PropTypes from 'prop-types';
+
 function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
-  const { id, name, price, category, flavor, quantity } = product || {};
+  const { id, name, price, quantity, img_url, category } = product || {};
 
   const [isFavorited, setIsFavorited] = useState(false);
 
   const toggleFavorite = useCallback(() => {
-    setIsFavorited((prev = !prev));
-  }, []);
+    setIsFavorited(!isFavorited);
+  }, [isFavorited]);
 
   const onCancel = useCallback(() => {
     handleAction(id, 'cancel');
@@ -59,10 +61,10 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
         </ConfirmContainer>
       )}
 
-      <ProductImage></ProductImage>
+      <ProductImage src={img_url} />
       <ProductContent>
         <ContentTop>
-          <ProductCategory>{name}</ProductCategory>
+          <ProductCategory>{category}</ProductCategory>
           <FavButton onClick={toggleFavorite} data-id="bolo-pote">
             {isFavorited ? (
               <FavOnIcon width={35} height={35} />
@@ -72,7 +74,7 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
           </FavButton>
         </ContentTop>
 
-        <Text>{flavor}</Text>
+        <Text>{name}</Text>
 
         <ContentDown>
           <QuantContainer>
@@ -104,9 +106,9 @@ ProductCardCart.PropTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    category: PropTypes.string.isRequired,
-    flavor: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
+    img_url: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
   }),
   handleQuantity: PropTypes.func.isRequired,
   handleAction: PropTypes.func.isRequired,

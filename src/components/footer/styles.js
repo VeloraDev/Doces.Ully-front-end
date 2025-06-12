@@ -7,7 +7,7 @@ export const FooterContainer = styled.div`
 `;
 
 export const Text = styled.h1`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
   color: ${colors.secondaryColor};
   text-transform: uppercase;

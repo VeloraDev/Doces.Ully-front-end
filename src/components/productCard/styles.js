@@ -13,11 +13,13 @@ export const ProductContainer = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
-export const ProductImage = styled.div`
+export const ProductImage = styled.img`
+  display: block;
   position: relative;
   top: -11px;
-  width: 100%;
-  height: 85px;
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
   border-radius: 15px;
   background-color: #e0e0e0;
 `;

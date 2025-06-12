@@ -48,6 +48,8 @@ export default [
       // Prettier
       //'prettier/prettier': 'warn',
       'react/self-closing-comp': 'off',
+      'no-console': 'off',
+      'react-hooks/rules-of-hooks': 'off',
     },
   },
 ];

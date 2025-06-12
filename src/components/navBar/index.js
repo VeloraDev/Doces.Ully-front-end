@@ -69,7 +69,7 @@ function Navbar() {
                 navigate('/cadastro');
                 handleCloseMenu();
               }}>
-              Registro
+              Cadastro
             </NavLink>
             <NavLine />
             <NavLink onClick={handleCloseMenu}>Quem somos</NavLink>

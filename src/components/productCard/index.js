@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ProductContainer,
   ProductImage,
@@ -11,14 +11,17 @@ import {
 
 import { FavOnIcon, FavOffIcon } from '../../assets/index';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function ProductCard({ isHome }) {
+function ProductCard({ product, isHome }) {
+  const { id, name, img_url, category_name, priceFormatted } = product;
+
   const [favorited, setFavorited] = useState(false);
   const navigate = useNavigate();
 
   const handleProductPage = useCallback(() => {
-    navigate('');
-  }, [navigate]);
+    navigate(`/produto/${category_name}/${id}`);
+  }, [navigate, category_name, id]);
 
   return (
     <ProductContainer onClick={handleProductPage}>
@@ -34,14 +37,25 @@ function ProductCard({ isHome }) {
           <FavOffIcon width={35} height={35} />
         )}
       </FavButton>
-      <ProductImage></ProductImage>
+      <ProductImage src={img_url} />
       <ProductContent>
-        {isHome && <TitleCategory>category</TitleCategory>}
-        <TitleFlavor>flavor</TitleFlavor>
-        <Price>R$ 99,00</Price>
+        {isHome && <TitleCategory>{category_name}</TitleCategory>}
+        <TitleFlavor>{name}</TitleFlavor>
+        <Price>R$ {priceFormatted}</Price>
       </ProductContent>
     </ProductContainer>
   );
 }
+
+ProductCard.PropTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    img_url: PropTypes.string.isRequired,
+    category_name: PropTypes.string.isRequired,
+    priceFormatted: PropTypes.string.isRequired,
+  }),
+  isHome: PropTypes.bool.isRequired,
+};
 
 export default ProductCard;

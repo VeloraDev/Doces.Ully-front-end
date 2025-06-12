@@ -106,102 +106,106 @@ function Order() {
             </DivInput>
           </InputSection>
 
-          <SelectContainer>
-            <DivInput onClick={() => refs.bairro.current?.focus()}>
-              <label htmlFor="bairro">bairro</label>
-              <Select
-                ref={refs.bairro}
-                id="bairro"
-                type="text"
-                onClick={() => setOnSelectBairro(!onSelectBairro)}>
-                <SelectTop>
-                  <p>{bairro ? bairro : 'Seleção'}</p>
-                  <ArrowSelectIcon />
-                </SelectTop>
-              </Select>
-            </DivInput>
+          {select === 'entrega' && (
+            <>
+              <SelectContainer>
+                <DivInput onClick={() => refs.bairro.current?.focus()}>
+                  <label htmlFor="bairro">bairro</label>
+                  <Select
+                    ref={refs.bairro}
+                    id="bairro"
+                    type="text"
+                    onClick={() => setOnSelectBairro(!onSelectBairro)}>
+                    <SelectTop>
+                      <p>{bairro ? bairro : 'Seleção'}</p>
+                      <ArrowSelectIcon />
+                    </SelectTop>
+                  </Select>
+                </DivInput>
 
-            <OptionsContainer $onSelect={onSelectBairro}>
-              <OptionsSection $onSelect={onSelectBairro}>
-                {optionsBairros.map(option => (
-                  <Option
-                    key={option}
-                    onClick={() => {
-                      setBairro(option);
-                      setOnSelectBairro(false);
-                    }}>
-                    {option}
-                  </Option>
-                ))}
-              </OptionsSection>
-            </OptionsContainer>
-          </SelectContainer>
+                <OptionsContainer $onSelect={onSelectBairro}>
+                  <OptionsSection $onSelect={onSelectBairro}>
+                    {optionsBairros.map(option => (
+                      <Option
+                        key={option}
+                        onClick={() => {
+                          setBairro(option);
+                          setOnSelectBairro(false);
+                        }}>
+                        {option}
+                      </Option>
+                    ))}
+                  </OptionsSection>
+                </OptionsContainer>
+              </SelectContainer>
 
-          <InputSection>
-            <DivInput onClick={() => refs.rua.current?.focus()}>
-              <label htmlFor="rua">rua</label>
-              <input
-                ref={refs.rua}
-                id="rua"
-                type="text"
-                value={rua}
-                onChange={e => setRua(e.target.value)}
-              />
-            </DivInput>
+              <InputSection>
+                <DivInput onClick={() => refs.rua.current?.focus()}>
+                  <label htmlFor="rua">rua</label>
+                  <input
+                    ref={refs.rua}
+                    id="rua"
+                    type="text"
+                    value={rua}
+                    onChange={e => setRua(e.target.value)}
+                  />
+                </DivInput>
 
-            <DivInput onClick={() => refs.numero.current?.focus()}>
-              <label htmlFor="numero">N°</label>
-              <input
-                ref={refs.numero}
-                id="numero"
-                type="text"
-                value={numero}
-                onChange={e => setNumero(e.target.value)}
-              />
-            </DivInput>
-          </InputSection>
+                <DivInput onClick={() => refs.numero.current?.focus()}>
+                  <label htmlFor="numero">N°</label>
+                  <input
+                    ref={refs.numero}
+                    id="numero"
+                    type="text"
+                    value={numero}
+                    onChange={e => setNumero(e.target.value)}
+                  />
+                </DivInput>
+              </InputSection>
 
-          <DivInput onClick={() => refs.complemento.current?.focus()}>
-            <label htmlFor="complemento">complemento</label>
-            <input
-              ref={refs.complemento}
-              id="complemento"
-              type="text"
-              value={complemento}
-              onChange={e => setComplemento(e.target.value)}
-            />
-          </DivInput>
+              <DivInput onClick={() => refs.complemento.current?.focus()}>
+                <label htmlFor="complemento">complemento</label>
+                <input
+                  ref={refs.complemento}
+                  id="complemento"
+                  type="text"
+                  value={complemento}
+                  onChange={e => setComplemento(e.target.value)}
+                />
+              </DivInput>
 
-          <SelectContainer>
-            <DivInput onClick={() => refs.pagamento.current?.focus()}>
-              <label htmlFor="pagamento">forma de pagamento</label>
-              <Select
-                ref={refs.pagamento}
-                id="pagamento"
-                type="text"
-                onClick={() => setOnSelectPagamento(!onSelectPagamento)}>
-                <SelectTop>
-                  <p>{pagamento ? pagamento : 'Forma de pagamento'}</p>
-                  <ArrowSelectIcon />
-                </SelectTop>
-              </Select>
-            </DivInput>
+              <SelectContainer>
+                <DivInput onClick={() => refs.pagamento.current?.focus()}>
+                  <label htmlFor="pagamento">forma de pagamento</label>
+                  <Select
+                    ref={refs.pagamento}
+                    id="pagamento"
+                    type="text"
+                    onClick={() => setOnSelectPagamento(!onSelectPagamento)}>
+                    <SelectTop>
+                      <p>{pagamento ? pagamento : 'Forma de pagamento'}</p>
+                      <ArrowSelectIcon />
+                    </SelectTop>
+                  </Select>
+                </DivInput>
 
-            <OptionsContainer>
-              <OptionsSection $onSelect={onSelectPagamento}>
-                {optionsPagamentos.map(option => (
-                  <Option
-                    key={option}
-                    onClick={() => {
-                      setPagamento(option);
-                      setOnSelectPagamento(false);
-                    }}>
-                    {option}
-                  </Option>
-                ))}
-              </OptionsSection>
-            </OptionsContainer>
-          </SelectContainer>
+                <OptionsContainer>
+                  <OptionsSection $onSelect={onSelectPagamento}>
+                    {optionsPagamentos.map(option => (
+                      <Option
+                        key={option}
+                        onClick={() => {
+                          setPagamento(option);
+                          setOnSelectPagamento(false);
+                        }}>
+                        {option}
+                      </Option>
+                    ))}
+                  </OptionsSection>
+                </OptionsContainer>
+              </SelectContainer>
+            </>
+          )}
         </Form>
 
         <CheckoutSection>
