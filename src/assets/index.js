@@ -26,3 +26,4 @@ export { ReactComponent as WhatsIcon } from './icons/whats-icon.svg';
 export { ReactComponent as DeliveryIcon } from './icons/delivery-icon.svg';
 export { ReactComponent as PeopleIcon } from './icons/people-icon.svg';
 export { ReactComponent as ArrowSelectIcon } from './icons/arrowSelect-icon.svg';
+export { ReactComponent as EmailIcon } from './icons/email-icon.svg';

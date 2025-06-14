@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import axios from './axios';
-import { get } from 'lodash';
+import { toast } from 'react-toastify';
 
 export const ProductContext = createContext();
 
@@ -37,17 +37,11 @@ export function ProductProvider({ children }) {
         setProducts(productsWithCategory);
         setCategories(categories);
       } catch (error) {
-        const status = get(error, 'response.status', 0);
-        const errorMessage = get(
-          error,
-          'response.data.message',
-          'Ocorreu um erro!'
-        );
+        const status = error.response?.status ?? 0;
+        const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
 
-        if (status === 404) {
-          console.log(errorMessage);
-        } else {
-          console.log('erro desconhecido!');
+        if (errors.lenght > 0) {
+          errors.map(erro => toast.error(erro));
         }
       } finally {
         setLoading(false);

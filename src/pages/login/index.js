@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   LoginContainer,
   Form,
@@ -6,40 +6,73 @@ import {
   ActionButton,
   TextContainer,
 } from './styles';
-import { Input, Line } from '../../styles/ComponentsStyles';
-import { UserIcon, CellIcon, LoginTextIcon } from '../../assets/index';
+import {
+  CellIcon,
+  LoginTextIcon,
+  CadIcon,
+  EyeCloseIcon,
+  EmailIcon,
+} from '../../assets/index';
 
-import { useNavigate } from 'react-router-dom';
+import { Input, Line } from '../../styles/ComponentsStyles';
+
+import * as actions from '../../store/modules/auth/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function Login() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+function Login({ role }) {
+  const [indentifier, setIndentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
 
-  const refs = {
-    name: useRef(null),
-    phone: useRef(null),
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const prevPath = location.state?.from?.pathName || '/';
+
+  const condition = {
+    icon: role === 'client' ? <CellIcon /> : <EmailIcon />,
+    placeholder: role === 'client' ? 'Telefone' : 'Email',
   };
 
-  const navigate = useNavigate();
+  const refs = {
+    indentifier: useRef(null),
+    password: useRef(null),
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
 
     let formErrors = false;
-    const soNumeros = /^\d+$/;
+    const onlyNumbers = /^\d+$/;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (name.length < 3 || name.length > 20) {
-      toast.error('Nome precisa ter entre 3 e 20 caracteres!');
-      formErrors = true;
-    }
+    if (role === 'client') {
+      if (!onlyNumbers.test(indentifier)) {
+        toast.error('Telefone só pode conter números!');
+        formErrors = true;
+      }
 
-    if (!soNumeros.test(phone)) {
-      toast.error('Telefone só pode conter números!');
-      formErrors = true;
+      if (indentifier.length !== 11) {
+        toast.error('Telefone deve conter 11 números!');
+        formErrors = true;
+      }
+
+      if (password.length < 8) {
+        toast.error('A senha deve conter no mínimo 8 caracteres!');
+        formErrors = true;
+      }
+    } else {
+      if (!isEmail.test(indentifier)) {
+        toast.error('Digite um email válido');
+        formErrors = true;
+      }
     }
 
     if (formErrors) return;
+
+    dispatch(actions.loginRequest({ role, indentifier, password }));
   }
 
   const goToRegister = useCallback(() => {
@@ -53,26 +86,27 @@ function Login() {
         <LoginTextIcon />
 
         <InputContainer>
-          <Input onClick={() => refs.name.current?.focus()}>
-            <UserIcon />
+          <Input onClick={() => refs.indentifier.current?.focus()}>
+            {condition.icon}
             <input
-              ref={refs.name}
+              ref={refs.indentifier}
               type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={e => setName(e.target.value)}
+              placeholder={condition.placeholder}
+              value={indentifier}
+              onChange={e => setIndentifier(e.target.value)}
             />
           </Input>
 
-          <Input onClick={() => refs.phone.current?.focus()}>
-            <CellIcon />
+          <Input onClick={() => refs.password.current?.focus()}>
+            <CadIcon />
             <input
-              type="text"
-              ref={refs.phone}
-              placeholder="Telefone"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
+              ref={refs.password}
+              type={isVisible ? 'text' : 'password'}
+              placeholder="Senha"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
+            <EyeCloseIcon onClick={() => setIsVisible(!isVisible)} />
           </Input>
         </InputContainer>
 

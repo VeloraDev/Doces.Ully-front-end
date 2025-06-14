@@ -7,9 +7,7 @@ const flexCenter = css`
   justify-content: center;
 `;
 
-export const ProductContainer = styled.div`
-  margin-top: 20px;
-`;
+export const ProductContainer = styled.div``;
 
 export const SectionTop = styled.div`
   background-color: ${colors.lightPrimaryColor};
@@ -31,7 +29,7 @@ export const TitleSection = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 400;
   text-transform: uppercase;
   color: ${colors.secondaryColor};

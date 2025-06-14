@@ -8,8 +8,6 @@ export const OrderContainer = styled.div`
   flex: 1;
 `;
 
-export const pathSection = styled.div``;
-
 export const AddressContainer = styled.div`
   background-color: ${colors.lightPrimaryColor};
   padding: 15px 25px 40px 25px;

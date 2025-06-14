@@ -30,9 +30,10 @@ import {
 import axios from '../../services/axios';
 import Footer from '../../components/footer';
 
-import { get } from 'lodash';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import BreadCrumbs from '../../components/breadCrumbs';
 
 function Product() {
   const { id, categoria } = useParams();
@@ -43,6 +44,7 @@ function Product() {
   const [loading, setLoading] = useState(true);
 
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
     if (!id) return;
@@ -52,18 +54,11 @@ function Product() {
         const { data: product } = await axios.get(`/products/${id}`);
         setProductData(product);
       } catch (error) {
-        const status = get(error, 'response.status', 0);
-        const errorMessage = get(
-          error,
-          'response.data.message',
-          'Ocorreu um erro!'
-        );
+        const status = error.response?.status ?? 0;
+        const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
 
-        if (status === 404) {
-          toast.error(errorMessage);
-          navigate('*');
-        } else {
-          console.log('erro desconhecido!');
+        if (errors.length > 0) {
+          errors.map(erro => toast.error(erro));
         }
       } finally {
         setLoading(false);
@@ -76,13 +71,23 @@ function Product() {
     return price.toFixed(2).replace('.', ',');
   }
 
-  if (loading) return;
+  if (loading) return <></>;
 
   const { name, price, quantity, description, img_url } = productData;
 
+  function checkIsLogged() {
+    if (!isLoggedIn) {
+      toast.info('Você precisa estar logado!');
+      return false;
+    }
+    return true;
+  }
+
   function handleAddToCart() {
+    if (!checkIsLogged()) return;
+
     if (productData.quantity === 0) {
-      toast.error('Produto está zerado no estoque!');
+      toast.info('Produto está zerado no estoque!');
       return;
     }
 
@@ -94,11 +99,19 @@ function Product() {
       cart.push({ ...productData, quantity: 1, category: categoria });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    toast.success('Produto adicionado ao carrinho :)');
+    toast.success('Produto adicionado ao carrinho');
   }
+
+  const CrumbItems = [
+    { label: '...', to: '/' },
+    { label: 'Produtos', to: '/produtos' },
+    { label: `${categoria}`, to: `/produtos/${categoria}` },
+    { label: `${productData.name}`, to: `/produto/${categoria}/${id}` },
+  ];
 
   return (
     <ProductContainer>
+      <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <SectionTop>
         <SectionTopContent>
           <TitleSection>
@@ -133,7 +146,7 @@ function Product() {
           <DescriptionText>{description}</DescriptionText>
         </DescriptionSection>
 
-        <ActionButton>
+        <ActionButton onClick={() => navigate('/pedido')}>
           <BuyIcon />
         </ActionButton>
         <ActionButton onClick={handleAddToCart}>

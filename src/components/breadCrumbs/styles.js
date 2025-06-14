@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 export const CrumbContainer = styled.div`
   background-color: rgba(254, 233, 227, 0.3);
   position: relative;
+  margin-top: 20px;
 
   hr {
     position: absolute;
@@ -31,7 +32,7 @@ export const CrumbItem = styled.div`
 export const CrumbLink = styled(Link)`
   font-family: 'Marmelad';
   color: ${colors.lightSecondaryColor2};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
 `;

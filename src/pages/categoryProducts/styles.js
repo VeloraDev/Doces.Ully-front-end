@@ -14,7 +14,6 @@ export const CategoryProductsContainer = styled.div`
 export const ContentContainer = styled.div`
   ${fullFlexColumn};
   background-color: ${colors.lightPrimaryColor};
-  margin-top: 20px;
   padding: 14px 10px 25px 10px;
   gap: 20px;
 `;

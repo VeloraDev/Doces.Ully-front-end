@@ -15,17 +15,18 @@ import Order from '../pages/order';
 function AppRoutes() {
   const routes = [
     { path: '/', element: <Home /> },
-    { path: '/login', element: <Login /> },
+    { path: '/login', element: <Login role="client" /> },
+    { path: '/admin/login', element: <Login role="admin" /> },
     { path: '/cadastro', element: <Register /> },
-    { path: '/carrinho', element: <Cart />, isClosed: false },
-    { path: '/produtos', element: <Products />, isClosed: false },
+    { path: '/carrinho', element: <Cart />, isClosed: true },
+    { path: '/produtos', element: <Products /> },
     {
       path: '/produtos/:categoria',
       element: <CategoryProducts />,
       isClosed: false,
     },
-    { path: '/produto/:categoria/:id', element: <Product />, isClosed: false },
-    { path: '/pedido', element: <Order />, isClosed: false },
+    { path: '/produto/:categoria/:id', element: <Product /> },
+    { path: '/pedido', element: <Order />, isClosed: true },
     { path: '*', element: <Page404 /> },
   ];
 
