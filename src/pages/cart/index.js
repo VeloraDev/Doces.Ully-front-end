@@ -99,7 +99,9 @@ function Cart() {
           <CheckoutText>valor final({totalQuantity}): </CheckoutText>
           <CheckoutPrice>R${totalPrice.toFixed(2)}</CheckoutPrice>
         </CheckoutPriceContainer>
-        <CheckoutButton>Finalizar compra</CheckoutButton>
+        <CheckoutButton onClick={() => navigate('/pedido')}>
+          Finalizar compra
+        </CheckoutButton>
       </CheckoutContainer>
 
       <Footer />

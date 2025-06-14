@@ -13,6 +13,8 @@ import {
   CadastroTextIcon,
 } from '../../assets/index';
 
+import axios from '../../services/axios';
+import { useNavigate } from 'react-router-dom';
 import { Line } from '../../styles/ComponentsStyles';
 import { Input } from '../../styles/ComponentsStyles';
 import { toast } from 'react-toastify';
@@ -25,6 +27,8 @@ function Register() {
   const [isVisible, setIsVisible] = useState(false);
   const [confirmIsVisible, setConfirmIsVisible] = useState(false);
 
+  const navigate = useNavigate();
+
   const refs = {
     name: useRef(null),
     phone: useRef(null),
@@ -32,16 +36,16 @@ function Register() {
     confirmPassword: useRef(null),
   };
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     let formErrors = false;
     const soNumeros = /^\d+$/;
 
-    if (name.length < 3 || name.length > 20) {
+    /* if (name.length < 3 || name.length > 20) {
       toast.error('Nome precisa ter entre 3 e 20 caracteres!');
       formErrors = true;
-    }
+    } */
 
     if (!soNumeros.test(phone)) {
       toast.error('Telefone só pode conter números!');
@@ -53,22 +57,34 @@ function Register() {
       formErrors = true;
     }
 
-    if (
-      password.length < 3 ||
-      password.length > 10 ||
-      password !== confirmPassword
-    ) {
-      toast.error('As senhas não conferem!');
-      toast.error('A senha precisa ter entre 3 e 10 caracteres!');
+    if (password.length < 8) {
+      toast.error('A senha deve possuir no mínimo 8 caracteres!');
       formErrors = true;
     }
 
-    if (soNumeros.test(password)) {
-      toast.error('A senha precisa ter letras!');
+    if (password !== confirmPassword) {
+      toast.error('As senhas não conferem!');
       formErrors = true;
     }
 
     if (formErrors) return;
+
+    try {
+      await axios.post('/clients', {
+        name: name,
+        phone: phone,
+        password: password,
+      });
+      toast.success('Conta criada com sucesso!');
+      navigate('/login');
+    } catch (error) {
+      const status = error.response?.status ?? 0;
+      const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
+
+      if (errors.length > 0) {
+        errors.map(erro => toast.error(erro));
+      }
+    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   OrderContainer,
   AddressContainer,
@@ -36,7 +36,7 @@ import Footer from '../../components/footer/index';
 function Order() {
   const [nome, setNome] = useState('');
   const [whats, setWhats] = useState('');
-  const [bairro, setBairro] = useState(null);
+  const [bairro, setBairro] = useState('');
   const [rua, setRua] = useState('');
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
@@ -44,6 +44,7 @@ function Order() {
   const [select, setSelect] = useState('entrega');
   const [onSelectPagamento, setOnSelectPagamento] = useState(false);
   const [onSelectBairro, setOnSelectBairro] = useState(false);
+  const [products, setProducts] = useState([]);
 
   const refs = {
     nome: useRef(null),
@@ -55,10 +56,22 @@ function Order() {
     pagamento: useRef(null),
   };
 
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem('cart')) || [];
+    setProducts(storedProducts);
+  }, []);
+
+  const totalPrice = products.reduce((acc, product) => {
+    return acc + product.quantity * product.price;
+  }, 0);
+
+  const frete = bairro === 'casinhas' ? 5 : 0;
+
   const selectMode = [
     { key: 'entrega', icon: DeliveryIcon, label: 'Entrega' },
     { key: 'retirada', icon: PeopleIcon, label: 'Retirada' },
   ];
+
   const optionsBairros = ['centro', 'casinhas', 'croatá', 'vila esperança'];
   const optionsPagamentos = ['pix', 'dinheiro'];
 
@@ -209,9 +222,11 @@ function Order() {
         </Form>
 
         <CheckoutSection>
-          <Paragraph>Subtotal: </Paragraph>
-          <Paragraph>Taxa de entrega: </Paragraph>
-          <ActionValue>Valor a pagar:</ActionValue>
+          <Paragraph>Subtotal: R${totalPrice.toFixed(2)}</Paragraph>
+          <Paragraph>Taxa de entrega: R${frete.toFixed(2)}</Paragraph>
+          <ActionValue>
+            Valor a pagar: {(totalPrice + frete).toFixed(2)}
+          </ActionValue>
           <ActionOrder>
             <WhatsIcon />
             <p>Enviar pedido</p>

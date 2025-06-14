@@ -1,5 +1,4 @@
 import styled, { keyframes, css } from 'styled-components';
-import '@fontsource/crushed';
 import * as colors from '../../config/colors';
 
 export const Container = styled.div`

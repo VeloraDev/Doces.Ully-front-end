@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { CategoryProductsContainer, Title, ContentContainer } from './styles';
+import BreadCrumbs from '../../components/breadCrumbs';
 import ProductCardCategory from './productCardCategory/index';
 import Footer from '../../components/footer';
 
@@ -21,8 +22,15 @@ function CategoryProducts() {
     }));
   }
 
+  const CrumbItems = [
+    { label: 'Página inicial', to: '/' },
+    { label: 'Produtos', to: '/produtos' },
+    { label: `${categoria}`, to: `/produtos/${categoria}` },
+  ];
+
   return (
     <CategoryProductsContainer>
+      <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <ContentContainer>
         <Title>{categoria}</Title>
         {products

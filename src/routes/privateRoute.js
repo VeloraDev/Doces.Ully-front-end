@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function PrivateRoute({ children, isClosed }) {
-  const isLoggedIn = false;
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const location = useLocation();
 
   if (!isLoggedIn && isClosed) {
