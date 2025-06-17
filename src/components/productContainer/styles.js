@@ -17,7 +17,7 @@ export const SectionTop = styled.div`
 
 export const Title = styled.h1`
   color: #fff;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 400;
   text-transform: uppercase;
 `;

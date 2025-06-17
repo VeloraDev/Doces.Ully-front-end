@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import axios from './axios';
+import axios from '../services/axios';
 import { toast } from 'react-toastify';
 
 export const ProductContext = createContext();
@@ -37,11 +37,12 @@ export function ProductProvider({ children }) {
         setProducts(productsWithCategory);
         setCategories(categories);
       } catch (error) {
-        const status = error.response?.status ?? 0;
         const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
 
-        if (errors.lenght > 0) {
-          errors.map(erro => toast.error(erro));
+        if (Array.isArray(errors)) {
+          errors.forEach(erro => toast.error(erro));
+        } else if (typeof errors === 'string') {
+          toast.error(errors);
         }
       } finally {
         setLoading(false);
@@ -50,8 +51,48 @@ export function ProductProvider({ children }) {
     getData();
   }, []);
 
+  function removeProduct(id) {
+    setProducts(old => old.filter(product => product.id !== id));
+  }
+
+  function uptadeProduct() {}
+
+  function addProduct() {}
+
+  function removeCategory(id) {
+    setCategories(old => old.filter(category => category.id !== id));
+  }
+
+  function updateCategory(id, name) {
+    setCategories(old =>
+      old.map(product => {
+        if (product.id === id) {
+          return {
+            ...product,
+            name: name,
+          };
+        } else {
+          return product;
+        }
+      })
+    );
+  }
+
+  function addCategory(category) {
+    setCategories(old => [...old, category]);
+  }
+
   return (
-    <ProductContext.Provider value={{ products, categories, loading }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        categories,
+        loading,
+        removeProduct,
+        removeCategory,
+        updateCategory,
+        addCategory,
+      }}>
       {children}
     </ProductContext.Provider>
   );

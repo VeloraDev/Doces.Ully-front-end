@@ -9,7 +9,7 @@ import { AppContainer } from './styles/AppStyles';
 
 import Store from './store/index';
 import { persistor } from './store/index';
-import { ProductProvider } from './services/contextprovider';
+import { ProductProvider } from './hooks/contextprovider';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';

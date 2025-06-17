@@ -9,7 +9,7 @@ import {
   ActionButton,
 } from './styles';
 
-import { ProductContext } from '../../services/contextprovider';
+import { ProductContext } from '../../hooks/contextprovider';
 
 import { Line } from '../../styles/ComponentsStyles';
 import { ArrowBack, ArrowFront } from '../../assets/index';

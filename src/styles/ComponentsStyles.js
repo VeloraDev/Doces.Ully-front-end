@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import * as colors from '../config/colors';
+import { motion } from 'framer-motion';
 
 //------------------------------------------------------
 //CARROSSEL PRODUCTS
@@ -32,12 +33,13 @@ export const Line = styled.hr`
 //PRODUCT CARD CART
 export const ProductCard = styled.div`
   display: flex;
-  gap: 15px;
+  gap: 10px;
   background-color: #fff;
   border-radius: 12px;
-  padding: 5px;
   min-height: 95px;
   max-width: 576px;
+  position: relative;
+  padding: 0 5px;
 `;
 
 export const ProductImage = styled.img`
@@ -46,6 +48,8 @@ export const ProductImage = styled.img`
   background-color: #d9d9d9;
   border-radius: 16px;
   flex-shrink: 0;
+  position: relative;
+  top: -8px;
 `;
 
 export const ProductContent = styled.div`
@@ -53,14 +57,21 @@ export const ProductContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 5px 0;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 `;
 
 export const ContentTop = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+`;
+
+export const InfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 export const FavButton = styled.button`
@@ -95,6 +106,226 @@ export const Input = styled.div`
 
   input::placeholder {
     color: ${colors.textCardColor};
+  }
+`;
+//------------------------------------------------------
+
+//------------------------------------------------------
+//ADD PRODUCT CONTAINER
+export const AddProductSection = styled.div`
+  width: 100%;
+  max-width: 576px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  p {
+    font-size: 30px;
+    color: ${colors.secondaryColor};
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+`;
+//------------------------------------------------------
+
+//------------------------------------------------------
+//CONFIRM CONTAINER
+export const baseButton = css`
+  font-family: 'Dongle';
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    scale: 0.98;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 0.98;
+  }
+`;
+
+export const ConfirmContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.3);
+`;
+
+export const ConfirmSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: max-content;
+  background-color: #fff;
+  padding: 20px 15px 10px 15px;
+  border-radius: 12px;
+  text-align: center;
+`;
+
+export const ConfirmText = styled.div`
+  color: ${colors.secondaryColor};
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+`;
+
+export const ActionGroup = styled.div`
+  text-align: center;
+`;
+
+export const CancelButton = styled.button`
+  background-color: ${colors.primaryColor};
+  border-radius: 100px;
+  padding: 5px 20px;
+
+  color: #fff;
+  ${baseButton};
+`;
+
+export const ConfirmButton = styled.button`
+  background-color: transparent;
+  padding: 0 10px;
+  margin-left: 20px;
+
+  color: ${colors.secondaryColor};
+  ${baseButton};
+`;
+//------------------------------------------------------
+
+//------------------------------------------------------
+//FORM ORDER
+export const InputSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`;
+
+export const DivInput = styled.div`
+  position: relative;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  border: 3px solid ${colors.lightSecondaryColor2};
+  border-radius: 50px;
+  gap: 7px;
+  width: 100%;
+
+  input {
+    font-size: 24px;
+    height: 24px;
+  }
+
+  label {
+    position: absolute;
+    padding: 0 2px;
+    top: -8px;
+    background-color: ${colors.lightPrimaryColor};
+    font-size: 18px;
+    color: ${colors.lightSecondaryColor2};
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  input::placeholder {
+    font-size: 22px;
+    color: ${colors.lightSecondaryColor2};
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+`;
+
+export const SelectContainer = styled.div`
+  position: relative;
+`;
+
+export const Select = styled.div`
+  width: 100%;
+`;
+
+export const SelectTop = styled.div`
+  width: 100%;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5px;
+
+  p {
+    color: ${colors.lightSecondaryColor2};
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+`;
+
+export const OptionsContainer = styled.div`
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  z-index: ${({ $onSelect }) => ($onSelect ? '1' : '0')};
+`;
+
+export const OptionsSection = styled.div`
+  border-radius: 0 0 15px 15px;
+  background-color: ${colors.lightSecondaryColor};
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: ${({ $onSelect }) =>
+    $onSelect ? 'translateY(0)' : 'translateY(-100%)'};
+  transition: transform 0.5s ease-in-out;
+`;
+
+export const Option = styled.div`
+  cursor: pointer;
+  font-size: 24px;
+  color: ${colors.lightPrimaryColor};
+  text-transform: uppercase;
+`;
+//------------------------------------------------------
+
+//------------------------------------------------------
+//BUTTON
+export const ActionButton = styled.button`
+  margin-top: 32px;
+  background-color: ${colors.secondaryColor};
+  padding: 10px 50px;
+  border-radius: 100px;
+
+  p {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
 `;
 //------------------------------------------------------

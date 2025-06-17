@@ -20,7 +20,7 @@ export const CartContainer = styled.div`
 
 export const TitleContainer = styled.div`
   background-color: rgba(254, 233, 227, 0.3);
-  padding-block: 5px 15px;
+  padding-block: 5px 0;
 `;
 
 export const CartTitle = styled.h1`

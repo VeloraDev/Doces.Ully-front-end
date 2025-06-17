@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   ProductContainer,
   SectionTop,
@@ -18,7 +18,6 @@ import {
   DescriptionText,
   ActionButton,
 } from './styles';
-
 import {
   FavOnIcon,
   FavOffIcon,
@@ -27,45 +26,22 @@ import {
   AddCartIcon,
 } from '../../assets/index';
 
-import axios from '../../services/axios';
-import Footer from '../../components/footer';
-
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+import FetchProduct from '../../hooks/fetchProduct';
 import BreadCrumbs from '../../components/breadCrumbs';
+import Footer from '../../components/footer';
 
 function Product() {
   const { id, categoria } = useParams();
+  const { productData, loading } = FetchProduct(id);
   const navigate = useNavigate();
-
-  const [productData, setProductData] = useState();
-  const [favorited, setFavorited] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
-  useEffect(() => {
-    if (!id) return;
-
-    async function getProduct() {
-      try {
-        const { data: product } = await axios.get(`/products/${id}`);
-        setProductData(product);
-      } catch (error) {
-        const status = error.response?.status ?? 0;
-        const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
-
-        if (errors.length > 0) {
-          errors.map(erro => toast.error(erro));
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-    getProduct();
-  }, [id, navigate]);
+  const [favorited, setFavorited] = useState(false);
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
   function formatPrice(price) {
     return price.toFixed(2).replace('.', ',');

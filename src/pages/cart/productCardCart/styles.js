@@ -15,57 +15,6 @@ export const ProductCategory = styled.div`
   color: ${colors.secondaryColor};
 `;
 
-export const ConfirmContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-`;
-
-export const ConfirmSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: max-content;
-  background-color: #fff;
-  padding: 20px 15px 10px 15px;
-  border-radius: 12px;
-`;
-
-export const ConfirmText = styled.div`
-  color: ${colors.secondaryColor};
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 1px;
-`;
-
-export const ActionGroup = styled.div`
-  text-align: center;
-`;
-
-export const CancelButton = styled.button`
-  background-color: ${colors.primaryColor};
-  border-radius: 100px;
-  padding: 5px 20px;
-
-  color: #fff;
-  ${baseButton};
-`;
-
-export const ConfirmButton = styled.button`
-  background-color: transparent;
-  padding: 0 10px;
-  margin-left: 20px;
-
-  color: ${colors.secondaryColor};
-  ${baseButton};
-`;
-
 export const PriceContainer = styled.div``;
 
 export const Text = styled.div`

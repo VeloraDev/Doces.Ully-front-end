@@ -57,6 +57,8 @@ export const FavButton = styled.button`
   right: -17px;
   top: -18px;
   z-index: 1;
-  background-color: transparent;
+  background-color: #fff;
   border-radius: 100%;
+  width: 35px;
+  height: 35px;
 `;

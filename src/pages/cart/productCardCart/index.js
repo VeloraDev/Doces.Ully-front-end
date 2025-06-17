@@ -4,28 +4,30 @@ import {
   ProductImage,
   ProductContent,
   ContentTop,
+  InfoSection,
   FavButton,
   ContentDown,
   Line,
+  ConfirmContainer,
+  ConfirmSection,
+  ActionGroup,
+  ConfirmText,
+  CancelButton,
+  ConfirmButton,
 } from '../../../styles/ComponentsStyles';
 
 import {
   ProductCategory,
-  ConfirmContainer,
-  ConfirmSection,
-  ConfirmText,
-  ActionGroup,
-  CancelButton,
-  ConfirmButton,
   PriceContainer,
   Text,
   QuantContainer,
   ProductPrice,
 } from './styles';
+
+import { AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { FavOnIcon, FavOffIcon } from '../../../assets/index';
 import { PlusIcon, MinusIcon } from '../../../assets/index';
-
-import PropTypes from 'prop-types';
 
 function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
   const { id, name, price, quantity, img_url, category } = product || {};
@@ -48,23 +50,35 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
 
   return (
     <ProductCard>
-      {confirmId === product.id && (
-        <ConfirmContainer>
-          <ConfirmSection>
-            <ConfirmText>Excluir este item do carrinho?</ConfirmText>
-            <Line />
-            <ActionGroup>
-              <CancelButton onClick={onCancel}>Cancelar</CancelButton>
-              <ConfirmButton onClick={onConfirm}>Sim</ConfirmButton>
-            </ActionGroup>
-          </ConfirmSection>
-        </ConfirmContainer>
-      )}
+      <AnimatePresence>
+        {confirmId === product.id && (
+          <ConfirmContainer
+            key={category.id}
+            initial={{ opacity: 0, scale: 0.98 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+            animation={confirmId === product.id ? 'fadeIn' : 'fadeOut'}
+            onClick={onCancel}>
+            <ConfirmSection onClick={e => e.stopPropagation()}>
+              <ConfirmText>Excluir item do carrinho?</ConfirmText>
+              <Line />
+              <ActionGroup>
+                <CancelButton onClick={onCancel}>Cancelar</CancelButton>
+                <ConfirmButton onClick={onConfirm}>Sim</ConfirmButton>
+              </ActionGroup>
+            </ConfirmSection>
+          </ConfirmContainer>
+        )}
+      </AnimatePresence>
 
       <ProductImage src={img_url} />
       <ProductContent>
         <ContentTop>
-          <ProductCategory>{category}</ProductCategory>
+          <InfoSection>
+            <ProductCategory>{category}</ProductCategory>
+            <Text>{name}</Text>
+          </InfoSection>
           <FavButton onClick={toggleFavorite} data-id="bolo-pote">
             {isFavorited ? (
               <FavOnIcon width={35} height={35} />
@@ -73,8 +87,6 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
             )}
           </FavButton>
         </ContentTop>
-
-        <Text>{name}</Text>
 
         <ContentDown>
           <QuantContainer>

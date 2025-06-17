@@ -11,6 +11,7 @@ import Register from '../pages/register';
 import PrivateRoute from './privateRoute';
 import CategoryProducts from '../pages/categoryProducts';
 import Order from '../pages/order';
+import CRUD from '../pages/CRUD';
 
 function AppRoutes() {
   const routes = [
@@ -27,16 +28,26 @@ function AppRoutes() {
     },
     { path: '/produto/:categoria/:id', element: <Product /> },
     { path: '/pedido', element: <Order />, isClosed: true },
+    {
+      path: '/admin/:tipo/:id?',
+      element: <CRUD />,
+      isClosed: true,
+      role: 'admin',
+    },
     { path: '*', element: <Page404 /> },
   ];
 
   return (
     <Routes>
-      {routes.map(({ path, element, isClosed }) => (
+      {routes.map(({ path, element, isClosed, role }) => (
         <Route
           key={path}
           path={path}
-          element={<PrivateRoute isClosed={isClosed}>{element}</PrivateRoute>}
+          element={
+            <PrivateRoute isClosed={isClosed} role={role}>
+              {element}
+            </PrivateRoute>
+          }
         />
       ))}
     </Routes>

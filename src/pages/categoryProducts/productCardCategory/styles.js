@@ -8,7 +8,7 @@ export const ProductFlavor = styled.div`
 `;
 
 export const Price = styled.div`
-  font-size: 30px;
+  font-size: 26px;
   color: ${colors.lightSecondaryColor2};
   font-weight: 600;
 `;

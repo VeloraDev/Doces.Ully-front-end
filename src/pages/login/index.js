@@ -1,11 +1,5 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import {
-  LoginContainer,
-  Form,
-  InputContainer,
-  ActionButton,
-  TextContainer,
-} from './styles';
+import React, { useState, useRef, useCallback } from 'react';
+import { LoginContainer, Form, InputContainer, TextContainer } from './styles';
 import {
   CellIcon,
   LoginTextIcon,
@@ -13,66 +7,46 @@ import {
   EyeCloseIcon,
   EmailIcon,
 } from '../../assets/index';
-
-import { Input, Line } from '../../styles/ComponentsStyles';
+import { Input, Line, ActionButton } from '../../styles/ComponentsStyles';
 
 import * as actions from '../../store/modules/auth/actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSchema } from '../../validations/user-admin/userSchema';
+
 function Login({ role }) {
-  const [indentifier, setIndentifier] = useState('');
-  const [password, setPassword] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
-
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
-  const prevPath = location.state?.from?.pathName || '/';
-
-  const condition = {
-    icon: role === 'client' ? <CellIcon /> : <EmailIcon />,
-    placeholder: role === 'client' ? 'Telefone' : 'Email',
-  };
+  const [isVisible, setIsVisible] = useState(false);
 
   const refs = {
     indentifier: useRef(null),
     password: useRef(null),
   };
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const condition = {
+    icon: role === 'client' ? <CellIcon /> : <EmailIcon />,
+    placeholder: role === 'client' ? 'Telefone' : 'Email',
+  };
 
-    let formErrors = false;
-    const onlyNumbers = /^\d+$/;
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(userSchema({ role })) });
 
-    if (role === 'client') {
-      if (!onlyNumbers.test(indentifier)) {
-        toast.error('Telefone só pode conter números!');
-        formErrors = true;
-      }
-
-      if (indentifier.length !== 11) {
-        toast.error('Telefone deve conter 11 números!');
-        formErrors = true;
-      }
-
-      if (password.length < 8) {
-        toast.error('A senha deve conter no mínimo 8 caracteres!');
-        formErrors = true;
-      }
-    } else {
-      if (!isEmail.test(indentifier)) {
-        toast.error('Digite um email válido');
-        formErrors = true;
-      }
-    }
-
-    if (formErrors) return;
-
+  function onSubmit({ indentifier, password }) {
     dispatch(actions.loginRequest({ role, indentifier, password }));
+  }
+
+  function onError(formErrors) {
+    Object.values(formErrors).forEach(error => {
+      toast.error(error.message);
+    });
   }
 
   const goToRegister = useCallback(() => {
@@ -82,7 +56,7 @@ function Login({ role }) {
   return (
     <LoginContainer>
       <Line />
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <LoginTextIcon />
 
         <InputContainer>
@@ -92,8 +66,7 @@ function Login({ role }) {
               ref={refs.indentifier}
               type="text"
               placeholder={condition.placeholder}
-              value={indentifier}
-              onChange={e => setIndentifier(e.target.value)}
+              {...register('indentifier')}
             />
           </Input>
 
@@ -103,15 +76,14 @@ function Login({ role }) {
               ref={refs.password}
               type={isVisible ? 'text' : 'password'}
               placeholder="Senha"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              {...register('password')}
             />
             <EyeCloseIcon onClick={() => setIsVisible(!isVisible)} />
           </Input>
         </InputContainer>
 
         <ActionButton type="submit">
-          <h1>Entrar</h1>
+          <p>Entrar</p>
         </ActionButton>
 
         <TextContainer>
