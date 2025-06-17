@@ -1,4 +1,5 @@
 import { call, put, all, takeLatest } from 'redux-saga/effects';
+import { REHYDRATE } from 'redux-persist';
 import { toast } from 'react-toastify';
 
 import * as types from '../types';
@@ -21,17 +22,14 @@ function* loginRequest({ payload }) {
 
     toast.success('Usuário logado com sucesso!');
   } catch (error) {
-    const status = error.response?.status;
     const errorMessage = error.response?.data?.error ?? 'Ocorreu um erro!';
-
     toast.error(errorMessage);
-
     yield put(actions.loginFailure());
   }
 }
 
 function* persistRehydrate({ payload }) {
-  const token = payload.token ?? '';
+  const token = payload?.auth?.token ?? '';
   if (!token) return;
 
   axios.defaults.headers.Authorization = `Bearer ${token}`;
@@ -39,5 +37,5 @@ function* persistRehydrate({ payload }) {
 
 export default all([
   takeLatest(types.LOGIN_REQUEST, loginRequest),
-  takeLatest(types.PERSIST_REHYDRATE, persistRehydrate),
+  takeLatest(REHYDRATE, persistRehydrate),
 ]);

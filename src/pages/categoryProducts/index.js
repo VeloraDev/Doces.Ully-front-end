@@ -1,15 +1,20 @@
 import React, { useState, useContext } from 'react';
 import { CategoryProductsContainer, Title, ContentContainer } from './styles';
+import { AddProductSection } from '../../styles/ComponentsStyles';
+
 import BreadCrumbs from '../../components/breadCrumbs';
 import ProductCardCategory from './productCardCategory/index';
 import Footer from '../../components/footer';
+import { AddIcon } from '../../assets';
 
-import { ProductContext } from '../../services/contextprovider';
+import { ProductContext } from '../../hooks/contextprovider';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function CategoryProducts() {
   const [isFavorited, setIsFavorited] = useState(false);
 
+  const role = useSelector(state => state.auth.user.type);
   const { products, categories } = useContext(ProductContext);
   const { categoria } = useParams();
 
@@ -44,6 +49,12 @@ function CategoryProducts() {
               onToggleFavorited={handleFavoriteToggle}
             />
           ))}
+        {role === 'admin' && (
+          <AddProductSection>
+            <p>Adicionar produto</p>
+            <AddIcon />
+          </AddProductSection>
+        )}
       </ContentContainer>
       <Footer />
     </CategoryProductsContainer>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ProductContainer,
   ProductImage,
@@ -8,16 +8,22 @@ import {
   Price,
   FavButton,
 } from './styles';
+import {
+  FavOnIcon,
+  FavOffIcon,
+  EditProductLightIcon,
+} from '../../assets/index';
 
-import { FavOnIcon, FavOffIcon } from '../../assets/index';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 function ProductCard({ product, isHome }) {
   const { id, name, img_url, category_name, priceFormatted } = product;
+  const role = useSelector(state => state.auth.user.type);
+  const navigate = useNavigate();
 
   const [favorited, setFavorited] = useState(false);
-  const navigate = useNavigate();
 
   const handleProductPage = useCallback(() => {
     navigate(`/produto/${category_name}/${id}`);
@@ -25,18 +31,26 @@ function ProductCard({ product, isHome }) {
 
   return (
     <ProductContainer onClick={handleProductPage}>
-      <FavButton
-        onClick={e => {
-          e.stopPropagation();
-          setFavorited(favorited ? false : true);
-        }}
-        data-id="bolo-pote">
-        {favorited ? (
-          <FavOnIcon width={35} height={35} />
-        ) : (
-          <FavOffIcon width={35} height={35} />
-        )}
-      </FavButton>
+      {role === 'admin' ? (
+        <FavButton
+          onClick={e => {
+            e.stopPropagation();
+          }}>
+          <EditProductLightIcon />
+        </FavButton>
+      ) : (
+        <FavButton
+          onClick={e => {
+            e.stopPropagation();
+            setFavorited(favorited ? false : true);
+          }}>
+          {favorited ? (
+            <FavOnIcon width={35} height={35} />
+          ) : (
+            <FavOffIcon width={35} height={35} />
+          )}
+        </FavButton>
+      )}
       <ProductImage src={img_url} />
       <ProductContent>
         {isHome && <TitleCategory>{category_name}</TitleCategory>}

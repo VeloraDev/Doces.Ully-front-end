@@ -25,17 +25,3 @@ export const InputContainer = styled.div`
   gap: 22px;
   width: 100%;
 `;
-
-export const ActionButton = styled.button`
-  margin-top: 40px;
-  background-color: ${colors.secondaryColor};
-  padding: 10px 30px;
-  border-radius: 100px;
-
-  p {
-    color: #fff;
-    font-size: 40px;
-    font-weight: 500;
-    letter-spacing: 1px;
-  }
-`;

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { CardsContainer } from '../../styles/ComponentsStyles';
 import { Container, SectionTop, Title, ActionButton } from './styles';
+import ProductCard from '../productCard';
 
 import { useNavigate } from 'react-router-dom';
-import ProductCard from '../productCard';
 import { ArrowCategory } from '../../assets/index';
-import { ProductContext } from '../../services/contextprovider';
+import { ProductContext } from '../../hooks/contextprovider';
 
 function ProductContainer() {
   const { products } = useContext(ProductContext);

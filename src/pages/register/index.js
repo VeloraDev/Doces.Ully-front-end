@@ -1,10 +1,5 @@
 import React, { useState, useRef } from 'react';
-import {
-  RegisterContainer,
-  Form,
-  InputContainer,
-  ActionButton,
-} from './styles';
+import { RegisterContainer, Form, InputContainer } from './styles';
 import {
   UserIcon,
   CellIcon,
@@ -12,21 +7,20 @@ import {
   EyeCloseIcon,
   CadastroTextIcon,
 } from '../../assets/index';
+import { Line, ActionButton } from '../../styles/ComponentsStyles';
 
 import axios from '../../services/axios';
 import { useNavigate } from 'react-router-dom';
-import { Line } from '../../styles/ComponentsStyles';
 import { Input } from '../../styles/ComponentsStyles';
 import { toast } from 'react-toastify';
 
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSchema } from '../../validations/user-admin/userSchema';
+
 function Register() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [confirmIsVisible, setConfirmIsVisible] = useState(false);
-
   const navigate = useNavigate();
 
   const refs = {
@@ -36,49 +30,24 @@ function Register() {
     confirmPassword: useRef(null),
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchema({ role: 'client', mode: 'register' })),
+  });
 
-    let formErrors = false;
-    const soNumeros = /^\d+$/;
-
-    /* if (name.length < 3 || name.length > 20) {
-      toast.error('Nome precisa ter entre 3 e 20 caracteres!');
-      formErrors = true;
-    } */
-
-    if (!soNumeros.test(phone)) {
-      toast.error('Telefone só pode conter números!');
-      formErrors = true;
-    }
-
-    if (phone.length !== 11) {
-      toast.error('Telefone precisa ter 11 números!');
-      formErrors = true;
-    }
-
-    if (password.length < 8) {
-      toast.error('A senha deve possuir no mínimo 8 caracteres!');
-      formErrors = true;
-    }
-
-    if (password !== confirmPassword) {
-      toast.error('As senhas não conferem!');
-      formErrors = true;
-    }
-
-    if (formErrors) return;
-
+  async function onSubmit({ name, indentifier, password }) {
     try {
       await axios.post('/clients', {
-        name: name,
-        phone: phone,
-        password: password,
+        name,
+        phone: indentifier,
+        password,
       });
       toast.success('Conta criada com sucesso!');
       navigate('/login');
     } catch (error) {
-      const status = error.response?.status ?? 0;
       const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
 
       if (errors.length > 0) {
@@ -87,10 +56,16 @@ function Register() {
     }
   }
 
+  function onError(formErrors) {
+    Object.values(formErrors).forEach(error => {
+      toast.error(error.message);
+    });
+  }
+
   return (
     <RegisterContainer>
       <Line />
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <CadastroTextIcon />
 
         <InputContainer>
@@ -100,19 +75,17 @@ function Register() {
               ref={refs.name}
               type="text"
               placeholder="Nome"
-              value={name}
-              onChange={e => setName(e.target.value)}
+              {...register('name')}
             />
           </Input>
 
-          <Input onClick={() => refs.phone.current?.focus()}>
+          {/* <Input onClick={() => refs.phone.current?.focus()}>
             <CellIcon />
             <input
               ref={refs.phone}
               type="text"
               placeholder="Telefone"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
+              {...register('indentifier')}
             />
           </Input>
 
@@ -122,8 +95,7 @@ function Register() {
               ref={refs.password}
               type={isVisible ? 'text' : 'password'}
               placeholder="Senha"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              {...register('password')}
             />
             <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
           </Input>
@@ -134,11 +106,10 @@ function Register() {
               ref={refs.confirmPassword}
               type={confirmIsVisible ? 'text' : 'password'}
               placeholder="Confirmar senha"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              {...register('confirmPassword')}
             />
             <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
-          </Input>
+          </Input> */}
         </InputContainer>
 
         <ActionButton>

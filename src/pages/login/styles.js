@@ -30,21 +30,6 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
-export const ActionButton = styled.button`
-  margin-top: 32px;
-  background-color: ${colors.secondaryColor};
-  padding: 10px 55px;
-  border-radius: 100px;
-
-  h1 {
-    font-family: 'Dongle';
-    color: #fff;
-    font-size: 40px;
-    font-weight: 500;
-    letter-spacing: 1px;
-  }
-`;
-
 export const TextContainer = styled.div`
   display: flex;
   gap: 5px;

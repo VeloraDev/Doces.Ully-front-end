@@ -8,6 +8,12 @@ import {
   ParagraphButton,
   Title,
   Form,
+  CheckoutSection,
+  Paragraph,
+  ActionValue,
+  ActionOrder,
+} from './styles';
+import {
   InputSection,
   DivInput,
   SelectContainer,
@@ -16,11 +22,7 @@ import {
   OptionsContainer,
   OptionsSection,
   Option,
-  CheckoutSection,
-  Paragraph,
-  ActionValue,
-  ActionOrder,
-} from './styles';
+} from '../../styles/ComponentsStyles';
 import {
   WhatsIcon,
   WhatsInputIcon,

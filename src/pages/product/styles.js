@@ -11,7 +11,7 @@ export const ProductContainer = styled.div``;
 
 export const SectionTop = styled.div`
   background-color: ${colors.lightPrimaryColor};
-  padding: 15px 35px;
+  padding: 12px 35px;
   ${flexCenter};
 `;
 
@@ -37,6 +37,8 @@ export const Title = styled.h1`
 
 export const ButtonIcon = styled.button`
   background-color: transparent;
+  width: 35px;
+  height: 35px;
 `;
 
 export const IconsSection = styled.h1`
