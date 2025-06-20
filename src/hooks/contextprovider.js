@@ -8,9 +8,11 @@ export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categoriesMap, setCategoriesMap] = useState([]);
 
   function formatPrice(price) {
-    return price.toFixed(2).replace('.', ',');
+    const priceNumber = Number(price);
+    return priceNumber.toFixed(2).replace('.', ',');
   }
 
   useEffect(() => {
@@ -19,22 +21,21 @@ export function ProductProvider({ children }) {
         const { data: products } = await axios.get('/products');
         const { data: categories } = await axios.get('/categories');
 
-        const formatted = products.map(product => ({
-          ...product,
-          priceFormatted: formatPrice(product.price),
-        }));
-
         const categoriesMap = categories.reduce((map, category) => {
           map[category.id] = category.name;
           return map;
         }, {});
 
-        const productsWithCategory = formatted.map(product => ({
-          ...product,
-          category_name: categoriesMap[product.category_id],
-        }));
+        const productsWithCategoryNameAndFormattedPrice = products.map(
+          product => ({
+            ...product,
+            priceFormatted: formatPrice(product.price),
+            category_name: categoriesMap[product.category_id],
+          })
+        );
 
-        setProducts(productsWithCategory);
+        setCategoriesMap(categoriesMap);
+        setProducts(productsWithCategoryNameAndFormattedPrice);
         setCategories(categories);
       } catch (error) {
         const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
@@ -51,25 +52,29 @@ export function ProductProvider({ children }) {
     getData();
   }, []);
 
-  function removeProduct(id) {
-    setProducts(old => old.filter(product => product.id !== id));
+  function addProduct(product) {
+    setProducts(old => [
+      ...old,
+      { ...product, priceFormatted: formatPrice(product.price) },
+    ]);
   }
 
-  function uptadeProduct() {}
-
-  function addProduct() {}
-
-  function removeCategory(id) {
-    setCategories(old => old.filter(category => category.id !== id));
-  }
-
-  function updateCategory(id, name) {
-    setCategories(old =>
+  function updateProduct(product) {
+    const { id, name, description, price, quantity, img_url, category_id } =
+      product;
+    setProducts(old =>
       old.map(product => {
         if (product.id === id) {
           return {
-            ...product,
+            id: id,
             name: name,
+            description: description,
+            price: price,
+            quantity: quantity,
+            img_url: img_url,
+            category_id: category_id,
+            priceFormatted: formatPrice(price),
+            category_name: categoriesMap[product.category_id],
           };
         } else {
           return product;
@@ -78,8 +83,31 @@ export function ProductProvider({ children }) {
     );
   }
 
+  function removeProduct(id) {
+    setProducts(old => old.filter(product => product.id !== id));
+  }
+
   function addCategory(category) {
     setCategories(old => [...old, category]);
+  }
+
+  function updateCategory(id, name) {
+    setCategories(old =>
+      old.map(category => {
+        if (category.id === id) {
+          return {
+            ...category,
+            name: name,
+          };
+        } else {
+          return category;
+        }
+      })
+    );
+  }
+
+  function removeCategory(id) {
+    setCategories(old => old.filter(category => category.id !== id));
   }
 
   return (
@@ -88,10 +116,12 @@ export function ProductProvider({ children }) {
         products,
         categories,
         loading,
+        addProduct,
+        updateProduct,
         removeProduct,
-        removeCategory,
-        updateCategory,
         addCategory,
+        updateCategory,
+        removeCategory,
       }}>
       {children}
     </ProductContext.Provider>

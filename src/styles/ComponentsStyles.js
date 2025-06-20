@@ -234,9 +234,16 @@ export const DivInput = styled.div`
   display: flex;
   align-items: center;
   border: 3px solid ${colors.lightSecondaryColor2};
-  border-radius: 50px;
+  border-radius: ${({ $isDescription }) => ($isDescription ? '20px' : '50px')};
   gap: 7px;
   width: 100%;
+  height: ${({ $isDescription }) => ($isDescription ? '100px' : 'auto')};
+
+  textArea {
+    font-size: 24px;
+    font-family: 400;
+    line-height: 100%;
+  }
 
   input {
     font-size: 24px;
@@ -290,7 +297,7 @@ export const OptionsContainer = styled.div`
   overflow: hidden;
   position: absolute;
   width: 100%;
-  z-index: ${({ $onSelect }) => ($onSelect ? '1' : '0')};
+  z-index: 1;
 `;
 
 export const OptionsSection = styled.div`
@@ -298,6 +305,8 @@ export const OptionsSection = styled.div`
   background-color: ${colors.lightSecondaryColor};
   padding: 10px;
   display: flex;
+  align-items: start;
+  justify-content: center;
   flex-direction: column;
   gap: 8px;
   transform: ${({ $onSelect }) =>
@@ -318,8 +327,9 @@ export const Option = styled.div`
 export const ActionButton = styled.button`
   margin-top: 32px;
   background-color: ${colors.secondaryColor};
-  padding: 10px 50px;
+  padding: 10px 0;
   border-radius: 100px;
+  min-width: 200px;
 
   p {
     color: #fff;

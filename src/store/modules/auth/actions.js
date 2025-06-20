@@ -14,9 +14,14 @@ export function loginSuccess(payload) {
   };
 }
 
-export function loginFailure(payload) {
+export function loginFailure() {
   return {
     type: types.LOGIN_FAILURE,
-    payload,
+  };
+}
+
+export function logout() {
+  return {
+    type: types.LOGOUT,
   };
 }

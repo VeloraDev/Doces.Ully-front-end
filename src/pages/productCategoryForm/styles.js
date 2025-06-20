@@ -34,3 +34,30 @@ export const CrudForm = styled.form`
     }
   }
 `;
+
+export const ImageContainer = styled.div`
+  label {
+    width: 250px;
+    height: 150px;
+    border-radius: 20px;
+    border: 2px solid ${colors.lightSecondaryColor2};
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: ${colors.secondaryColor};
+    font-size: 24px;
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  input {
+    display: none;
+  }
+`;

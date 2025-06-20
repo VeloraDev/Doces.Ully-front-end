@@ -80,7 +80,7 @@ export const CheckoutSection = styled.div`
 
   button {
     max-width: max-content;
-    padding: 6px 20px;
+    padding: 10px 15px;
     border-radius: 50px;
 
     font-size: 22px;
@@ -106,6 +106,7 @@ export const ActionValue = styled.button`
 export const ActionOrder = styled.button`
   color: ${colors.lightPrimaryColor};
   background-color: ${colors.secondaryColor};
+  padding: 10px;
   display: flex;
   align-items: flex-start;
   gap: 10px;

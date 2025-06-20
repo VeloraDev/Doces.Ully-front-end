@@ -8,7 +8,7 @@ import Footer from '../../components/footer';
 import { AddIcon } from '../../assets';
 
 import { ProductContext } from '../../hooks/contextprovider';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function CategoryProducts() {
@@ -17,6 +17,7 @@ function CategoryProducts() {
   const role = useSelector(state => state.auth.user.type);
   const { products, categories } = useContext(ProductContext);
   const { categoria } = useParams();
+  const navigate = useNavigate();
 
   const category_id = categories.find(category => category.name === categoria);
 
@@ -50,7 +51,7 @@ function CategoryProducts() {
             />
           ))}
         {role === 'admin' && (
-          <AddProductSection>
+          <AddProductSection onClick={() => navigate('/admin/produto')}>
             <p>Adicionar produto</p>
             <AddIcon />
           </AddProductSection>

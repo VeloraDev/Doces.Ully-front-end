@@ -34,6 +34,7 @@ function ProductCard({ product, isHome }) {
       {role === 'admin' ? (
         <FavButton
           onClick={e => {
+            navigate(`/admin/produto/${id}`);
             e.stopPropagation();
           }}>
           <EditProductLightIcon />
@@ -55,7 +56,7 @@ function ProductCard({ product, isHome }) {
       <ProductContent>
         {isHome && <TitleCategory>{category_name}</TitleCategory>}
         <TitleFlavor>{name}</TitleFlavor>
-        <Price>R$ {priceFormatted}</Price>
+        <Price>R${priceFormatted}</Price>
       </ProductContent>
     </ProductContainer>
   );
