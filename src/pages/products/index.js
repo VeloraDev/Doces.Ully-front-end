@@ -50,12 +50,7 @@ function Products() {
       toast.success('Categoria deletada com sucesso');
       removeCategory(id);
     } catch (error) {
-      const status = error.response?.status ?? 0;
       const errors = error.response?.data?.errors ?? [];
-
-      if (status === 500) {
-        toast.error('Categoria possui produtos. não é possível deletar!');
-      }
 
       if (Array.isArray(errors)) {
         errors.forEach(erro => {
@@ -132,7 +127,15 @@ function Products() {
                   />
                 ))}
               {role === 'admin' && (
-                <AddProductIcon>
+                <AddProductIcon
+                  onClick={() =>
+                    navigate(`/admin/produto`, {
+                      state: {
+                        categoryId: category.id,
+                        categoryName: category.name,
+                      },
+                    })
+                  }>
                   <AddIcon />
                 </AddProductIcon>
               )}

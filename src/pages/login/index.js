@@ -40,7 +40,7 @@ function Login({ role }) {
   } = useForm({ resolver: yupResolver(userSchema({ role })) });
 
   function onSubmit({ indentifier, password }) {
-    dispatch(actions.loginRequest({ role, indentifier, password }));
+    dispatch(actions.loginRequest({ role, indentifier, password, navigate }));
   }
 
   function onError(formErrors) {

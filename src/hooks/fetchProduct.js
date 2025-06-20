@@ -7,14 +7,17 @@ function fetchProduct(id, enable = true) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id || !enable) return;
+    if (!id || !enable) {
+      setLoading(false);
+      return;
+    }
 
     async function getProduct() {
       try {
         const { data: product } = await axios.get(`/products/${id}`);
         setProductData(product);
       } catch (error) {
-        const errors = error.response?.data?.error ?? 'Ocorreu um erro!';
+        const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
 
         if (Array.isArray(errors)) {
           errors.forEach(erro => toast.error(erro));

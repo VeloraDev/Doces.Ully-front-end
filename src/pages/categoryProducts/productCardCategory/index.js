@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import {
   ProductCard,
   ProductImage,
@@ -27,6 +27,9 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
+import axios from '../../../services/axios';
+import { toast } from 'react-toastify';
+import { ProductContext } from '../../../hooks/contextprovider';
 
 function ProductCardCategory({
   product,
@@ -37,6 +40,7 @@ function ProductCardCategory({
   const { id, name, quantity, img_url, priceFormatted } = product || {};
   const navigate = useNavigate();
   const role = useSelector(state => state.auth.user.type);
+  const { removeProduct } = useContext(ProductContext);
 
   const [selectedConfirm, setSelectedConfirm] = useState();
 
@@ -47,6 +51,23 @@ function ProductCardCategory({
   const handleSeeMore = useCallback(() => {
     navigate(`/produto/${category}/${id}`);
   }, [navigate, category, id]);
+
+  async function handleDelete() {
+    try {
+      await axios.delete(`/products/${id}`);
+      toast.success('produto deletado!');
+      setSelectedConfirm(false);
+      removeProduct(id);
+    } catch (error) {
+      const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
+
+      if (Array.isArray(errors)) {
+        errors.forEach(erro => toast.error(erro));
+      } else if (typeof errors === 'string') {
+        toast.error(errors);
+      }
+    }
+  }
 
   return (
     <ProductCard>
@@ -67,7 +88,7 @@ function ProductCardCategory({
                 <CancelButton onClick={() => setSelectedConfirm(false)}>
                   Cancelar
                 </CancelButton>
-                <ConfirmButton>Sim</ConfirmButton>
+                <ConfirmButton onClick={handleDelete}>Sim</ConfirmButton>
               </ActionGroup>
             </ConfirmSection>
           </ConfirmContainer>
@@ -82,7 +103,11 @@ function ProductCardCategory({
           </InfoSection>
           {role === 'admin' ? (
             <FavButton>
-              <EditProductLightIcon width={37} height={37} />
+              <EditProductLightIcon
+                onClick={() => navigate(`/admin/produto/${id}`)}
+                width={37}
+                height={37}
+              />
             </FavButton>
           ) : (
             <FavButton onClick={handleFavorite}>

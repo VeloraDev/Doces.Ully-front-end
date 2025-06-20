@@ -1,5 +1,6 @@
 import * as types from '../types';
 import axios from '../../../services/axios';
+import { toast } from 'react-toastify';
 
 const initialState = {
   isLoggedIn: false,
@@ -29,6 +30,14 @@ export default function reducer(state = initialState, action) {
     }
 
     case types.LOGIN_FAILURE: {
+      delete axios.defaults.headers.Authorization;
+      return initialState;
+    }
+
+    case types.LOGOUT: {
+      toast.info(
+        `${state.user.type === 'admin' ? 'Administrador' : 'Cliente'} deslogado!`
+      );
       delete axios.defaults.headers.Authorization;
       return initialState;
     }

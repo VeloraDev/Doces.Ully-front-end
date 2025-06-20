@@ -4,6 +4,7 @@ import * as colors from '../../config/colors';
 export const ProductContainer = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   border-radius: 10px;
   background-color: #fff;
@@ -15,6 +16,7 @@ export const ProductContainer = styled.div`
 
 export const ProductImage = styled.img`
   display: block;
+  margin: 0 auto;
   position: relative;
   top: -11px;
   width: 95px;
@@ -44,7 +46,7 @@ export const TitleFlavor = styled.p`
 
 export const Price = styled.div`
   background-color: ${colors.primaryColor};
-  padding: 8px 10px;
+  padding: 8px 0;
   border-radius: 15px;
 
   color: #fff;

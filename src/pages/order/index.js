@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   OrderContainer,
   AddressContainer,
@@ -32,6 +32,7 @@ import {
   ArrowSelectIcon,
 } from '../../assets';
 
+import fetchCart from '../../hooks/fetchCart';
 import { Line } from '../../styles/ComponentsStyles';
 import Footer from '../../components/footer/index';
 
@@ -43,10 +44,12 @@ function Order() {
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
   const [pagamento, setPagamento] = useState('');
+
   const [select, setSelect] = useState('entrega');
   const [onSelectPagamento, setOnSelectPagamento] = useState(false);
   const [onSelectBairro, setOnSelectBairro] = useState(false);
-  const [products, setProducts] = useState([]);
+
+  const { totalPrice } = fetchCart();
 
   const refs = {
     nome: useRef(null),
@@ -57,17 +60,6 @@ function Order() {
     complemento: useRef(null),
     pagamento: useRef(null),
   };
-
-  useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem('cart')) || [];
-    setProducts(storedProducts);
-  }, []);
-
-  const totalPrice = products.reduce((acc, product) => {
-    return acc + product.quantity * product.price;
-  }, 0);
-
-  const frete = bairro === 'casinhas' ? 5 : 0;
 
   const selectMode = [
     { key: 'entrega', icon: DeliveryIcon, label: 'Entrega' },
@@ -138,7 +130,7 @@ function Order() {
                   </Select>
                 </DivInput>
 
-                <OptionsContainer $onSelect={onSelectBairro}>
+                <OptionsContainer>
                   <OptionsSection $onSelect={onSelectBairro}>
                     {optionsBairros.map(option => (
                       <Option
@@ -224,11 +216,9 @@ function Order() {
         </Form>
 
         <CheckoutSection>
-          <Paragraph>Subtotal: R${totalPrice.toFixed(2)}</Paragraph>
-          <Paragraph>Taxa de entrega: R${frete.toFixed(2)}</Paragraph>
-          <ActionValue>
-            Valor a pagar: {(totalPrice + frete).toFixed(2)}
-          </ActionValue>
+          <Paragraph>Subtotal: R${totalPrice}</Paragraph>
+          <Paragraph>Taxa de entrega: R$</Paragraph>
+          <ActionValue>Valor a pagar: {totalPrice}</ActionValue>
           <ActionOrder>
             <WhatsIcon />
             <p>Enviar pedido</p>

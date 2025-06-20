@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from '../../store/modules/auth/actions';
 
 import {
   ContainerNavBar,
@@ -28,6 +30,8 @@ function Navbar() {
   const [active, setActive] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   function stopPropagation(e) {
     e.stopPropagation();
@@ -43,8 +47,14 @@ function Navbar() {
 
   function handleOpenMenu() {
     setIsVisible(true);
-
     setActive(true);
+  }
+
+  function logout() {
+    if (isLoggedIn) {
+      navigate('/');
+      dispatch(actions.logout());
+    }
   }
 
   return (
@@ -72,9 +82,15 @@ function Navbar() {
               Cadastro
             </NavLink>
             <NavLine />
-            <NavLink onClick={handleCloseMenu}>Quem somos</NavLink>
+            <NavLink>Quem somos</NavLink>
             <NavLine />
-            <NavLink onClick={handleCloseMenu}>Sair</NavLink>
+            <NavLink
+              onClick={() => {
+                handleCloseMenu();
+                logout();
+              }}>
+              Sair
+            </NavLink>
           </NavList>
 
           <SidebarLogo>

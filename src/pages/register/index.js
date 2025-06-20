@@ -79,7 +79,7 @@ function Register() {
             />
           </Input>
 
-          {/* <Input onClick={() => refs.phone.current?.focus()}>
+          <Input onClick={() => refs.phone.current?.focus()}>
             <CellIcon />
             <input
               ref={refs.phone}
@@ -109,7 +109,7 @@ function Register() {
               {...register('confirmPassword')}
             />
             <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
-          </Input> */}
+          </Input>
         </InputContainer>
 
         <ActionButton>

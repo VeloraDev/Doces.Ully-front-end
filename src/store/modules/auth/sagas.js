@@ -8,7 +8,7 @@ import axios from '../../../services/axios';
 
 function* loginRequest({ payload }) {
   try {
-    const { role, indentifier, password } = payload;
+    const { role, indentifier, password, navigate } = payload;
     const body =
       role === 'admin'
         ? { email: indentifier, password }
@@ -20,10 +20,16 @@ function* loginRequest({ payload }) {
 
     axios.defaults.headers.Authorization = `Bearer ${data.token}`;
 
-    toast.success('Usuário logado com sucesso!');
+    toast.success(`${role === 'admin' ? 'Administrador' : 'Cliente'} logado`);
+    navigate('/');
   } catch (error) {
-    const errorMessage = error.response?.data?.error ?? 'Ocorreu um erro!';
-    toast.error(errorMessage);
+    const errors = error.response?.data?.errors;
+
+    if (Array.isArray(errors)) {
+      errors.forEach(erro => toast.error(erro));
+    } else if (typeof errors === 'string') {
+      toast.error(errors);
+    }
     yield put(actions.loginFailure());
   }
 }

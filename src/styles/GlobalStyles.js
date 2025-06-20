@@ -43,11 +43,12 @@ export default createGlobalStyle`
       font-family: 'Dongle';
     }
 
-    input {
+    input, textArea {
       font-family: 'Dongle';
       outline: none;
       background-color: transparent;
       width: 100%;
+      height: 100%;
       color: ${colors.lightSecondaryColor2};
       border: none;
     }
