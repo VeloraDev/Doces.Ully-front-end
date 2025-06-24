@@ -14,6 +14,7 @@ const flexCenter = css`
 
 export const ProductsContainer = styled.div`
   ${flexColumn};
+  flex: 1;
 `;
 
 export const SectionTop = styled.div`
@@ -37,6 +38,7 @@ export const SectionIcons = styled.div`
 export const SectionCategory = styled.div`
   ${flexColumn};
   gap: 28px;
+  flex: 1;
 `;
 
 export const SectionProducts = styled.div`

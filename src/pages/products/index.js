@@ -3,12 +3,6 @@ import {
   AddProductSection,
   CardsContainer,
   Line,
-  ConfirmContainer,
-  ConfirmSection,
-  ConfirmText,
-  ActionGroup,
-  CancelButton,
-  ConfirmButton,
 } from '../../styles/ComponentsStyles';
 import {
   ProductsContainer,
@@ -28,9 +22,9 @@ import { ArrowCategoryDark, EditIcon, DeleteIcon, AddIcon } from '../../assets';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import axios from '../../services/axios';
+import ConfirmModal from '../../components/confirmModal';
 
 function Products() {
   const navigate = useNavigate();
@@ -39,11 +33,6 @@ function Products() {
 
   const [selectedConfirm, setSelectedConfirm] = useState(null);
 
-  const CrumbItems = [
-    { label: 'Página inicial', to: '/' },
-    { label: 'Produtos', to: '/produtos' },
-  ];
-
   async function deleteCategory(id) {
     try {
       await axios.delete(`/categories/${id}`);
@@ -51,49 +40,29 @@ function Products() {
       removeCategory(id);
     } catch (error) {
       const errors = error.response?.data?.errors ?? [];
-
-      if (Array.isArray(errors)) {
-        errors.forEach(erro => {
-          toast.error(erro);
-        });
-      } else if (typeof errors === 'string') {
-        toast.error(errors);
-      }
+      errors.forEach(erro => toast.error(erro));
     }
     setSelectedConfirm(null);
   }
 
+  const CrumbItems = [
+    { label: 'Página inicial', to: '/' },
+    { label: 'Produtos', to: '/produtos' },
+  ];
+
   return (
     <ProductsContainer>
-      <BreadCrumbs items={CrumbItems}></BreadCrumbs>
+      <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
       <SectionCategory>
         {categories.map(category => (
           <SectionProducts key={category.id}>
-            <AnimatePresence>
-              {selectedConfirm === category.id && (
-                <ConfirmContainer
-                  key={category.id}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={() => setSelectedConfirm(null)}>
-                  <ConfirmSection onClick={e => e.stopPropagation()}>
-                    <ConfirmText>Excluir {category.name}?</ConfirmText>
-                    <Line />
-                    <ActionGroup>
-                      <CancelButton onClick={() => setSelectedConfirm(null)}>
-                        Cancelar
-                      </CancelButton>
-                      <ConfirmButton
-                        onClick={() => deleteCategory(selectedConfirm)}>
-                        Sim
-                      </ConfirmButton>
-                    </ActionGroup>
-                  </ConfirmSection>
-                </ConfirmContainer>
-              )}
-            </AnimatePresence>
+            <ConfirmModal
+              visible={selectedConfirm === category.id}
+              onCancel={() => setSelectedConfirm(null)}
+              onConfirm={() => deleteCategory(selectedConfirm)}
+              message={`Excluir ${category.name}`}
+              keyId={category.id}
+            />
             <SectionTop>
               <Title>{category.name}</Title>
               <SectionIcons>

@@ -75,6 +75,7 @@ export const NavbarSection = styled.div`
 
 export const NavButton = styled.button`
   background-color: transparent;
+  position: relative;
 `;
 
 export const NavList = styled.div`
@@ -108,4 +109,17 @@ export const LineSection = styled.div`
 export const Line = styled.hr`
   width: 30%;
   height: 2px;
+`;
+
+export const Quant = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  border-radius: 100%;
+
+  color: #fff;
+  font-size: 24px;
 `;

@@ -7,7 +7,8 @@ import {
   EyeCloseIcon,
   CadastroTextIcon,
 } from '../../assets/index';
-import { Line, ActionButton } from '../../styles/ComponentsStyles';
+import { ActionButton } from '../../styles/ComponentsStyles';
+import BreadCrumbs from '../../components/breadCrumbs';
 
 import axios from '../../services/axios';
 import { useNavigate } from 'react-router-dom';
@@ -62,61 +63,70 @@ function Register() {
     });
   }
 
+  const CrumbItems = [
+    { label: 'Página inicial', to: '/' },
+    { label: 'Cadastro' },
+  ];
+
   return (
-    <RegisterContainer>
-      <Line />
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <CadastroTextIcon />
+    <>
+      <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
+      <RegisterContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <CadastroTextIcon />
 
-        <InputContainer>
-          <Input onClick={() => refs.name.current?.focus()}>
-            <UserIcon />
-            <input
-              ref={refs.name}
-              type="text"
-              placeholder="Nome"
-              {...register('name')}
-            />
-          </Input>
+          <InputContainer>
+            <Input onClick={() => refs.name.current?.focus()}>
+              <UserIcon />
+              <input
+                ref={refs.name}
+                type="text"
+                placeholder="Nome"
+                {...register('name')}
+              />
+            </Input>
 
-          <Input onClick={() => refs.phone.current?.focus()}>
-            <CellIcon />
-            <input
-              ref={refs.phone}
-              type="text"
-              placeholder="Telefone"
-              {...register('indentifier')}
-            />
-          </Input>
+            <Input onClick={() => refs.phone.current?.focus()}>
+              <CellIcon />
+              <input
+                ref={refs.phone}
+                type="text"
+                placeholder="Telefone"
+                {...register('indentifier')}
+              />
+            </Input>
 
-          <Input onClick={() => refs.password.current?.focus()}>
-            <CadIcon />
-            <input
-              ref={refs.password}
-              type={isVisible ? 'text' : 'password'}
-              placeholder="Senha"
-              {...register('password')}
-            />
-            <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
-          </Input>
+            <Input onClick={() => refs.password.current?.focus()}>
+              <CadIcon />
+              <input
+                ref={refs.password}
+                type={isVisible ? 'text' : 'password'}
+                placeholder="Senha"
+                {...register('password')}
+              />
+              <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
+            </Input>
 
-          <Input onClick={() => refs.confirmPassword.current?.focus()}>
-            <CadIcon />
-            <input
-              ref={refs.confirmPassword}
-              type={confirmIsVisible ? 'text' : 'password'}
-              placeholder="Confirmar senha"
-              {...register('confirmPassword')}
-            />
-            <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
-          </Input>
-        </InputContainer>
+            <Input onClick={() => refs.confirmPassword.current?.focus()}>
+              <CadIcon />
+              <input
+                ref={refs.confirmPassword}
+                type={confirmIsVisible ? 'text' : 'password'}
+                placeholder="Confirmar senha"
+                {...register('confirmPassword')}
+              />
+              <EyeCloseIcon
+                onClick={() => setConfirmIsVisible(prev => !prev)}
+              />
+            </Input>
+          </InputContainer>
 
-        <ActionButton>
-          <p>Cadastrar</p>
-        </ActionButton>
-      </Form>
-    </RegisterContainer>
+          <ActionButton>
+            <p>Cadastrar</p>
+          </ActionButton>
+        </Form>
+      </RegisterContainer>
+    </>
   );
 }
 

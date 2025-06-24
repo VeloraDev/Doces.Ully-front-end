@@ -9,14 +9,15 @@ const flexColumnCenter = css`
 `;
 
 export const LoginContainer = styled.div`
-  margin-top: 55px;
   background-color: rgba(254, 233, 227, 0.3);
+  display: flex;
+  flex: 1;
 `;
 
 export const Form = styled.form`
   ${flexColumnCenter};
   width: 100%;
-  margin-top: 200px;
+  margin-top: 100px;
   background-color: ${colors.lightPrimaryColor};
   padding: 40px 0;
   border-radius: 70px 70px 0 0;

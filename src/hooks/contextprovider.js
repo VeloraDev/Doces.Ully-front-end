@@ -39,12 +39,7 @@ export function ProductProvider({ children }) {
         setCategories(categories);
       } catch (error) {
         const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
-
-        if (Array.isArray(errors)) {
-          errors.forEach(erro => toast.error(erro));
-        } else if (typeof errors === 'string') {
-          toast.error(errors);
-        }
+        errors.forEach(erro => toast.error(erro));
       } finally {
         setLoading(false);
       }
@@ -55,7 +50,11 @@ export function ProductProvider({ children }) {
   function addProduct(product) {
     setProducts(old => [
       ...old,
-      { ...product, priceFormatted: formatPrice(product.price) },
+      {
+        ...product,
+        priceFormatted: formatPrice(product.price),
+        category_name: categoriesMap[product.category_id],
+      },
     ]);
   }
 

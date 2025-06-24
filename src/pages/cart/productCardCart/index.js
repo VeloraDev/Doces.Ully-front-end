@@ -7,13 +7,6 @@ import {
   InfoSection,
   FavButton,
   ContentDown,
-  Line,
-  ConfirmContainer,
-  ConfirmSection,
-  ActionGroup,
-  ConfirmText,
-  CancelButton,
-  ConfirmButton,
 } from '../../../styles/ComponentsStyles';
 
 import {
@@ -24,7 +17,7 @@ import {
   ProductPrice,
 } from './styles';
 
-import { AnimatePresence } from 'framer-motion';
+import ConfirmModal from '../../../components/confirmModal';
 import PropTypes from 'prop-types';
 import { FavOnIcon, FavOffIcon } from '../../../assets/index';
 import { PlusIcon, MinusIcon } from '../../../assets/index';
@@ -50,28 +43,13 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
 
   return (
     <ProductCard>
-      <AnimatePresence>
-        {confirmId === product.id && (
-          <ConfirmContainer
-            key={category.id}
-            initial={{ opacity: 0, scale: 0.98 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
-            animation={confirmId === product.id ? 'fadeIn' : 'fadeOut'}
-            onClick={onCancel}>
-            <ConfirmSection onClick={e => e.stopPropagation()}>
-              <ConfirmText>Excluir item do carrinho?</ConfirmText>
-              <Line />
-              <ActionGroup>
-                <CancelButton onClick={onCancel}>Cancelar</CancelButton>
-                <ConfirmButton onClick={onConfirm}>Sim</ConfirmButton>
-              </ActionGroup>
-            </ConfirmSection>
-          </ConfirmContainer>
-        )}
-      </AnimatePresence>
-
+      <ConfirmModal
+        visible={confirmId === id}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        message="Excluir item do carrinho?"
+        keyId={category.id}
+      />
       <ProductImage src={img_url} />
       <ProductContent>
         <ContentTop>

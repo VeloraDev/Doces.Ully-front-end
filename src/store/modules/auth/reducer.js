@@ -1,26 +1,22 @@
-import * as types from '../types';
-import axios from '../../../services/axios';
+import * as types from './types';
 import { toast } from 'react-toastify';
 
 const initialState = {
   isLoggedIn: false,
-  token: null,
   user: {},
   isLoading: false,
+  error: null,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case types.LOGIN_REQUEST: {
-      const newState = { ...state };
-      newState.isLoading = true;
-      return newState;
+      return { ...state, isLoading: true };
     }
 
     case types.LOGIN_SUCCESS: {
       const newState = { ...state };
       newState.isLoggedIn = true;
-      newState.token = action.payload.token;
       newState.user = {
         indentifier: action.payload.indentifier,
         type: action.payload.role,
@@ -30,16 +26,22 @@ export default function reducer(state = initialState, action) {
     }
 
     case types.LOGIN_FAILURE: {
-      delete axios.defaults.headers.Authorization;
       return initialState;
     }
 
-    case types.LOGOUT: {
+    case types.LOGOUT_REQUEST: {
+      return { ...state, isLoading: true, error: null };
+    }
+
+    case types.LOGOUT_SUCCESS: {
       toast.info(
         `${state.user.type === 'admin' ? 'Administrador' : 'Cliente'} deslogado!`
       );
-      delete axios.defaults.headers.Authorization;
       return initialState;
+    }
+
+    case types.LOGOUT_FAILURE: {
+      return { ...state, isLoading: false, error: action.payload?.error };
     }
 
     default:

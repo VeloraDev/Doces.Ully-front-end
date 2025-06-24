@@ -56,13 +56,13 @@ export const CheckoutPriceContainer = styled.div`
 `;
 
 export const CheckoutText = styled.div`
-  font-size: 33px;
+  font-size: 32px;
   font-weight: 700;
   color: ${colors.lightSecondaryColor};
 `;
 
 export const CheckoutPrice = styled.div`
-  font-size: 50px;
+  font-size: 45px;
   font-weight: 700;
   color: ${colors.secondaryColor};
 `;
@@ -70,7 +70,7 @@ export const CheckoutPrice = styled.div`
 export const CheckoutButton = styled.button`
   background-color: ${colors.primaryColor};
   border-radius: 50px;
-  padding: 15px 20px;
+  padding: 10px 20px;
   font-family: 'Dongle', sans-serif;
   line-height: 100%;
   color: #fff;

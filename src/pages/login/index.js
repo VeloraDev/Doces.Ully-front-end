@@ -7,7 +7,7 @@ import {
   EyeCloseIcon,
   EmailIcon,
 } from '../../assets/index';
-import { Input, Line, ActionButton } from '../../styles/ComponentsStyles';
+import { Input, ActionButton } from '../../styles/ComponentsStyles';
 
 import * as actions from '../../store/modules/auth/actions';
 import { useDispatch } from 'react-redux';
@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from '../../validations/user-admin/userSchema';
+import BreadCrumbs from '../../components/breadCrumbs';
 
 function Login({ role }) {
   const dispatch = useDispatch();
@@ -53,45 +54,49 @@ function Login({ role }) {
     navigate('/cadastro');
   }, [navigate]);
 
+  const CrumbItems = [{ label: 'Página inicial', to: '/' }, { label: 'Login' }];
+
   return (
-    <LoginContainer>
-      <Line />
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <LoginTextIcon />
+    <>
+      <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
+      <LoginContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <LoginTextIcon />
 
-        <InputContainer>
-          <Input onClick={() => refs.indentifier.current?.focus()}>
-            {condition.icon}
-            <input
-              ref={refs.indentifier}
-              type="text"
-              placeholder={condition.placeholder}
-              {...register('indentifier')}
-            />
-          </Input>
+          <InputContainer>
+            <Input onClick={() => refs.indentifier.current?.focus()}>
+              {condition.icon}
+              <input
+                ref={refs.indentifier}
+                type="text"
+                placeholder={condition.placeholder}
+                {...register('indentifier')}
+              />
+            </Input>
 
-          <Input onClick={() => refs.password.current?.focus()}>
-            <CadIcon />
-            <input
-              ref={refs.password}
-              type={isVisible ? 'text' : 'password'}
-              placeholder="Senha"
-              {...register('password')}
-            />
-            <EyeCloseIcon onClick={() => setIsVisible(!isVisible)} />
-          </Input>
-        </InputContainer>
+            <Input onClick={() => refs.password.current?.focus()}>
+              <CadIcon />
+              <input
+                ref={refs.password}
+                type={isVisible ? 'text' : 'password'}
+                placeholder="Senha"
+                {...register('password')}
+              />
+              <EyeCloseIcon onClick={() => setIsVisible(!isVisible)} />
+            </Input>
+          </InputContainer>
 
-        <ActionButton type="submit">
-          <p>Entrar</p>
-        </ActionButton>
+          <ActionButton type="submit">
+            <p>Entrar</p>
+          </ActionButton>
 
-        <TextContainer>
-          <p>Não tem uma conta ainda?</p>
-          <a onClick={goToRegister}>Crie uma</a>
-        </TextContainer>
-      </Form>
-    </LoginContainer>
+          <TextContainer>
+            <p>Não tem uma conta ainda?</p>
+            <a onClick={goToRegister}>Crie uma</a>
+          </TextContainer>
+        </Form>
+      </LoginContainer>
+    </>
   );
 }
 

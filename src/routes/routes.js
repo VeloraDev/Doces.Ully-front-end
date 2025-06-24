@@ -27,7 +27,7 @@ function AppRoutes() {
       isClosed: false,
     },
     { path: '/produto/:categoria/:id', element: <Product /> },
-    { path: '/pedido', element: <Order />, isClosed: true },
+    { path: '/pedido/:categoria?/:id?', element: <Order />, isClosed: true },
     {
       path: '/admin/:tipo/:id?',
       element: <ProductCategoryForm />,

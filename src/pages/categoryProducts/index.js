@@ -29,7 +29,7 @@ function CategoryProducts() {
   }
 
   const CrumbItems = [
-    { label: 'Página inicial', to: '/' },
+    { label: 'Pág. inicial', to: '/' },
     { label: 'Produtos', to: '/produtos' },
     { label: `${categoria}`, to: `/produtos/${categoria}` },
   ];
