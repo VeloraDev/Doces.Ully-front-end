@@ -11,31 +11,43 @@ import Register from '../pages/register';
 import PrivateRoute from './privateRoute';
 import CategoryProducts from '../pages/categoryProducts';
 import Order from '../pages/order';
+import ProductCategoryForm from '../pages/productCategoryForm';
 
 function AppRoutes() {
   const routes = [
     { path: '/', element: <Home /> },
-    { path: '/login', element: <Login /> },
+    { path: '/login', element: <Login role="client" /> },
+    { path: '/admin/login', element: <Login role="admin" /> },
     { path: '/cadastro', element: <Register /> },
-    { path: '/carrinho', element: <Cart />, isClosed: false },
-    { path: '/produtos', element: <Products />, isClosed: false },
+    { path: '/carrinho', element: <Cart />, isClosed: true },
+    { path: '/produtos', element: <Products /> },
     {
       path: '/produtos/:categoria',
       element: <CategoryProducts />,
       isClosed: false,
     },
-    { path: '/produto/:categoria/:id', element: <Product />, isClosed: false },
-    { path: '/pedido', element: <Order />, isClosed: false },
+    { path: '/produto/:categoria/:id', element: <Product /> },
+    { path: '/pedido/:categoria?/:id?', element: <Order />, isClosed: true },
+    {
+      path: '/admin/:tipo/:id?',
+      element: <ProductCategoryForm />,
+      isClosed: true,
+      role: 'admin',
+    },
     { path: '*', element: <Page404 /> },
   ];
 
   return (
     <Routes>
-      {routes.map(({ path, element, isClosed }) => (
+      {routes.map(({ path, element, isClosed, role }) => (
         <Route
           key={path}
           path={path}
-          element={<PrivateRoute isClosed={isClosed}>{element}</PrivateRoute>}
+          element={
+            <PrivateRoute isClosed={isClosed} role={role}>
+              {element}
+            </PrivateRoute>
+          }
         />
       ))}
     </Routes>

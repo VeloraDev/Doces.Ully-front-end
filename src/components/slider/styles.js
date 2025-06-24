@@ -1,5 +1,4 @@
 import styled, { keyframes, css } from 'styled-components';
-import '@fontsource/crushed';
 import * as colors from '../../config/colors';
 
 export const Container = styled.div`
@@ -19,9 +18,10 @@ export const TitleSection = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 40px;
-  font-weight: 400;
   color: #fff;
+  font-size: 30px;
+  font-weight: 400;
+  text-transform: uppercase;
 `;
 
 export const SliderContainer = styled.div`

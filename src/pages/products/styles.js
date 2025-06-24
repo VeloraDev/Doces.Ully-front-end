@@ -14,12 +14,7 @@ const flexCenter = css`
 
 export const ProductsContainer = styled.div`
   ${flexColumn};
-`;
-
-export const PathSection = styled.div`
-  ${flexCenter};
-  padding: 8px;
-  gap: 5px;
+  flex: 1;
 `;
 
 export const SectionTop = styled.div`
@@ -29,19 +24,31 @@ export const SectionTop = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 400;
-  letter-spacing: 1px;
   color: ${colors.secondaryColor};
-  text-transform: uppercase;
+`;
+
+export const SectionIcons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
 `;
 
 export const SectionCategory = styled.div`
   ${flexColumn};
   gap: 28px;
+  flex: 1;
 `;
 
 export const SectionProducts = styled.div`
   ${flexColumn};
   background-color: ${colors.lightPrimaryColor};
+`;
+
+export const AddProductIcon = styled.div`
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 34px 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;

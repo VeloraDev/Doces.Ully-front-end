@@ -1,91 +1,102 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { LoginContainer, Form, InputContainer, TextContainer } from './styles';
 import {
-  LoginContainer,
-  Form,
-  InputContainer,
-  ActionButton,
-  TextContainer,
-} from './styles';
-import { Input, Line } from '../../styles/ComponentsStyles';
-import { UserIcon, CellIcon, LoginTextIcon } from '../../assets/index';
+  CellIcon,
+  LoginTextIcon,
+  CadIcon,
+  EyeCloseIcon,
+  EmailIcon,
+} from '../../assets/index';
+import { Input, ActionButton } from '../../styles/ComponentsStyles';
 
+import * as actions from '../../store/modules/auth/actions';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function Login() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSchema } from '../../validations/user-admin/userSchema';
+import BreadCrumbs from '../../components/breadCrumbs';
+
+function Login({ role }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
 
   const refs = {
-    name: useRef(null),
-    phone: useRef(null),
+    indentifier: useRef(null),
+    password: useRef(null),
   };
 
-  const navigate = useNavigate();
+  const condition = {
+    icon: role === 'client' ? <CellIcon /> : <EmailIcon />,
+    placeholder: role === 'client' ? 'Telefone' : 'Email',
+  };
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(userSchema({ role })) });
 
-    let formErrors = false;
-    const soNumeros = /^\d+$/;
+  function onSubmit({ indentifier, password }) {
+    dispatch(actions.loginRequest({ role, indentifier, password, navigate }));
+  }
 
-    if (name.length < 3 || name.length > 20) {
-      toast.error('Nome precisa ter entre 3 e 20 caracteres!');
-      formErrors = true;
-    }
-
-    if (!soNumeros.test(phone)) {
-      toast.error('Telefone só pode conter números!');
-      formErrors = true;
-    }
-
-    if (formErrors) return;
+  function onError(formErrors) {
+    Object.values(formErrors).forEach(error => {
+      toast.error(error.message);
+    });
   }
 
   const goToRegister = useCallback(() => {
     navigate('/cadastro');
   }, [navigate]);
 
+  const CrumbItems = [{ label: 'Página inicial', to: '/' }, { label: 'Login' }];
+
   return (
-    <LoginContainer>
-      <Line />
-      <Form onSubmit={handleSubmit}>
-        <LoginTextIcon />
+    <>
+      <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
+      <LoginContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <LoginTextIcon />
 
-        <InputContainer>
-          <Input onClick={() => refs.name.current?.focus()}>
-            <UserIcon />
-            <input
-              ref={refs.name}
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </Input>
+          <InputContainer>
+            <Input onClick={() => refs.indentifier.current?.focus()}>
+              {condition.icon}
+              <input
+                ref={refs.indentifier}
+                type="text"
+                placeholder={condition.placeholder}
+                {...register('indentifier')}
+              />
+            </Input>
 
-          <Input onClick={() => refs.phone.current?.focus()}>
-            <CellIcon />
-            <input
-              type="text"
-              ref={refs.phone}
-              placeholder="Telefone"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-            />
-          </Input>
-        </InputContainer>
+            <Input onClick={() => refs.password.current?.focus()}>
+              <CadIcon />
+              <input
+                ref={refs.password}
+                type={isVisible ? 'text' : 'password'}
+                placeholder="Senha"
+                {...register('password')}
+              />
+              <EyeCloseIcon onClick={() => setIsVisible(!isVisible)} />
+            </Input>
+          </InputContainer>
 
-        <ActionButton type="submit">
-          <h1>Entrar</h1>
-        </ActionButton>
+          <ActionButton type="submit">
+            <p>Entrar</p>
+          </ActionButton>
 
-        <TextContainer>
-          <p>Não tem uma conta ainda?</p>
-          <a onClick={goToRegister}>Crie uma</a>
-        </TextContainer>
-      </Form>
-    </LoginContainer>
+          <TextContainer>
+            <p>Não tem uma conta ainda?</p>
+            <a onClick={goToRegister}>Crie uma</a>
+          </TextContainer>
+        </Form>
+      </LoginContainer>
+    </>
   );
 }
 

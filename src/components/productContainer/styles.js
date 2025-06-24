@@ -5,6 +5,7 @@ export const Container = styled.div`
   margin-top: 30px;
   position: relative;
   width: 100%;
+  flex: 1;
 `;
 
 export const SectionTop = styled.div`
@@ -16,9 +17,9 @@ export const SectionTop = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 40px;
-  font-weight: 400;
   color: #fff;
+  font-size: 30px;
+  font-weight: 400;
   text-transform: uppercase;
 `;
 

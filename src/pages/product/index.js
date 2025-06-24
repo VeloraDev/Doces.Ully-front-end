@@ -7,7 +7,6 @@ import {
   Title,
   IconsSection,
   ButtonIcon,
-  StockBadge,
   ProductFigure,
   Details,
   Price,
@@ -16,57 +15,86 @@ import {
   DescriptionTitle,
   Divider,
   DescriptionText,
+  ActionSection,
   ActionButton,
 } from './styles';
-
 import {
   FavOnIcon,
   FavOffIcon,
   ShareIcon,
-  BuyIcon,
+  CartButtonIcon,
   AddCartIcon,
 } from '../../assets/index';
-
-import { useParams } from 'react-router-dom';
-import Footer from '../../components/footer';
+import { StockBadge } from '../../styles/ComponentsStyles';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import fetchHook from '../../hooks/fetchHook';
+import BreadCrumbs from '../../components/breadCrumbs';
+import Footer from '../../components/footer';
+
 function Product() {
+  const { id, categoria } = useParams();
+  const { fetchResponse, loading } = fetchHook(id, 'products');
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
   const [favorited, setFavorited] = useState(false);
-  const { id } = useParams();
-  const numberId = parseInt(id);
-
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const product = cart.find(item => item.id === numberId);
 
-  function addToCart() {
-    alert('Ainda não funciona :(');
-    return;
+  function formatPrice(price) {
+    return price.toFixed(2).replace('.', ',');
+  }
 
-    const productToAdd = products.find(product => product.id === numberId);
+  if (loading) return <></>;
 
-    if (productToAdd.quantity === 0) {
-      toast.error('Produto está zerado no estoque!');
+  const { name, price, quantity, description, img_url } = fetchResponse;
+
+  function checkIsLogged() {
+    if (!isLoggedIn) {
+      toast.info('Você precisa estar logado!');
+      return false;
+    }
+    return true;
+  }
+
+  function handleAddToCart() {
+    if (!checkIsLogged()) return;
+    if (quantity <= 0) {
+      toast.info('Produto está esgotado!');
       return;
     }
 
-    const productIndex = cart.findIndex(item => item.id === numberId);
+    if (fetchResponse.quantity === 0) {
+      toast.info('Produto está zerado no estoque!');
+      return;
+    }
+
+    const productIndex = cart.findIndex(item => item.id === fetchResponse.id);
 
     if (productIndex !== -1) {
       cart[productIndex].quantity += 1;
     } else {
-      cart.push({ ...productToAdd });
+      cart.push({ ...fetchResponse, quantity: 1, category: categoria });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    toast.success('Produto adicionado ao carrinho :)');
+    toast.success('Produto adicionado ao carrinho');
   }
+
+  const CrumbItems = [
+    { label: '...Produtos', to: '/produtos' },
+    { label: `${categoria}`, to: `/produtos/${categoria}` },
+    { label: `${fetchResponse.name}`, to: `/produto/${categoria}/${id}` },
+  ];
 
   return (
     <ProductContainer>
+      <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <SectionTop>
         <SectionTopContent>
           <TitleSection>
-            <Title>Nome do produto</Title>
+            <Title>{name}</Title>
             <IconsSection>
               <ButtonIcon>
                 <ShareIcon />
@@ -80,32 +108,32 @@ function Product() {
               </ButtonIcon>
             </IconsSection>
           </TitleSection>
-          <StockBadge $InStock={product?.quantity > 0}>
-            {product?.quantity > 0 ? 'EM ESTOQUE' : 'ESGOTADO'}
+          <StockBadge $InStock={quantity > 0}>
+            {quantity > 0 ? 'EM ESTOQUE' : 'ESGOTADO'}
           </StockBadge>
-          <ProductFigure></ProductFigure>
+          <ProductFigure src={img_url} />
         </SectionTopContent>
       </SectionTop>
 
       <Details>
-        <Price>R$ 99,99</Price>
+        <Price>R$ {formatPrice(price)}</Price>
         <PriceText>À vista no pix</PriceText>
 
         <DescriptionSection>
           <DescriptionTitle>Descrição do produto</DescriptionTitle>
           <Divider />
-          <DescriptionText>
-            Esse bolo aqui eh fenomenal comprem todos agora ele é de chocolate
-            com chocolate e comprem comprem
-          </DescriptionText>
+          <DescriptionText>{description}</DescriptionText>
         </DescriptionSection>
 
-        <ActionButton>
-          <BuyIcon />
-        </ActionButton>
-        <ActionButton onClick={addToCart}>
-          <AddCartIcon />
-        </ActionButton>
+        <ActionSection>
+          <ActionButton onClick={() => navigate(`/pedido/${categoria}/${id}`)}>
+            comprar
+            <CartButtonIcon />
+          </ActionButton>
+          <ActionButton onClick={handleAddToCart}>
+            <AddCartIcon />
+          </ActionButton>
+        </ActionSection>
       </Details>
 
       <Footer />

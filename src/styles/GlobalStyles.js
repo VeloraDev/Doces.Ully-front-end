@@ -1,9 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
-import styled from 'styled-components';
 import * as colors from '../config/colors';
 import '@fontsource/dongle';
 
 export default createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css2?family=Marmelad&display=swap');
+    
     * {
       margin: 0;
       padding: 0;
@@ -34,7 +35,7 @@ export default createGlobalStyle`
     }
 
     h1 {
-      font-family: 'Crushed', sans-serif;
+      font-family: 'Marmelad', sans-serif;
       line-height: 100%;
     }
 
@@ -42,11 +43,12 @@ export default createGlobalStyle`
       font-family: 'Dongle';
     }
 
-    input {
+    input, textArea {
       font-family: 'Dongle';
       outline: none;
       background-color: transparent;
       width: 100%;
+      height: 100%;
       color: ${colors.lightSecondaryColor2};
       border: none;
     }

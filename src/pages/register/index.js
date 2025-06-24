@@ -1,10 +1,5 @@
 import React, { useState, useRef } from 'react';
-import {
-  RegisterContainer,
-  Form,
-  InputContainer,
-  ActionButton,
-} from './styles';
+import { RegisterContainer, Form, InputContainer } from './styles';
 import {
   UserIcon,
   CellIcon,
@@ -12,18 +7,22 @@ import {
   EyeCloseIcon,
   CadastroTextIcon,
 } from '../../assets/index';
+import { ActionButton } from '../../styles/ComponentsStyles';
+import BreadCrumbs from '../../components/breadCrumbs';
 
-import { Line } from '../../styles/ComponentsStyles';
+import axios from '../../services/axios';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '../../styles/ComponentsStyles';
 import { toast } from 'react-toastify';
 
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSchema } from '../../validations/user-admin/userSchema';
+
 function Register() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [confirmIsVisible, setConfirmIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   const refs = {
     name: useRef(null),
@@ -32,104 +31,102 @@ function Register() {
     confirmPassword: useRef(null),
   };
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchema({ role: 'client', mode: 'register' })),
+  });
 
-    let formErrors = false;
-    const soNumeros = /^\d+$/;
+  async function onSubmit({ name, indentifier, password }) {
+    try {
+      await axios.post('/clients', {
+        name,
+        phone: indentifier,
+        password,
+      });
+      toast.success('Conta criada com sucesso!');
+      navigate('/login');
+    } catch (error) {
+      const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
 
-    if (name.length < 3 || name.length > 20) {
-      toast.error('Nome precisa ter entre 3 e 20 caracteres!');
-      formErrors = true;
+      if (errors.length > 0) {
+        errors.map(erro => toast.error(erro));
+      }
     }
-
-    if (!soNumeros.test(phone)) {
-      toast.error('Telefone só pode conter números!');
-      formErrors = true;
-    }
-
-    if (phone.length !== 11) {
-      toast.error('Telefone precisa ter 11 números!');
-      formErrors = true;
-    }
-
-    if (
-      password.length < 3 ||
-      password.length > 10 ||
-      password !== confirmPassword
-    ) {
-      toast.error('As senhas não conferem!');
-      toast.error('A senha precisa ter entre 3 e 10 caracteres!');
-      formErrors = true;
-    }
-
-    if (soNumeros.test(password)) {
-      toast.error('A senha precisa ter letras!');
-      formErrors = true;
-    }
-
-    if (formErrors) return;
   }
 
+  function onError(formErrors) {
+    Object.values(formErrors).forEach(error => {
+      toast.error(error.message);
+    });
+  }
+
+  const CrumbItems = [
+    { label: 'Página inicial', to: '/' },
+    { label: 'Cadastro' },
+  ];
+
   return (
-    <RegisterContainer>
-      <Line />
-      <Form onSubmit={handleSubmit}>
-        <CadastroTextIcon />
+    <>
+      <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
+      <RegisterContainer>
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+          <CadastroTextIcon />
 
-        <InputContainer>
-          <Input onClick={() => refs.name.current?.focus()}>
-            <UserIcon />
-            <input
-              ref={refs.name}
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </Input>
+          <InputContainer>
+            <Input onClick={() => refs.name.current?.focus()}>
+              <UserIcon />
+              <input
+                ref={refs.name}
+                type="text"
+                placeholder="Nome"
+                {...register('name')}
+              />
+            </Input>
 
-          <Input onClick={() => refs.phone.current?.focus()}>
-            <CellIcon />
-            <input
-              ref={refs.phone}
-              type="text"
-              placeholder="Telefone"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-            />
-          </Input>
+            <Input onClick={() => refs.phone.current?.focus()}>
+              <CellIcon />
+              <input
+                ref={refs.phone}
+                type="text"
+                placeholder="Telefone"
+                {...register('indentifier')}
+              />
+            </Input>
 
-          <Input onClick={() => refs.password.current?.focus()}>
-            <CadIcon />
-            <input
-              ref={refs.password}
-              type={isVisible ? 'text' : 'password'}
-              placeholder="Senha"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
-          </Input>
+            <Input onClick={() => refs.password.current?.focus()}>
+              <CadIcon />
+              <input
+                ref={refs.password}
+                type={isVisible ? 'text' : 'password'}
+                placeholder="Senha"
+                {...register('password')}
+              />
+              <EyeCloseIcon onClick={() => setIsVisible(prev => !prev)} />
+            </Input>
 
-          <Input onClick={() => refs.confirmPassword.current?.focus()}>
-            <CadIcon />
-            <input
-              ref={refs.confirmPassword}
-              type={confirmIsVisible ? 'text' : 'password'}
-              placeholder="Confirmar senha"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-            <EyeCloseIcon onClick={() => setConfirmIsVisible(prev => !prev)} />
-          </Input>
-        </InputContainer>
+            <Input onClick={() => refs.confirmPassword.current?.focus()}>
+              <CadIcon />
+              <input
+                ref={refs.confirmPassword}
+                type={confirmIsVisible ? 'text' : 'password'}
+                placeholder="Confirmar senha"
+                {...register('confirmPassword')}
+              />
+              <EyeCloseIcon
+                onClick={() => setConfirmIsVisible(prev => !prev)}
+              />
+            </Input>
+          </InputContainer>
 
-        <ActionButton>
-          <p>Cadastrar</p>
-        </ActionButton>
-      </Form>
-    </RegisterContainer>
+          <ActionButton>
+            <p>Cadastrar</p>
+          </ActionButton>
+        </Form>
+      </RegisterContainer>
+    </>
   );
 }
 

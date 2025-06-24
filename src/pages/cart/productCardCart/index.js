@@ -1,38 +1,35 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   ProductCard,
   ProductImage,
   ProductContent,
   ContentTop,
+  InfoSection,
   FavButton,
   ContentDown,
-  Line,
 } from '../../../styles/ComponentsStyles';
+
 import {
   ProductCategory,
-  ConfirmContainer,
-  ConfirmSection,
-  ConfirmText,
-  ActionGroup,
-  CancelButton,
-  ConfirmButton,
   PriceContainer,
   Text,
   QuantContainer,
   ProductPrice,
 } from './styles';
+
+import ConfirmModal from '../../../components/confirmModal';
+import PropTypes from 'prop-types';
 import { FavOnIcon, FavOffIcon } from '../../../assets/index';
 import { PlusIcon, MinusIcon } from '../../../assets/index';
 
 function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
-  const { id, name, price, category, flavor, quantity } = product || {};
+  const { id, name, price, quantity, img_url, category } = product || {};
 
   const [isFavorited, setIsFavorited] = useState(false);
 
   const toggleFavorite = useCallback(() => {
-    setIsFavorited((prev = !prev));
-  }, []);
+    setIsFavorited(!isFavorited);
+  }, [isFavorited]);
 
   const onCancel = useCallback(() => {
     handleAction(id, 'cancel');
@@ -46,23 +43,20 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
 
   return (
     <ProductCard>
-      {confirmId === product.id && (
-        <ConfirmContainer>
-          <ConfirmSection>
-            <ConfirmText>Excluir este item do carrinho?</ConfirmText>
-            <Line />
-            <ActionGroup>
-              <CancelButton onClick={onCancel}>Cancelar</CancelButton>
-              <ConfirmButton onClick={onConfirm}>Sim</ConfirmButton>
-            </ActionGroup>
-          </ConfirmSection>
-        </ConfirmContainer>
-      )}
-
-      <ProductImage></ProductImage>
+      <ConfirmModal
+        visible={confirmId === id}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        message="Excluir item do carrinho?"
+        keyId={category.id}
+      />
+      <ProductImage src={img_url} />
       <ProductContent>
         <ContentTop>
-          <ProductCategory>{name}</ProductCategory>
+          <InfoSection>
+            <ProductCategory>{category}</ProductCategory>
+            <Text>{name}</Text>
+          </InfoSection>
           <FavButton onClick={toggleFavorite} data-id="bolo-pote">
             {isFavorited ? (
               <FavOnIcon width={35} height={35} />
@@ -71,8 +65,6 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
             )}
           </FavButton>
         </ContentTop>
-
-        <Text>{flavor}</Text>
 
         <ContentDown>
           <QuantContainer>
@@ -104,9 +96,9 @@ ProductCardCart.PropTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    category: PropTypes.string.isRequired,
-    flavor: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
+    img_url: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
   }),
   handleQuantity: PropTypes.func.isRequired,
   handleAction: PropTypes.func.isRequired,

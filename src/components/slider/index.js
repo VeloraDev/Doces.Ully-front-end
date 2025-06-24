@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Line } from '../../styles/ComponentsStyles';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import {
   Container,
   TitleSection,
@@ -10,23 +9,41 @@ import {
   ActionButton,
 } from './styles';
 
+import { ProductContext } from '../../hooks/contextprovider';
+
+import { Line } from '../../styles/ComponentsStyles';
 import { ArrowBack, ArrowFront } from '../../assets/index';
-
-import Bolo1 from '../../assets/images/bolo-de-pote-2.png';
-import Bolo2 from '../../assets/images/bolo-de-pote.png';
-
-const images = [Bolo1, Bolo2, Bolo1, Bolo2];
 
 function Slider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState('next');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [images, setImages] = useState([]);
 
   const intervalRef = useRef(null);
   const indexRef = useRef(0);
 
+  const { products } = useContext(ProductContext);
+
+  useEffect(() => {
+    function getImages() {
+      setImages(products.map(product => product.img_url));
+    }
+    getImages();
+  }, [products]);
+
+  //SLIDER AINDA ESTÁ COM COMPORTAMENTO ESTRANHO, VERIFICAR DEPOIS
+  useEffect(() => {
+    if (images.length > 0) {
+      startAutoSlide();
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [images]);
+
   function startAutoSlide() {
     clearInterval(intervalRef.current);
+    if (images.length === 0) return;
+
     intervalRef.current = setInterval(() => {
       const nextIndex = (indexRef.current + 1) % images.length;
       updateSlide(nextIndex, 'next');
@@ -67,7 +84,7 @@ function Slider() {
   useEffect(() => {
     startAutoSlide();
     return () => clearInterval(intervalRef.current); // limpeza
-  }, [intervalRef]);
+  }, []);
 
   return (
     <Container>

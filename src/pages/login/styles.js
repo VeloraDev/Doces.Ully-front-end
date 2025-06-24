@@ -9,14 +9,15 @@ const flexColumnCenter = css`
 `;
 
 export const LoginContainer = styled.div`
-  margin-top: 55px;
   background-color: rgba(254, 233, 227, 0.3);
+  display: flex;
+  flex: 1;
 `;
 
 export const Form = styled.form`
   ${flexColumnCenter};
   width: 100%;
-  margin-top: 200px;
+  margin-top: 100px;
   background-color: ${colors.lightPrimaryColor};
   padding: 40px 0;
   border-radius: 70px 70px 0 0;
@@ -28,21 +29,6 @@ export const InputContainer = styled.div`
   ${flexColumnCenter};
   gap: 22px;
   width: 100%;
-`;
-
-export const ActionButton = styled.button`
-  margin-top: 32px;
-  background-color: ${colors.secondaryColor};
-  padding: 10px 55px;
-  border-radius: 100px;
-
-  h1 {
-    font-family: 'Dongle';
-    color: #fff;
-    font-size: 40px;
-    font-weight: 500;
-    letter-spacing: 1px;
-  }
 `;
 
 export const TextContainer = styled.div`
