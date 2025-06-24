@@ -7,7 +7,6 @@ import {
   Title,
   IconsSection,
   ButtonIcon,
-  StockBadge,
   ProductFigure,
   Details,
   Price,
@@ -16,27 +15,28 @@ import {
   DescriptionTitle,
   Divider,
   DescriptionText,
+  ActionSection,
   ActionButton,
 } from './styles';
 import {
   FavOnIcon,
   FavOffIcon,
   ShareIcon,
-  BuyIcon,
+  CartButtonIcon,
   AddCartIcon,
 } from '../../assets/index';
-
+import { StockBadge } from '../../styles/ComponentsStyles';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import FetchProduct from '../../hooks/fetchProduct';
+import fetchHook from '../../hooks/fetchHook';
 import BreadCrumbs from '../../components/breadCrumbs';
 import Footer from '../../components/footer';
 
 function Product() {
   const { id, categoria } = useParams();
-  const { productData, loading } = FetchProduct(id);
+  const { fetchResponse, loading } = fetchHook(id, 'products');
   const navigate = useNavigate();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
@@ -49,7 +49,7 @@ function Product() {
 
   if (loading) return <></>;
 
-  const { name, price, quantity, description, img_url } = productData;
+  const { name, price, quantity, description, img_url } = fetchResponse;
 
   function checkIsLogged() {
     if (!isLoggedIn) {
@@ -61,28 +61,31 @@ function Product() {
 
   function handleAddToCart() {
     if (!checkIsLogged()) return;
+    if (quantity <= 0) {
+      toast.info('Produto está esgotado!');
+      return;
+    }
 
-    if (productData.quantity === 0) {
+    if (fetchResponse.quantity === 0) {
       toast.info('Produto está zerado no estoque!');
       return;
     }
 
-    const productIndex = cart.findIndex(item => item.id === productData.id);
+    const productIndex = cart.findIndex(item => item.id === fetchResponse.id);
 
     if (productIndex !== -1) {
       cart[productIndex].quantity += 1;
     } else {
-      cart.push({ ...productData, quantity: 1, category: categoria });
+      cart.push({ ...fetchResponse, quantity: 1, category: categoria });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     toast.success('Produto adicionado ao carrinho');
   }
 
   const CrumbItems = [
-    { label: '...', to: '/' },
-    { label: 'Produtos', to: '/produtos' },
+    { label: '...Produtos', to: '/produtos' },
     { label: `${categoria}`, to: `/produtos/${categoria}` },
-    { label: `${productData.name}`, to: `/produto/${categoria}/${id}` },
+    { label: `${fetchResponse.name}`, to: `/produto/${categoria}/${id}` },
   ];
 
   return (
@@ -122,12 +125,15 @@ function Product() {
           <DescriptionText>{description}</DescriptionText>
         </DescriptionSection>
 
-        <ActionButton onClick={() => navigate('/pedido')}>
-          <BuyIcon />
-        </ActionButton>
-        <ActionButton onClick={handleAddToCart}>
-          <AddCartIcon />
-        </ActionButton>
+        <ActionSection>
+          <ActionButton onClick={() => navigate(`/pedido/${categoria}/${id}`)}>
+            comprar
+            <CartButtonIcon />
+          </ActionButton>
+          <ActionButton onClick={handleAddToCart}>
+            <AddCartIcon />
+          </ActionButton>
+        </ActionSection>
       </Details>
 
       <Footer />

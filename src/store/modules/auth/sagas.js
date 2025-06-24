@@ -1,8 +1,7 @@
 import { call, put, all, takeLatest } from 'redux-saga/effects';
-import { REHYDRATE } from 'redux-persist';
 import { toast } from 'react-toastify';
 
-import * as types from '../types';
+import * as types from './types';
 import * as actions from './actions';
 import axios from '../../../services/axios';
 
@@ -14,13 +13,26 @@ function* loginRequest({ payload }) {
         ? { email: indentifier, password }
         : { phone: indentifier, password };
 
-    const route = role === 'admin' ? '/admin/login' : '/clients/login';
-    const { data } = yield call(axios.post, route, body);
-    yield put(actions.loginSuccess({ ...data, indentifier, role }));
+    const route = role === 'admin' ? 'auth/login/admin' : 'auth/login/client';
+    const { data } = yield call(axios.post, route, body, {
+      withCredentials: true,
+    });
+    yield put(actions.loginSuccess({ indentifier, role }));
 
-    axios.defaults.headers.Authorization = `Bearer ${data.token}`;
+    toast.success(`${data.message}!`);
+    navigate('/');
+  } catch (error) {
+    const errors = error.response?.data?.errors;
+    errors.forEach(erro => toast.error(erro));
+    yield put(actions.loginFailure());
+  }
+}
 
-    toast.success(`${role === 'admin' ? 'Administrador' : 'Cliente'} logado`);
+function* logoutRequest(payload) {
+  try {
+    const { navigate } = payload;
+    yield call(axios.delete, '/auth/logout');
+    yield put(actions.logoutSuccess());
     navigate('/');
   } catch (error) {
     const errors = error.response?.data?.errors;
@@ -30,18 +42,11 @@ function* loginRequest({ payload }) {
     } else if (typeof errors === 'string') {
       toast.error(errors);
     }
-    yield put(actions.loginFailure());
+    yield put(actions.logoutFailure(error));
   }
-}
-
-function* persistRehydrate({ payload }) {
-  const token = payload?.auth?.token ?? '';
-  if (!token) return;
-
-  axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
 export default all([
   takeLatest(types.LOGIN_REQUEST, loginRequest),
-  takeLatest(REHYDRATE, persistRehydrate),
+  takeLatest(types.LOGOUT_REQUEST, logoutRequest),
 ]);

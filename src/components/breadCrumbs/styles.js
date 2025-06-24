@@ -17,8 +17,8 @@ export const CrumbList = styled.div`
   padding: 15px 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  justify-content: 'flex-start';
+  gap: ${({ $size }) => ($size === 'big' ? '20px' : '15px')};
 `;
 
 export const CrumbItem = styled.div`
@@ -32,7 +32,8 @@ export const CrumbItem = styled.div`
 export const CrumbLink = styled(Link)`
   font-family: 'Marmelad';
   color: ${colors.lightSecondaryColor2};
-  font-size: 14px;
+  font-size: ${({ $size }) => ($size === 'big' ? '18px' : '16px')};
   font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: -0.5px;
 `;

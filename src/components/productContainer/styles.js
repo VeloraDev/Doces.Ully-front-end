@@ -5,6 +5,7 @@ export const Container = styled.div`
   margin-top: 30px;
   position: relative;
   width: 100%;
+  flex: 1;
 `;
 
 export const SectionTop = styled.div`

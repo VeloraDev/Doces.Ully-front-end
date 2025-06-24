@@ -24,7 +24,7 @@ function Cart() {
   const navigate = useNavigate();
   const {
     products,
-    totalPrice,
+    totalPriceFormatted,
     totalQuantity,
     removeProduct,
     updateQuantity,
@@ -76,7 +76,7 @@ function Cart() {
       <CheckoutContainer>
         <CheckoutPriceContainer>
           <CheckoutText>valor final({totalQuantity}): </CheckoutText>
-          <CheckoutPrice>R${totalPrice}</CheckoutPrice>
+          <CheckoutPrice>R${totalPriceFormatted}</CheckoutPrice>
         </CheckoutPriceContainer>
         <CheckoutButton onClick={() => navigate('/pedido')}>
           Finalizar compra

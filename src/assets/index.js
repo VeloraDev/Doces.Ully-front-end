@@ -34,3 +34,4 @@ export { ReactComponent as EditProductDarkIcon } from './icons/edit-product-dark
 export { ReactComponent as DeleteLightIcon } from './icons/delete-light-icon.svg';
 export { ReactComponent as AddIcon } from './icons/add-icon.svg';
 export { ReactComponent as AddDarkIcon } from './icons/add-dark-icon.svg';
+export { ReactComponent as CartButtonIcon } from './icons/cart-button-icon.svg';

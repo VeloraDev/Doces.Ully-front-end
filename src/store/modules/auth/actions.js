@@ -1,4 +1,4 @@
-import * as types from '../types';
+import * as types from './types';
 
 export function loginRequest(payload) {
   return {
@@ -20,8 +20,21 @@ export function loginFailure() {
   };
 }
 
-export function logout() {
+export function logoutRequest() {
   return {
-    type: types.LOGOUT,
+    type: types.LOGOUT_REQUEST,
+  };
+}
+
+export function logoutSuccess() {
+  return {
+    type: types.LOGOUT_SUCCESS,
+  };
+}
+
+export function logoutFailure(payload) {
+  return {
+    type: types.LOGOUT_FAILURE,
+    payload,
   };
 }

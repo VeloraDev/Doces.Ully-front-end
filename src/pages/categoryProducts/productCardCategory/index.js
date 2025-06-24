@@ -7,15 +7,9 @@ import {
   InfoSection,
   FavButton,
   ContentDown,
-  ConfirmContainer,
-  ConfirmSection,
-  ConfirmText,
-  ActionGroup,
-  CancelButton,
-  ConfirmButton,
-  Line,
+  StockBadge,
 } from '../../../styles/ComponentsStyles';
-import { ProductFlavor, Price, InStock, SeeMore } from './styles';
+import { ProductFlavor, Price, SeeMore } from './styles';
 import {
   FavOnIcon,
   FavOffIcon,
@@ -26,10 +20,10 @@ import {
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AnimatePresence } from 'framer-motion';
 import axios from '../../../services/axios';
 import { toast } from 'react-toastify';
 import { ProductContext } from '../../../hooks/contextprovider';
+import ConfirmModal from '../../../components/confirmModal';
 
 function ProductCardCategory({
   product,
@@ -71,29 +65,13 @@ function ProductCardCategory({
 
   return (
     <ProductCard>
-      <AnimatePresence>
-        {selectedConfirm && (
-          <ConfirmContainer
-            key={id}
-            initial={{ opacity: 0, scale: 0.98 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
-            animation={selectedConfirm ? 'fadeIn' : 'fadeOut'}
-            onClick={() => setSelectedConfirm(false)}>
-            <ConfirmSection onClick={e => e.stopPropagation()}>
-              <ConfirmText>Excluir {name}?</ConfirmText>
-              <Line />
-              <ActionGroup>
-                <CancelButton onClick={() => setSelectedConfirm(false)}>
-                  Cancelar
-                </CancelButton>
-                <ConfirmButton onClick={handleDelete}>Sim</ConfirmButton>
-              </ActionGroup>
-            </ConfirmSection>
-          </ConfirmContainer>
-        )}
-      </AnimatePresence>
+      <ConfirmModal
+        visible={selectedConfirm}
+        onCancel={() => setSelectedConfirm(false)}
+        onConfirm={handleDelete}
+        message={`Excluir ${name}?`}
+        keyId={id}
+      />
       <ProductImage src={img_url} />
       <ProductContent>
         <ContentTop>
@@ -120,9 +98,9 @@ function ProductCardCategory({
           )}
         </ContentTop>
         <ContentDown>
-          <InStock $inStock={quantity > 0}>
+          <StockBadge $inStock={quantity > 0}>
             {quantity > 0 ? 'Em estoque' : 'Esgotado'}
-          </InStock>
+          </StockBadge>
           {role === 'admin' ? (
             <DeleteLightIcon
               onClick={() => setSelectedConfirm(true)}

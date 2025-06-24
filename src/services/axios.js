@@ -1,5 +1,6 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://localhost:3030',
+  baseURL: process.env.REACT_APP_URL_API,
+  withCredentials: true, //PARA O NAVEGADOR ENVIAR COOKIES
 });

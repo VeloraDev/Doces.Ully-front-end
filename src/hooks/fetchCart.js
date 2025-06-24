@@ -14,9 +14,10 @@ function fetchCart() {
   }
 
   const totalPrice = products.reduce((acc, product) => {
-    const result = acc + product.price * product.quantity;
-    return result.toFixed(2);
+    return acc + product.price * product.quantity;
   }, 0);
+
+  const totalPriceFormatted = totalPrice.toFixed(2);
 
   const totalQuantity = products.reduce((acc, product) => {
     return acc + product.quantity;
@@ -51,14 +52,19 @@ function fetchCart() {
     saveToStorage(newCart);
   }
 
+  function clearCart() {
+    localStorage.setItem('cart', JSON.stringify([]));
+  }
+
   return {
     products,
-    totalPrice,
+    totalPriceFormatted,
     totalQuantity,
     addProduct,
     removeProduct,
     updateQuantity,
     setCart,
+    clearCart,
   };
 }
 

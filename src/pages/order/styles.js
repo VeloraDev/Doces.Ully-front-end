@@ -1,8 +1,7 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import * as colors from '../../config/colors';
 
 export const OrderContainer = styled.div`
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -39,7 +38,7 @@ export const Background = styled.div`
   height: 100%;
   border-radius: 50px;
   transform: ${({ $select }) =>
-    $select === 'entrega' ? 'translateX(0)' : 'translateX(66.66%)'};
+    $select ? 'translateX(66.66%)' : 'translateX(0)'};
   transition: transform 0.5s ease-in-out;
 `;
 
@@ -56,7 +55,9 @@ export const ActionPaymentButton = styled.button`
 
 export const ParagraphButton = styled.p`
   color: ${({ $select }) =>
-    $select ? `${colors.lightPrimaryColor}` : `${colors.lightSecondaryColor2}`};
+    $select === 'entrega'
+      ? `${colors.lightPrimaryColor}`
+      : `${colors.lightSecondaryColor2}`};
   font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;

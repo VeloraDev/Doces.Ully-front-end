@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actions from '../../store/modules/auth/actions';
 
 import {
@@ -16,6 +16,7 @@ import {
   NavButton,
   LineSection,
   Line,
+  Quant,
 } from './styles';
 
 import {
@@ -26,16 +27,14 @@ import {
   LogoHambIcon,
 } from '../../assets/index';
 
+import fetchCart from '../../hooks/fetchCart';
+
 function Navbar() {
   const [active, setActive] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-
-  function stopPropagation(e) {
-    e.stopPropagation();
-  }
+  const { totalQuantity } = fetchCart();
 
   function handleCloseMenu() {
     setActive(false);
@@ -51,16 +50,15 @@ function Navbar() {
   }
 
   function logout() {
-    if (isLoggedIn) {
-      navigate('/');
-      dispatch(actions.logout());
-    }
+    dispatch(actions.logoutRequest({ navigate }));
   }
 
   return (
     <ContainerNavBar>
       <Overlay $isVisible={isVisible} onClick={handleCloseMenu}>
-        <Sidebar onClick={stopPropagation} $animation={active ? 'in' : 'out'}>
+        <Sidebar
+          onClick={e => e.stopPropagation()}
+          $animation={active ? 'in' : 'out'}>
           <ExitButton onClick={() => handleCloseMenu()}>
             <EscIcon />
           </ExitButton>
@@ -107,6 +105,7 @@ function Navbar() {
           <LogoNavBarIcon />
         </NavButton>
         <NavButton onClick={() => navigate('/carrinho')}>
+          {totalQuantity > 0 && <Quant>{totalQuantity}</Quant>}
           <CartIcon />
         </NavButton>
       </NavbarSection>

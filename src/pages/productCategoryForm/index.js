@@ -1,4 +1,9 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+
 import { CrudContainer, Title, CrudForm, ImageContainer } from './styles';
 import {
   DivInput,
@@ -11,16 +16,10 @@ import {
   Option,
 } from '../../styles/ComponentsStyles';
 
-import { useParams, useNavigate } from 'react-router-dom';
-import fetchCategory from '../../hooks/fetchCategory';
-import fetchProduct from '../../hooks/fetchProduct';
-
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { crudSchema } from '../../validations/crud/crudSchema';
-import { toast } from 'react-toastify';
+import fetchHook from '../../hooks/fetchHook';
 import axios from '../../services/axios';
 import { ProductContext } from '../../hooks/contextprovider';
+import { crudSchema } from '../../validations/crud/crudSchema';
 import { ArrowSelectIcon } from '../../assets';
 
 function ProductCategoryForm() {
@@ -41,20 +40,6 @@ function ProductCategoryForm() {
     img_url: useRef(null),
   };
 
-  const { categories, addProduct, updateProduct, updateCategory, addCategory } =
-    useContext(ProductContext);
-
-  const { productData, loading: loadingProd } = fetchProduct(id, isProduct);
-  const { categoryData, loading: loadingCat } = fetchCategory(id, !isProduct);
-
-  const shouldFetchCategoryName = Boolean(
-    productData?.category_id && isProduct
-  );
-  const { categoryData: categoryName, loading: loadingCatName } = fetchCategory(
-    productData?.category_id,
-    shouldFetchCategoryName
-  );
-
   const {
     register,
     handleSubmit,
@@ -65,24 +50,47 @@ function ProductCategoryForm() {
     resolver: yupResolver(crudSchema({ isProduct, id })),
   });
 
+  const { categories, addProduct, updateProduct, updateCategory, addCategory } =
+    useContext(ProductContext);
+
+  const { fetchResponse: productFetch, loading: loadingProd } = fetchHook(
+    id,
+    'products',
+    isProduct
+  );
+  const { fetchResponse: categoryFetch, loading: loadingCat } = fetchHook(
+    id,
+    'categories',
+    !isProduct
+  );
+
+  const shouldFetchCategoryName = Boolean(
+    productFetch?.category_id && isProduct
+  );
+  const { fetchResponse: categoryName, loading: loadingCatName } = fetchHook(
+    productFetch?.category_id,
+    'categories',
+    shouldFetchCategoryName
+  );
+
   useEffect(() => {
     if (!id) return;
 
-    if (!isProduct && categoryData) {
-      reset({ name: categoryData.name });
+    if (!isProduct && categoryFetch) {
+      reset({ name: categoryFetch.name });
     }
-    if (isProduct && productData) {
+    if (isProduct && productFetch) {
       reset({
-        name: productData.name ?? '',
-        description: productData.description ?? '',
-        price: productData.price ?? 0,
-        quantity: productData.quantity ?? 0,
-        category_id: productData.category_id ?? 0,
+        name: productFetch.name ?? '',
+        description: productFetch.description ?? '',
+        price: productFetch.price ?? 0,
+        quantity: productFetch.quantity ?? 0,
+        category_id: productFetch.category_id ?? 0,
       });
-      setImageURL(productData.img_url);
+      setImageURL(productFetch.img_url);
       setCategory(categoryName);
     }
-  }, [isProduct, id, categoryData, productData, reset, categoryName]);
+  }, [isProduct, id, categoryFetch, productFetch, reset, categoryName]);
 
   if (loadingProd || loadingCat) return;
 
@@ -95,7 +103,6 @@ function ProductCategoryForm() {
 
   async function onSubmit(data) {
     const { name, image } = data;
-
     try {
       if (!isProduct) {
         if (id) {
