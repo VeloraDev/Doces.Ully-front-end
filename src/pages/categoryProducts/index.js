@@ -1,5 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { CategoryProductsContainer, Title, ContentContainer } from './styles';
+import {
+  CategoryProductsContainer,
+  Title,
+  ContentContainer,
+  ProductContainer,
+} from './styles';
 import { AddProductSection } from '../../styles/ComponentsStyles';
 
 import BreadCrumbs from '../../components/breadCrumbs';
@@ -38,18 +43,20 @@ function CategoryProducts() {
     <CategoryProductsContainer>
       <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <ContentContainer>
-        <Title>{categoria}</Title>
-        {products
-          .filter(product => product.category_id === category_id.id)
-          .map(product => (
-            <ProductCardCategory
-              key={product.id}
-              product={product}
-              category={categoria}
-              isFavorited={isFavorited[product.id]}
-              onToggleFavorited={handleFavoriteToggle}
-            />
-          ))}
+        <ProductContainer>
+          <Title>{categoria}</Title>
+          {products
+            .filter(product => product.category_id === category_id.id)
+            .map(product => (
+              <ProductCardCategory
+                key={product.id}
+                product={product}
+                category={categoria}
+                isFavorited={isFavorited[product.id]}
+                onToggleFavorited={handleFavoriteToggle}
+              />
+            ))}
+        </ProductContainer>
         {role === 'admin' && (
           <AddProductSection onClick={() => navigate('/admin/produto')}>
             <p>Adicionar produto</p>

@@ -13,8 +13,13 @@ export const CategoryProductsContainer = styled.div`
 
 export const ContentContainer = styled.div`
   ${fullFlexColumn};
+  justify-content: space-between;
   background-color: ${colors.lightPrimaryColor};
   padding: 14px 10px 25px 10px;
+`;
+
+export const ProductContainer = styled.div`
+  ${fullFlexColumn}
   gap: 20px;
 `;
 

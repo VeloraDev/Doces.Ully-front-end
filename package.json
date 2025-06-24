@@ -1,7 +1,6 @@
 {
   "name": "doces_ully",
   "version": "0.1.0",
-  "proxy": "http://localhost:3030",
   "private": true,
   "dependencies": {
     "@fontsource/dongle": "^5.2.5",
