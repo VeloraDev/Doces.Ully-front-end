@@ -210,9 +210,9 @@ export const OptionsContainer = styled.div`
   overflow: hidden;
   position: absolute;
   width: 100%;
-  z-index: ${({ $onSelect }) => {
-    return $onSelect ? '1' : '0';
-  }};
+  max-height: ${({ $onSelect }) => ($onSelect ? '200px' : '0')};
+  transition: max-height 0.5s ease;
+  z-index: 1;
 `;
 
 export const OptionsSection = styled.div`

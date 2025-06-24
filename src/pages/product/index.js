@@ -59,15 +59,18 @@ function Product() {
     return true;
   }
 
-  function handleAddToCart() {
-    if (!checkIsLogged()) return;
+  function handleOrder() {
     if (quantity <= 0) {
       toast.info('Produto está esgotado!');
       return;
     }
+    navigate(`/pedido/${categoria}/${id}`);
+  }
 
-    if (fetchResponse.quantity === 0) {
-      toast.info('Produto está zerado no estoque!');
+  function handleAddToCart() {
+    if (!checkIsLogged()) return;
+    if (quantity <= 0) {
+      toast.info('Produto está esgotado!');
       return;
     }
 
@@ -83,7 +86,7 @@ function Product() {
   }
 
   const CrumbItems = [
-    { label: '...Produtos', to: '/produtos' },
+    { label: 'Produtos', to: '/produtos' },
     { label: `${categoria}`, to: `/produtos/${categoria}` },
     { label: `${fetchResponse.name}`, to: `/produto/${categoria}/${id}` },
   ];
@@ -126,7 +129,7 @@ function Product() {
         </DescriptionSection>
 
         <ActionSection>
-          <ActionButton onClick={() => navigate(`/pedido/${categoria}/${id}`)}>
+          <ActionButton onClick={handleOrder}>
             comprar
             <CartButtonIcon />
           </ActionButton>

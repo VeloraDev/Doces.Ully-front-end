@@ -38,7 +38,7 @@ function* logoutRequest(payload) {
     const errors = error.response?.data?.errors;
 
     if (Array.isArray(errors)) {
-      errors.forEach(erro => toast.error(erro));
+      errors.forEach(erro => toast.info(erro));
     } else if (typeof errors === 'string') {
       toast.error(errors);
     }

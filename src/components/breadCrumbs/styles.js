@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const CrumbContainer = styled.div`
   background-color: rgba(254, 233, 227, 0.3);
   position: relative;
-  margin-top: 20px;
+  margin-top: 30px;
 
   hr {
     position: absolute;
@@ -17,8 +17,9 @@ export const CrumbList = styled.div`
   padding: 15px 20px;
   display: flex;
   align-items: center;
-  justify-content: 'flex-start';
-  gap: ${({ $size }) => ($size === 'big' ? '20px' : '15px')};
+  justify-content: ${({ $size }) =>
+    $size === 'big' ? 'flex-start' : 'space-around'};
+  gap: ${({ $size }) => ($size === 'big' ? '20px' : '10px')};
 `;
 
 export const CrumbItem = styled.div`

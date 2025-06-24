@@ -112,15 +112,15 @@ function Products() {
             <Line />
           </SectionProducts>
         ))}
-        {role === 'admin' && (
-          <CardsContainer onClick={() => navigate('/admin/categoria')}>
-            <AddProductSection>
-              <p>criar nova categoria</p>
-              <AddIcon />
-            </AddProductSection>
-          </CardsContainer>
-        )}
       </SectionCategory>
+      {role === 'admin' && (
+        <CardsContainer onClick={() => navigate('/admin/categoria')}>
+          <AddProductSection>
+            <p>criar nova categoria</p>
+            <AddIcon />
+          </AddProductSection>
+        </CardsContainer>
+      )}
       <Footer />
     </ProductsContainer>
   );

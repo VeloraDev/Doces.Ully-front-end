@@ -9,7 +9,6 @@ export const CrudContainer = styled.div`
   padding: 30px;
   flex: 1;
   background-color: ${colors.lightPrimaryColor};
-  margin-top: 20px;
   text-align: center;
 `;
 
