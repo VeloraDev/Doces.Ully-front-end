@@ -32,7 +32,6 @@ function Slider() {
     getImages();
   }, [products]);
 
-  //SLIDER AINDA ESTÁ COM COMPORTAMENTO ESTRANHO, VERIFICAR DEPOIS
   useEffect(() => {
     if (images.length > 0) {
       startAutoSlide();
@@ -50,7 +49,6 @@ function Slider() {
     }, 3000);
   }
 
-  // Atualiza o slide com direção e sincroniza os dois estados
   function updateSlide(newIndex, dir) {
     if (isAnimating) return;
 
@@ -64,26 +62,24 @@ function Slider() {
     }, 1000);
   }
 
-  // Botão "anterior"
   function handlePrev() {
     clearInterval(intervalRef.current);
     const prevIndex =
       indexRef.current === 0 ? images.length - 1 : indexRef.current - 1;
     updateSlide(prevIndex, 'prev');
-    startAutoSlide(); // Reinicia o slider com base no novo index
+    startAutoSlide();
   }
 
-  // Botão "próximo"
   function handleNext() {
     clearInterval(intervalRef.current);
     const nextIndex = (indexRef.current + 1) % images.length;
     updateSlide(nextIndex, 'next');
-    startAutoSlide(); // Reinicia o slider com base no novo index
+    startAutoSlide();
   }
 
   useEffect(() => {
     startAutoSlide();
-    return () => clearInterval(intervalRef.current); // limpeza
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   return (

@@ -16,6 +16,7 @@ import {
   Option,
 } from '../../styles/ComponentsStyles';
 
+import BreadCrumbs from '../../components/breadCrumbs';
 import fetchHook from '../../hooks/fetchHook';
 import axios from '../../services/axios';
 import { ProductContext } from '../../hooks/contextprovider';
@@ -36,7 +37,6 @@ function ProductCategoryForm() {
     description: useRef(null),
     price: useRef(null),
     quantity: useRef(null),
-    category_id: useRef(null),
     img_url: useRef(null),
   };
 
@@ -134,7 +134,7 @@ function ProductCategoryForm() {
           addProduct(product);
         }
       }
-      toast.success(`${tipo} ${id ? 'atualizado' : 'criado'} com sucesso!`);
+      toast.success(`${tipo} ${id ? 'atualizado' : 'criado'}!`);
       navigate('/produtos');
     } catch (error) {
       handleApiErrors(error);
@@ -154,106 +154,120 @@ function ProductCategoryForm() {
     setImageURL(URL.createObjectURL(imageFile));
   }
 
+  const CrumbItems = [
+    { label: 'Página inicial', to: '/' },
+    { label: 'produtos', to: '/produtos' },
+    { label: 'crud' },
+  ];
+
   return (
-    <CrudContainer>
-      <Title>
-        {id ? 'Editar ' : 'cadastrar '}
-        {tipo}
-      </Title>
-      <CrudForm onSubmit={handleSubmit(onSubmit, onError)}>
-        {isProduct && (
-          <ImageContainer onClick={() => refs.img_url.current?.focus()}>
-            <label htmlFor="image">
-              {imageURL ? <img src={imageURL} /> : 'Selecione uma imagem'}
-            </label>
+    <>
+      <BreadCrumbs items={CrumbItems}></BreadCrumbs>
+      <CrudContainer>
+        <Title>
+          {id ? 'Editar ' : 'cadastrar '}
+          {tipo}
+        </Title>
+        <CrudForm onSubmit={handleSubmit(onSubmit, onError)}>
+          {isProduct && (
+            <ImageContainer onClick={() => refs.img_url.current?.focus()}>
+              <label htmlFor="image">
+                {imageURL ? <img src={imageURL} /> : 'Selecione uma imagem'}
+              </label>
+              <input
+                ref={refs.img_url}
+                id="image"
+                type="file"
+                {...register('image')}
+                onChange={handleFile}
+              />
+            </ImageContainer>
+          )}
+
+          <DivInput onClick={() => refs.name.current?.focus()}>
+            <label htmlFor="name">nome</label>
             <input
-              ref={refs.img_url}
-              id="image"
-              type="file"
-              {...register('image')}
-              onChange={handleFile}
+              ref={refs.name}
+              id="name"
+              type="text"
+              {...register('name')}
             />
-          </ImageContainer>
-        )}
+          </DivInput>
 
-        <DivInput onClick={() => refs.name.current?.focus()}>
-          <label htmlFor="name">nome</label>
-          <input ref={refs.name} id="name" type="text" {...register('name')} />
-        </DivInput>
-
-        {isProduct && (
-          <>
-            <DivInput
-              onClick={() => refs.description.current?.focus()}
-              $isDescription={true}>
-              <label htmlFor="descricao">descrição</label>
-              <textarea
-                ref={refs.description}
-                id="descricao"
-                rows="5"
-                cols="50"
-                {...register('description')}></textarea>
-            </DivInput>
-
-            <DivInput onClick={() => refs.price.current?.focus()}>
-              <label htmlFor="preco">preço</label>
-              <input
-                ref={refs.price}
-                id="preco"
-                type="text"
-                {...register('price')}
-              />
-            </DivInput>
-
-            <DivInput onClick={() => refs.quantity.current?.focus()}>
-              <label htmlFor="quantidade">quantidade</label>
-              <input
-                ref={refs.quantity}
-                id="quantidade"
-                type="text"
-                {...register('quantity')}
-              />
-            </DivInput>
-
-            <SelectContainer>
-              <DivInput onClick={() => refs.category_id.current?.focus()}>
-                <label htmlFor="categoria">categoria</label>
-                <Select
-                  ref={refs.category_id}
-                  onClick={() => setOnSelect(!onSelect)}
-                  id="categoria"
-                  type="text">
-                  <SelectTop>
-                    <p>{category.name !== '' ? category.name : 'selecione'}</p>
-                    <ArrowSelectIcon />
-                  </SelectTop>
-                </Select>
+          {isProduct && (
+            <>
+              <DivInput
+                onClick={() => refs.description.current?.focus()}
+                $isDescription={true}>
+                <label htmlFor="descricao">descrição</label>
+                <textarea
+                  ref={refs.description}
+                  id="descricao"
+                  rows="5"
+                  cols="50"
+                  {...register('description')}></textarea>
               </DivInput>
 
-              <OptionsContainer>
-                <OptionsSection $onSelect={onSelect}>
-                  {categories.map(category => (
-                    <Option
-                      key={category.id}
-                      onClick={() => {
-                        setCategory(category);
-                        setValue('category_id', category.id);
-                        setOnSelect(false);
-                      }}>
-                      {category.name}
-                    </Option>
-                  ))}
-                </OptionsSection>
-              </OptionsContainer>
-            </SelectContainer>
-          </>
-        )}
-        <input type="hidden" {...register('category_id')} />
-        <ActionButton type="submit">
-          <p>{id ? 'editar' : 'cadastrar'}</p>
-        </ActionButton>
-      </CrudForm>
-    </CrudContainer>
+              <DivInput onClick={() => refs.price.current?.focus()}>
+                <label htmlFor="preco">preço</label>
+                <input
+                  ref={refs.price}
+                  id="preco"
+                  type="text"
+                  {...register('price')}
+                />
+              </DivInput>
+
+              <DivInput onClick={() => refs.quantity.current?.focus()}>
+                <label htmlFor="quantidade">quantidade</label>
+                <input
+                  ref={refs.quantity}
+                  id="quantidade"
+                  type="text"
+                  {...register('quantity')}
+                />
+              </DivInput>
+
+              <SelectContainer>
+                <DivInput>
+                  <label htmlFor="categoria">categoria</label>
+                  <Select
+                    onClick={() => setOnSelect(prev => !prev)}
+                    id="categoria"
+                    type="text">
+                    <SelectTop>
+                      <p>
+                        {category.name !== '' ? category.name : 'selecione'}
+                      </p>
+                      <ArrowSelectIcon />
+                    </SelectTop>
+                  </Select>
+                </DivInput>
+
+                <OptionsContainer $onSelect={onSelect}>
+                  <OptionsSection $onSelect={onSelect}>
+                    {categories.map(category => (
+                      <Option
+                        key={category.id}
+                        onClick={() => {
+                          setOnSelect(false);
+                          setValue('category_id', category.id);
+                        }}>
+                        {category.name}
+                      </Option>
+                    ))}
+                  </OptionsSection>
+                </OptionsContainer>
+              </SelectContainer>
+            </>
+          )}
+          <input type="hidden" {...register('category_id')} />
+          <ActionButton type="submit">
+            <p>{id ? 'editar' : 'cadastrar'}</p>
+          </ActionButton>
+        </CrudForm>
+      </CrudContainer>
+    </>
   );
 }
 

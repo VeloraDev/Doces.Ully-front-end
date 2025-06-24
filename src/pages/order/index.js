@@ -76,7 +76,9 @@ function Order() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(addressSchema()) });
+  } = useForm({
+    resolver: yupResolver(addressSchema()),
+  });
 
   const price = id
     ? Number(fetchResponse.price).toFixed(2)
@@ -96,36 +98,39 @@ function Order() {
         payment_method: '',
         is_pickup: is_pickup,
       });
+      setValue('is_pickup', is_pickup);
     }
-  }, [addresses, reset, is_pickup]);
+  }, [addresses, reset, is_pickup, setValue]);
 
   const validateCart = () =>
     cartItems.every(item => products.some(p => p.id === item.id));
 
   function sendMessage(data) {
-    let message = `🛒 *Resumo do pedido:*\n`;
+    let message = `*Resumo do pedido:*\n`;
 
     message += `*${data.is_pickup ? 'Retirada' : 'Entrega'}*\n`;
-    message += `*Método de pagamento*: ${data.payment_method}\n\n`;
-    message += `*Endereço*:\n`;
-    message += `Bairro: ${data.neighborhood}\n`;
-    message += `Rua: ${data.street}\n`;
-    message += `Número: ${data.number}\n`;
-    message += `Complemento: ${data.landmark || ''}\n\n`;
+
+    if (!data.is_pickup) {
+      message += `*Método de pagamento*: ${data.payment_method}\n\n`;
+      message += `*Endereço*:\n`;
+      message += `Bairro: ${data.neighborhood}\n`;
+      message += `Rua: ${data.street}\n`;
+      message += `Número: ${data.number}\n`;
+      message += `Complemento: ${data.landmark || ''}\n\n`;
+    }
     message += `*Produtos*\n`;
 
     const iterator = id ? 1 : cartItems.length;
-    const products = id
+    const productsToSend = id
       ? [{ ...fetchResponse, quantity: 1, category: categoria }]
       : [...cartItems];
 
     for (let i = 0; i < iterator; i++) {
-      message += ` - Produto: ${products[i].name}\n`;
-      message += ` - Preço: R$${products[i].price.toFixed(2)}\n`;
-      message += ` - Quantidade: ${products[i].quantity}\n`;
-      message += ` - Categoria: ${products[i].category}\n\n`;
+      message += ` - Produto: ${productsToSend[i].name}\n`;
+      message += ` - Preço: R$${productsToSend[i].price.toFixed(2)}\n`;
+      message += ` - Quantidade: ${productsToSend[i].quantity}\n`;
+      message += ` - Categoria: ${productsToSend[i].category}\n\n`;
     }
-
     message += `Subtotal: ${price}`;
 
     const link = `https://wa.me/${process.env.REACT_APP_NUMBER_ADMIN}?text=${encodeURIComponent(message)}`;
@@ -134,15 +139,6 @@ function Order() {
 
   async function handleOrder(data) {
     try {
-      if ((!addresses || addresses.length === 0) && !data.is_pickup) {
-        await axios.post('/addresses', {
-          neighborhood: data.neighborhood,
-          street: data.street,
-          number: data.number,
-          landmark: data.landmark,
-        });
-      }
-
       if (!validateCart()) {
         toast.error('Algum produto não existe mais na base de dados ');
         return;
@@ -165,13 +161,24 @@ function Order() {
       });
       toast.success('Pedido realizado');
       clearCart();
-      setTimeout(() => {
-        sendMessage(data);
-      }, 1000);
+      sendMessage(data);
+
+      if ((!addresses || addresses.length === 0) && !data.is_pickup) {
+        await axios.post('/addresses', {
+          neighborhood: data.neighborhood,
+          street: data.street,
+          number: data.number,
+          landmark: data.landmark,
+        });
+      }
     } catch (error) {
-      console.log(error);
       const errors = error.response?.data?.errors || 'Ocorreu um erro';
-      errors.forEach(erro => console.log(erro));
+
+      if (Array.isArray(errors)) {
+        errors.forEach(erro => toast.error(erro));
+      } else if (typeof errors === 'string') {
+        toast.error(errors);
+      }
     }
   }
 
@@ -195,18 +202,14 @@ function Order() {
   }
 
   const refs = {
-    nome: useRef(null),
-    whats: useRef(null),
-    bairro: useRef(null),
-    rua: useRef(null),
-    numero: useRef(null),
-    complemento: useRef(null),
-    pagamento: useRef(null),
+    street: useRef(null),
+    number: useRef(null),
+    landmark: useRef(null),
   };
 
   const CrumbItems = [
     {
-      label: id ? `...${categoria}` : 'Página incial',
+      label: id ? `${categoria}` : 'Página incial',
       to: id ? `/produtos/${categoria}` : '/',
     },
     {
@@ -222,7 +225,7 @@ function Order() {
         visible={isVisible}
         onCancel={() => setIsVisible(false)}
         onConfirm={handleConfirm}
-        message="Confirmar pedido e enviar a mensagem para o Whatsapp?"
+        message="Confirmar pedido e enviar a mensagem?"
         keyId="1"
       />
       <BreadCrumbs items={CrumbItems}></BreadCrumbs>
@@ -238,7 +241,10 @@ function Order() {
                 setValue('is_pickup', !is_pickup);
               }}>
               <Icon />
-              <ParagraphButton $select={key}>{label}</ParagraphButton>
+              <ParagraphButton
+                $select={is_pickup ? key === 'entrega' : key === 'retirada'}>
+                {label}
+              </ParagraphButton>
             </ActionPaymentButton>
           ))}
         </OptionPaymentSection>
@@ -247,10 +253,9 @@ function Order() {
           {!is_pickup && (
             <>
               <SelectContainer>
-                <DivInput onClick={() => refs.bairro.current?.focus()}>
+                <DivInput>
                   <label htmlFor="bairro">bairro</label>
                   <Select
-                    ref={refs.bairro}
                     id="bairro"
                     type="text"
                     onClick={() => setSelectingNeighborhood(prev => !prev)}>
@@ -278,32 +283,32 @@ function Order() {
               </SelectContainer>
 
               <InputSection>
-                <DivInput onClick={() => refs.rua.current?.focus()}>
-                  <label htmlFor="rua">rua</label>
+                <DivInput onClick={() => refs.street.current?.focus()}>
+                  <label htmlFor="street">rua</label>
                   <input
-                    ref={refs.rua}
-                    id="rua"
+                    ref={refs.street}
+                    id="street"
                     type="text"
                     {...register('street')}
                   />
                 </DivInput>
 
-                <DivInput onClick={() => refs.numero.current?.focus()}>
-                  <label htmlFor="numero">N°</label>
+                <DivInput onClick={() => refs.number.current?.focus()}>
+                  <label htmlFor="number">N°</label>
                   <input
-                    ref={refs.numero}
-                    id="numero"
+                    ref={refs.number}
+                    id="number"
                     type="text"
                     {...register('number')}
                   />
                 </DivInput>
               </InputSection>
 
-              <DivInput onClick={() => refs.complemento.current?.focus()}>
-                <label htmlFor="complemento">complemento</label>
+              <DivInput onClick={() => refs.landmark.current?.focus()}>
+                <label htmlFor="landmark">complemento</label>
                 <input
-                  ref={refs.complemento}
-                  id="complemento"
+                  ref={refs.landmark}
+                  id="landmark"
                   type="text"
                   {...register('landmark')}
                 />
@@ -311,10 +316,9 @@ function Order() {
             </>
           )}
           <SelectContainer>
-            <DivInput onClick={() => refs.pagamento.current?.focus()}>
+            <DivInput>
               <label htmlFor="pagamento">forma de pagamento</label>
               <Select
-                ref={refs.pagamento}
                 id="pagamento"
                 type="text"
                 onClick={() => setSelectingPayment(prev => !prev)}>
@@ -325,7 +329,7 @@ function Order() {
               </Select>
             </DivInput>
 
-            <OptionsContainer>
+            <OptionsContainer $onSelect={selectingPayment}>
               <OptionsSection $onSelect={selectingPayment}>
                 {payment_methods.map(method => (
                   <Option
@@ -340,6 +344,9 @@ function Order() {
               </OptionsSection>
             </OptionsContainer>
           </SelectContainer>
+          <input type="hidden" {...register('neighborhood')} />
+          <input type="hidden" {...register('payment_method')} />
+          <input type="hidden" {...register('is_pickup')} />
         </Form>
 
         <CheckoutSection>

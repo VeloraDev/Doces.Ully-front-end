@@ -37,7 +37,8 @@ export const SectionIcons = styled.div`
 
 export const SectionCategory = styled.div`
   ${flexColumn};
-  gap: 28px;
+  gap: 25px;
+  margin-bottom: 25px;
   flex: 1;
 `;
 

@@ -122,7 +122,7 @@ export const ActionButton = styled.button`
   &:nth-of-type(1) {
     border: 4px solid ${colors.primaryColor};
     border-radius: 50px;
-    padding: 4px 0;
+    padding: 2px 10px;
     width: 100%;
     max-width: 300px;
     ${flexCenter}
