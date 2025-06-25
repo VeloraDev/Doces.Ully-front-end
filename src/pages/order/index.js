@@ -75,6 +75,9 @@ function Order() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(addressSchema()),
+    defaultValues: {
+      is_pickup: false,
+    },
   });
 
   const price = id
