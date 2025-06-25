@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
@@ -29,13 +29,14 @@ import {
   OptionsContainer,
   OptionsSection,
   Option,
-  Line,
 } from '../../styles/ComponentsStyles';
 
 import {
   WhatsIcon,
   DeliveryIcon,
+  DeliveryDarkIcon,
   PeopleIcon,
+  PeopleLightIcon,
   ArrowSelectIcon,
 } from '../../assets';
 
@@ -48,11 +49,6 @@ import fetchHook from '../../hooks/fetchHook';
 import addressSchema from '../../validations/address';
 import { ProductContext } from '../../hooks/contextprovider';
 
-const selectModes = [
-  { key: 'entrega', icon: DeliveryIcon, label: 'Entrega' },
-  { key: 'retirada', icon: PeopleIcon, label: 'Retirada' },
-];
-
 const neighborhoods = ['centro', 'casinhas', 'croatá', 'vila esperança'];
 const payment_methods = ['pix', 'dinheiro'];
 
@@ -63,6 +59,7 @@ function Order() {
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState([]);
 
+  const navigate = useNavigate();
   const { id, categoria } = useParams();
   const { fetchResponse } = fetchHook(id, 'products', Boolean(id));
   const { products: cartItems, totalPriceFormatted, clearCart } = fetchCart();
@@ -160,6 +157,7 @@ function Order() {
         products: productsToOrder,
       });
       toast.success('Pedido realizado');
+      navigate('/');
       clearCart();
       sendMessage(data);
 
@@ -207,6 +205,19 @@ function Order() {
     landmark: useRef(null),
   };
 
+  const selectModes = [
+    {
+      key: 'entrega',
+      icon: is_pickup ? DeliveryDarkIcon : DeliveryIcon,
+      label: 'Entrega',
+    },
+    {
+      key: 'retirada',
+      icon: is_pickup ? PeopleLightIcon : PeopleIcon,
+      label: 'Retirada',
+    },
+  ];
+
   const CrumbItems = [
     {
       label: id ? `${categoria}` : 'Página incial',
@@ -233,20 +244,22 @@ function Order() {
         <Title>Endereço</Title>
         <OptionPaymentSection>
           <Background $select={is_pickup}></Background>
-          {selectModes.map(({ key, icon: Icon, label }) => (
-            <ActionPaymentButton
-              key={key}
-              onClick={() => {
-                setIs_pickup(prev => !prev);
-                setValue('is_pickup', !is_pickup);
-              }}>
-              <Icon />
-              <ParagraphButton
-                $select={is_pickup ? key === 'entrega' : key === 'retirada'}>
-                {label}
-              </ParagraphButton>
-            </ActionPaymentButton>
-          ))}
+          {selectModes.map(({ key, icon: Icon, label }) => {
+            const isSelected = key === 'retirada' ? is_pickup : !is_pickup;
+
+            return (
+              <ActionPaymentButton
+                key={key}
+                onClick={() => {
+                  const pickup = key === 'retirada';
+                  setIs_pickup(pickup);
+                  setValue('is_pickup', pickup);
+                }}>
+                <Icon />
+                <ParagraphButton $select={isSelected}>{label}</ParagraphButton>
+              </ActionPaymentButton>
+            );
+          })}
         </OptionPaymentSection>
 
         <Form id="orderForm" onSubmit={handleSubmit(onSubmit, onError)}>

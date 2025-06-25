@@ -55,6 +55,7 @@ export const ImageSlider = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   opacity: ${props => (props.$active ? 1 : 0)};
   animation: ${props => {
     if (props.$direction === 'next') {

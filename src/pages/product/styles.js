@@ -24,7 +24,7 @@ export const SectionTopContent = styled.div`
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  max-width: 576px;
+  max-width: 500px;
 `;
 
 export const TitleSection = styled.div`
@@ -50,12 +50,19 @@ export const IconsSection = styled.h1`
   gap: 12px;
 `;
 
-export const ProductFigure = styled.img`
-  height: 215px;
-  background-color: #bebebe;
+export const ImageContainer = styled.div`
+  width: 100%;
+  height: 225px;
   border-radius: 15px;
   overflow: hidden;
   position: relative;
+  background-color: #bebebe;
+`;
+
+export const ProductFigure = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const Details = styled.div`
@@ -122,10 +129,12 @@ export const ActionButton = styled.button`
   &:nth-of-type(1) {
     border: 4px solid ${colors.primaryColor};
     border-radius: 50px;
-    padding: 2px 10px;
+    padding: 4px 15px;
     width: 100%;
     max-width: 300px;
-    ${flexCenter}
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     gap: 10px;
 
     color: ${colors.primaryColor};

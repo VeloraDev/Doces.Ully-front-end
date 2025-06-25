@@ -7,6 +7,7 @@ import {
   Title,
   IconsSection,
   ButtonIcon,
+  ImageContainer,
   ProductFigure,
   Details,
   Price,
@@ -114,7 +115,9 @@ function Product() {
           <StockBadge $InStock={quantity > 0}>
             {quantity > 0 ? 'EM ESTOQUE' : 'ESGOTADO'}
           </StockBadge>
-          <ProductFigure src={img_url} />
+          <ImageContainer>
+            <ProductFigure src={img_url} />
+          </ImageContainer>
         </SectionTopContent>
       </SectionTop>
 

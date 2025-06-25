@@ -55,9 +55,7 @@ export const ActionPaymentButton = styled.button`
 
 export const ParagraphButton = styled.p`
   color: ${({ $select }) =>
-    $select === 'entrega'
-      ? `${colors.lightPrimaryColor}`
-      : `${colors.lightSecondaryColor2}`};
+    $select ? `${colors.lightPrimaryColor}` : `${colors.lightSecondaryColor2}`};
   font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;
