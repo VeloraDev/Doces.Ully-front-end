@@ -1,4 +1,3 @@
-import React from 'react';
 import { CrumbContainer, CrumbList, CrumbItem, CrumbLink } from './styles';
 import { Line } from '../../styles/ComponentsStyles';
 

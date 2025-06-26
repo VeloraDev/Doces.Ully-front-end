@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from '../services/axios';
 import { toast } from 'react-toastify';
 
-function fetchHook(id, type, enable = true) {
+function fetchData(id, type, enable = true) {
   const [fetchResponse, setFetchResponse] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!id || !enable) {
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
@@ -20,13 +20,13 @@ function fetchHook(id, type, enable = true) {
         const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
         errors.forEach(erro => toast.error(erro));
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
     fetchRequest();
   }, [id, type, enable]);
 
-  return { fetchResponse, loading };
+  return { fetchResponse, isLoading };
 }
 
-export default fetchHook;
+export default fetchData;

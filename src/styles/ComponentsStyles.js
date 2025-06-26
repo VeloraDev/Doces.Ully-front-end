@@ -49,6 +49,8 @@ export const ProductImage = styled.img`
   flex-shrink: 0;
   position: relative;
   top: -8px;
+  object-fit: cover;
+  filter: ${({ $gray }) => ($gray ? 'grayscale(100%)' : 'grayscale(0%)')};
 `;
 
 export const ProductContent = styled.div`
@@ -263,7 +265,8 @@ export const StockBadge = styled.div`
   width: max-content;
   padding: 8px 12px;
   border-radius: 20px;
-  background-color: ${({ $InStock }) =>
-    $InStock ? colors.primaryColor : colors.secondaryColor};
+  background-color: ${({ $inStock }) => {
+    return $inStock ? colors.primaryColor : colors.secondaryColor;
+  }};
 `;
 //------------------------------------------------------

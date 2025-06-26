@@ -4,10 +4,9 @@ import { toast } from 'react-toastify';
 
 export default function fetchAdrresses() {
   const [addresses, setAddresses] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     async function getAddresses() {
       try {
         const { data } = await axios.get('/addresses');

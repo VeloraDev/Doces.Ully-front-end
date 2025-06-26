@@ -24,6 +24,7 @@ export const ProductImage = styled.img`
   object-fit: cover;
   border-radius: 15px;
   background-color: #e0e0e0;
+  filter: ${({ $gray }) => ($gray ? 'grayscale(100%)' : 'grayscale(0%)')};
 `;
 
 export const ProductContent = styled.div`

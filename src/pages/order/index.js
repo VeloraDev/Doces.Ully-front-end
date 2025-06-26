@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -45,9 +45,10 @@ import BreadCrumbs from '../../components/breadCrumbs';
 import Footer from '../../components/footer';
 import fetchAddresses from '../../hooks/fetchAddresses';
 import fetchCart from '../../hooks/fetchCart';
-import fetchHook from '../../hooks/fetchHook';
+import fetchData from '../../hooks/fetchData';
 import addressSchema from '../../validations/address';
 import { ProductContext } from '../../hooks/contextprovider';
+import Loadingpage from '../../components/loadingPage';
 
 const neighborhoods = ['centro', 'casinhas', 'croatá', 'vila esperança'];
 const payment_methods = ['pix', 'dinheiro'];
@@ -58,10 +59,11 @@ function Order() {
   const [selectingNeighborhood, setSelectingNeighborhood] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const { id, categoria } = useParams();
-  const { fetchResponse } = fetchHook(id, 'products', Boolean(id));
+  const { fetchResponse } = fetchData(id, 'products', Boolean(id));
   const { products: cartItems, totalPriceFormatted, clearCart } = fetchCart();
   const { addresses } = fetchAddresses();
   const { products } = useContext(ProductContext);
@@ -139,6 +141,7 @@ function Order() {
 
   async function handleOrder(data) {
     try {
+      setIsLoading(true);
       if (!validateCart()) {
         toast.error('Algum produto não existe mais na base de dados ');
         return;
@@ -151,12 +154,16 @@ function Order() {
             quantity,
           }));
 
+      console.log(productsToOrder);
+
       await axios.post('/orders', {
         is_pickup: data.is_pickup,
         payment_method: data.payment_method,
-        address_neighborhood: data.neighborhood,
-        address_street: data.street,
-        address_number: data.number,
+        address: {
+          neighborhood: data.neighborhood,
+          street: data.street,
+          number: data.number,
+        },
         products: productsToOrder,
       });
       toast.success('Pedido realizado');
@@ -173,13 +180,15 @@ function Order() {
         });
       }
     } catch (error) {
+      const status = error.response?.status || 0;
       const errors = error.response?.data?.errors || 'Ocorreu um erro';
 
-      if (Array.isArray(errors)) {
-        errors.forEach(erro => toast.error(erro));
-      } else if (typeof errors === 'string') {
-        toast.error(errors);
+      if (status === 400) {
+        toast.error('Adicione pelo menos 1 produto no carrinho');
       }
+      errors.forEach(erro => console.log(erro));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -235,6 +244,7 @@ function Order() {
 
   return (
     <OrderContainer>
+      {isLoading && <Loadingpage />}
       <ConfirmModal
         visible={isVisible}
         onCancel={() => setIsVisible(false)}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function fetchCart() {
   const [products, setProducts] = useState([]);
@@ -24,6 +24,10 @@ function fetchCart() {
   }, 0);
 
   function addProduct(product) {
+    if (products.find(p => p.id === product.id)) {
+      updateQuantity(product.id, 'plus');
+      return;
+    }
     const updatedCart = [...products, product];
     saveToStorage(updatedCart);
   }

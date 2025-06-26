@@ -1,7 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   ProductContainer,
   ProductImage,
+  Background,
+  Image,
   ProductContent,
   TitleCategory,
   TitleFlavor,
@@ -19,7 +21,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 function ProductCard({ product, isHome }) {
-  const { id, name, img_url, category_name, priceFormatted } = product;
+  const { id, name, quantity, img_url, category_name, priceFormatted } =
+    product;
   const role = useSelector(state => state.auth.user.type);
   const navigate = useNavigate();
 
@@ -52,7 +55,7 @@ function ProductCard({ product, isHome }) {
           )}
         </FavButton>
       )}
-      <ProductImage src={img_url} />
+      <ProductImage src={img_url} $gray={quantity <= 0} />
       <ProductContent>
         {isHome && <TitleCategory>{category_name}</TitleCategory>}
         <TitleFlavor>{name}</TitleFlavor>

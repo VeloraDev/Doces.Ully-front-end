@@ -14,15 +14,17 @@ export function loginSuccess(payload) {
   };
 }
 
-export function loginFailure() {
+export function loginFailure(payload) {
   return {
     type: types.LOGIN_FAILURE,
+    payload,
   };
 }
 
-export function logoutRequest() {
+export function logoutRequest(payload) {
   return {
     type: types.LOGOUT_REQUEST,
+    payload,
   };
 }
 

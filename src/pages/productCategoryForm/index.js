@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,8 +16,9 @@ import {
   Option,
 } from '../../styles/ComponentsStyles';
 
+import LoadingPage from '../../components/loadingPage';
 import BreadCrumbs from '../../components/breadCrumbs';
-import fetchHook from '../../hooks/fetchHook';
+import fetchData from '../../hooks/fetchData';
 import axios from '../../services/axios';
 import { ProductContext } from '../../hooks/contextprovider';
 import { crudSchema } from '../../validations/crud/crudSchema';
@@ -27,6 +28,7 @@ function ProductCategoryForm() {
   const [imageURL, setImageURL] = useState('');
   const [category, setCategory] = useState({ id: '', name: '' });
   const [onSelect, setOnSelect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const { tipo, id } = useParams();
@@ -53,12 +55,12 @@ function ProductCategoryForm() {
   const { categories, addProduct, updateProduct, updateCategory, addCategory } =
     useContext(ProductContext);
 
-  const { fetchResponse: productFetch, loading: loadingProd } = fetchHook(
+  const { fetchResponse: productFetch, isLoading: loadingProd } = fetchData(
     id,
     'products',
     isProduct
   );
-  const { fetchResponse: categoryFetch, loading: loadingCat } = fetchHook(
+  const { fetchResponse: categoryFetch, isLoading: loadingCat } = fetchData(
     id,
     'categories',
     !isProduct
@@ -67,7 +69,8 @@ function ProductCategoryForm() {
   const shouldFetchCategoryName = Boolean(
     productFetch?.category_id && isProduct
   );
-  const { fetchResponse: categoryName, loading: loadingCatName } = fetchHook(
+
+  const { fetchResponse: categoryName, isLoading: loadingCatName } = fetchData(
     productFetch?.category_id,
     'categories',
     shouldFetchCategoryName
@@ -96,13 +99,12 @@ function ProductCategoryForm() {
 
   function handleApiErrors(error) {
     const errors = error.response?.data?.errors ?? [];
-    (Array.isArray(errors) ? errors : [errors]).forEach(erro =>
-      toast.error(erro)
-    );
+    errors.forEach(erro => toast.error(erro));
   }
 
   async function onSubmit(data) {
     const { name, image } = data;
+    setIsLoading(true);
     try {
       if (!isProduct) {
         if (id) {
@@ -138,6 +140,8 @@ function ProductCategoryForm() {
       navigate('/produtos');
     } catch (error) {
       handleApiErrors(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -162,6 +166,9 @@ function ProductCategoryForm() {
 
   return (
     <>
+      {(loadingProd || loadingCat || loadingCatName || isLoading) && (
+        <LoadingPage />
+      )}
       <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <CrudContainer>
         <Title>
@@ -251,6 +258,7 @@ function ProductCategoryForm() {
                         key={category.id}
                         onClick={() => {
                           setOnSelect(false);
+                          setCategory({ name: category.name });
                           setValue('category_id', category.id);
                         }}>
                         {category.name}

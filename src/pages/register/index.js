@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { RegisterContainer, Form, InputContainer } from './styles';
 import {
   UserIcon,
@@ -50,10 +50,7 @@ function Register() {
       navigate('/login');
     } catch (error) {
       const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
-
-      if (errors.length > 0) {
-        errors.map(erro => toast.error(erro));
-      }
+      errors.forEach(erro => toast.error(erro));
     }
   }
 

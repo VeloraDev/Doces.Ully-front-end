@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ProductCardCart from './productCardCart';
 
 import {
@@ -28,7 +28,6 @@ function Cart() {
     totalQuantity,
     removeProduct,
     updateQuantity,
-    setCart,
   } = fetchCart();
 
   function handleAction(id, option) {

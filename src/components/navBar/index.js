@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/modules/auth/actions';
 
 import {
@@ -28,12 +28,15 @@ import {
 } from '../../assets/index';
 
 import fetchCart from '../../hooks/fetchCart';
+import Loadingpage from '../loadingPage';
 
 function Navbar() {
   const [active, setActive] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.auth.isLoading);
+
   const { totalQuantity } = fetchCart();
 
   function handleCloseMenu() {
@@ -55,6 +58,7 @@ function Navbar() {
 
   return (
     <ContainerNavBar>
+      {isLoading && <Loadingpage />}
       <Overlay $isVisible={isVisible} onClick={handleCloseMenu}>
         <Sidebar
           onClick={e => e.stopPropagation()}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ProductContainer,
   SectionTop,
@@ -31,26 +31,25 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import fetchHook from '../../hooks/fetchHook';
+import fetchData from '../../hooks/fetchData';
 import BreadCrumbs from '../../components/breadCrumbs';
 import Footer from '../../components/footer';
+import Loadingpage from '../../components/loadingPage';
+import fetchCart from '../../hooks/fetchCart';
 
 function Product() {
   const { id, categoria } = useParams();
-  const { fetchResponse, loading } = fetchHook(id, 'products');
+  const { fetchResponse, isLoading } = fetchData(id, 'products');
+  const { addProduct } = fetchCart();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-
   const [favorited, setFavorited] = useState(false);
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const { name, price, quantity, description, img_url } = fetchResponse;
 
   function formatPrice(price) {
-    return price.toFixed(2).replace('.', ',');
+    const priceNumber = Number(price);
+    return priceNumber.toFixed(2).replace('.', ',');
   }
-
-  if (loading) return <></>;
-
-  const { name, price, quantity, description, img_url } = fetchResponse;
 
   function checkIsLogged() {
     if (!isLoggedIn) {
@@ -74,15 +73,7 @@ function Product() {
       toast.info('Produto está esgotado!');
       return;
     }
-
-    const productIndex = cart.findIndex(item => item.id === fetchResponse.id);
-
-    if (productIndex !== -1) {
-      cart[productIndex].quantity += 1;
-    } else {
-      cart.push({ ...fetchResponse, quantity: 1, category: categoria });
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
+    addProduct({ ...fetchResponse, quantity: 1, category: categoria });
     toast.success('Produto adicionado ao carrinho');
   }
 
@@ -94,6 +85,7 @@ function Product() {
 
   return (
     <ProductContainer>
+      {isLoading && <Loadingpage />}
       <BreadCrumbs items={CrumbItems}></BreadCrumbs>
       <SectionTop>
         <SectionTopContent>
@@ -112,7 +104,7 @@ function Product() {
               </ButtonIcon>
             </IconsSection>
           </TitleSection>
-          <StockBadge $InStock={quantity > 0}>
+          <StockBadge $inStock={quantity > 0}>
             {quantity > 0 ? 'EM ESTOQUE' : 'ESGOTADO'}
           </StockBadge>
           <ImageContainer>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { LoginContainer, Form, InputContainer, TextContainer } from './styles';
 import {
   CellIcon,
@@ -10,7 +10,7 @@ import {
 import { Input, ActionButton } from '../../styles/ComponentsStyles';
 
 import * as actions from '../../store/modules/auth/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -18,11 +18,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from '../../validations/user-admin/userSchema';
 import BreadCrumbs from '../../components/breadCrumbs';
+import Loadingpage from '../../components/loadingPage';
 
 function Login({ role }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const isLoading = useSelector(state => state.auth.isLoading);
 
   const refs = {
     indentifier: useRef(null),
@@ -58,6 +60,7 @@ function Login({ role }) {
 
   return (
     <>
+      {isLoading && <Loadingpage />}
       <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
       <LoginContainer>
         <Form onSubmit={handleSubmit(onSubmit, onError)}>
