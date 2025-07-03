@@ -21,6 +21,7 @@ export const ContentContainer = styled.div`
 export const ProductContainer = styled.div`
   ${fullFlexColumn}
   gap: 20px;
+  margin-bottom: 20px;
 `;
 
 export const Title = styled.h1`

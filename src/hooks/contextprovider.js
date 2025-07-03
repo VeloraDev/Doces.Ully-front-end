@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import axios from '../services/axios';
 import { toast } from 'react-toastify';
 
@@ -7,7 +7,7 @@ export const ProductContext = createContext();
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [categoriesMap, setCategoriesMap] = useState([]);
 
   function formatPrice(price) {
@@ -41,7 +41,7 @@ export function ProductProvider({ children }) {
         const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
         errors.forEach(erro => toast.error(erro));
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
     getData();
@@ -114,7 +114,7 @@ export function ProductProvider({ children }) {
       value={{
         products,
         categories,
-        loading,
+        isLoading,
         addProduct,
         updateProduct,
         removeProduct,

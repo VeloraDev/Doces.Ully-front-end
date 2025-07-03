@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   ProductCard,
   ProductImage,
@@ -24,7 +24,6 @@ import { PlusIcon, MinusIcon } from '../../../assets/index';
 
 function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
   const { id, name, price, quantity, img_url, category } = product || {};
-
   const [isFavorited, setIsFavorited] = useState(false);
 
   const toggleFavorite = useCallback(() => {
@@ -48,7 +47,7 @@ function ProductCardCart({ product, handleQuantity, handleAction, confirmId }) {
         onCancel={onCancel}
         onConfirm={onConfirm}
         message="Excluir item do carrinho?"
-        keyId={category.id}
+        keyId={id}
       />
       <ProductImage src={img_url} />
       <ProductContent>

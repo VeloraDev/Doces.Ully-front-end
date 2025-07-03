@@ -24,7 +24,8 @@ function* loginRequest({ payload }) {
   } catch (error) {
     const errors = error.response?.data?.errors;
     errors.forEach(erro => toast.error(erro));
-    yield put(actions.loginFailure());
+
+    yield put(actions.loginFailure({ errors }));
   }
 }
 
@@ -39,10 +40,9 @@ function* logoutRequest(payload) {
 
     if (Array.isArray(errors)) {
       errors.forEach(erro => toast.info(erro));
-    } else if (typeof errors === 'string') {
-      toast.error(errors);
     }
-    yield put(actions.logoutFailure(error));
+
+    yield put(actions.logoutFailure({ errors }));
   }
 }
 

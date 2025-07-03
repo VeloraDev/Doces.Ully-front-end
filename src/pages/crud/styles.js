@@ -5,7 +5,7 @@ export const CrudContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: 30px;
+  gap: 20px;
   padding: 30px;
   flex: 1;
   background-color: ${colors.lightPrimaryColor};
@@ -18,7 +18,7 @@ export const Title = styled.h1`
   text-transform: uppercase;
 `;
 
-export const CrudForm = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -37,7 +37,7 @@ export const CrudForm = styled.form`
 export const ImageContainer = styled.div`
   label {
     width: 250px;
-    height: 150px;
+    height: 160px;
     border-radius: 20px;
     border: 2px solid ${colors.lightSecondaryColor2};
     background-color: transparent;
@@ -53,6 +53,7 @@ export const ImageContainer = styled.div`
       position: absolute;
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
   }
 

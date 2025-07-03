@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import {
   Container,
   TitleSection,
@@ -12,9 +12,10 @@ import {
 import { ProductContext } from '../../hooks/contextprovider';
 import { Line } from '../../styles/ComponentsStyles';
 import { ArrowBack, ArrowFront } from '../../assets/index';
+import Loadingpage from '../loadingPage';
 
 function Slider() {
-  const { products } = useContext(ProductContext);
+  const { products, isLoading } = useContext(ProductContext);
   const images = products.map(p => p.img_url);
   const len = images.length;
 
@@ -46,7 +47,7 @@ function Slider() {
   useEffect(() => {
     startAutoSlide();
     return () => clearInterval(intervalRef.current);
-  }, [len]);
+  }, []);
 
   const handlePrev = () => {
     if (len <= 1 || isAnimating) return;
@@ -66,6 +67,7 @@ function Slider() {
 
   return (
     <Container>
+      {isLoading && <Loadingpage />}
       <TitleSection>
         <Title>Para você</Title>
       </TitleSection>

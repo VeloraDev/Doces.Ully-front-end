@@ -11,7 +11,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case types.LOGIN_REQUEST: {
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, error: null };
     }
 
     case types.LOGIN_SUCCESS: {
@@ -26,7 +26,7 @@ export default function reducer(state = initialState, action) {
     }
 
     case types.LOGIN_FAILURE: {
-      return initialState;
+      return { ...state, isLoading: false, error: action.payload.errors };
     }
 
     case types.LOGOUT_REQUEST: {
@@ -41,7 +41,7 @@ export default function reducer(state = initialState, action) {
     }
 
     case types.LOGOUT_FAILURE: {
-      return { ...state, isLoading: false, error: action.payload?.error };
+      return { ...state, isLoading: false, error: action.payload?.errors };
     }
 
     default:

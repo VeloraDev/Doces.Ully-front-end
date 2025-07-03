@@ -1,4 +1,11 @@
-import React, { useCallback, useState, useContext } from 'react';
+import { useCallback, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import axios from '../../../services/axios';
+import ConfirmModal from '../../../components/confirmModal';
+
 import {
   ProductCard,
   ProductImage,
@@ -9,7 +16,6 @@ import {
   ContentDown,
   StockBadge,
 } from '../../../styles/ComponentsStyles';
-import { ProductFlavor, Price, SeeMore } from './styles';
 import {
   FavOnIcon,
   FavOffIcon,
@@ -17,13 +23,9 @@ import {
   DeleteLightIcon,
 } from '../../../assets/index';
 
-import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import axios from '../../../services/axios';
-import { toast } from 'react-toastify';
 import { ProductContext } from '../../../hooks/contextprovider';
-import ConfirmModal from '../../../components/confirmModal';
+import { ProductFlavor, Price, SeeMore } from './styles';
+import LoadingPage from '../../../components/loadingPage';
 
 function ProductCardCategory({
   product,
@@ -31,12 +33,13 @@ function ProductCardCategory({
   isFavorited,
   onToggleFavorited,
 }) {
-  const { id, name, quantity, img_url, priceFormatted } = product || {};
   const navigate = useNavigate();
   const role = useSelector(state => state.auth.user.type);
   const { removeProduct } = useContext(ProductContext);
+  const { id, name, quantity, img_url, priceFormatted } = product || {};
 
   const [selectedConfirm, setSelectedConfirm] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFavorite = useCallback(() => {
     onToggleFavorited(id);
@@ -48,23 +51,22 @@ function ProductCardCategory({
 
   async function handleDelete() {
     try {
+      setIsLoading(true);
       await axios.delete(`/products/${id}`);
       toast.success('produto deletado!');
       setSelectedConfirm(false);
       removeProduct(id);
     } catch (error) {
       const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
-
-      if (Array.isArray(errors)) {
-        errors.forEach(erro => toast.error(erro));
-      } else if (typeof errors === 'string') {
-        toast.error(errors);
-      }
+      errors.forEach(erro => toast.error(erro));
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <ProductCard>
+      {isLoading && <LoadingPage />}
       <ConfirmModal
         visible={selectedConfirm}
         onCancel={() => setSelectedConfirm(false)}
@@ -72,7 +74,7 @@ function ProductCardCategory({
         message={`Excluir ${name}?`}
         keyId={id}
       />
-      <ProductImage src={img_url} />
+      <ProductImage src={img_url} $gray={quantity <= 0} />
       <ProductContent>
         <ContentTop>
           <InfoSection>

@@ -10,7 +10,7 @@ export const priceField = Yup.number()
 export const quantityField = Yup.number()
   .typeError('A quantidade deve ser um número válido.')
   .integer('A quantidade deve ser um número inteiro.')
-  .positive('A quantidade deve ser maior que zero.')
+  .min(0, 'A quantidade não pode ser negativa.')
   .required('A quantidade é obrigatória.');
 
 export const descriptionField = Yup.string()
