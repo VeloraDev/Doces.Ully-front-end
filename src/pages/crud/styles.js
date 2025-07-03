@@ -18,7 +18,7 @@ export const Title = styled.h1`
   text-transform: uppercase;
 `;
 
-export const CrudForm = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;

@@ -1,13 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import { LoginContainer, Form, InputContainer, TextContainer } from './styles';
-import {
-  CellIcon,
-  LoginTextIcon,
-  CadIcon,
-  EyeCloseIcon,
-  EmailIcon,
-} from '../../assets/index';
-import { Input, ActionButton } from '../../styles/ComponentsStyles';
+import { LoginTextIcon } from '../../assets/index';
+import Input from '../../components/form/input';
+import { ActionButton } from '../../styles/ComponentsStyles';
 
 import * as actions from '../../store/modules/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,18 +18,7 @@ import Loadingpage from '../../components/loadingPage';
 function Login({ role }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
   const isLoading = useSelector(state => state.auth.isLoading);
-
-  const refs = {
-    indentifier: useRef(null),
-    password: useRef(null),
-  };
-
-  const condition = {
-    icon: role === 'client' ? <CellIcon /> : <EmailIcon />,
-    placeholder: role === 'client' ? 'Telefone' : 'Email',
-  };
 
   const {
     register,
@@ -67,26 +51,19 @@ function Login({ role }) {
           <LoginTextIcon />
 
           <InputContainer>
-            <Input onClick={() => refs.indentifier.current?.focus()}>
-              {condition.icon}
-              <input
-                ref={refs.indentifier}
-                type="text"
-                placeholder={condition.placeholder}
-                {...register('indentifier')}
-              />
-            </Input>
+            <Input
+              typeField="phone"
+              placeholder={role === 'client' ? 'Telefone' : 'Email'}
+              register={register}
+              field="indentifier"
+            />
 
-            <Input onClick={() => refs.password.current?.focus()}>
-              <CadIcon />
-              <input
-                ref={refs.password}
-                type={isVisible ? 'text' : 'password'}
-                placeholder="Senha"
-                {...register('password')}
-              />
-              <EyeCloseIcon onClick={() => setIsVisible(!isVisible)} />
-            </Input>
+            <Input
+              typeField="password"
+              placeholder="Senha"
+              register={register}
+              field="password"
+            />
           </InputContainer>
 
           <ActionButton type="submit">

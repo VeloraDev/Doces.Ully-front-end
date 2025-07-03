@@ -1,6 +1,6 @@
 import { LoadingContainer, Loading } from './styled';
 
-function Loadingpage() {
+function LoadingPage() {
   return (
     <LoadingContainer>
       <Loading></Loading>
@@ -8,4 +8,4 @@ function Loadingpage() {
   );
 }
 
-export default Loadingpage;
+export default LoadingPage;

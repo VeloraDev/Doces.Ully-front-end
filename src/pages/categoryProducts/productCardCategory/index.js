@@ -25,6 +25,7 @@ import {
 
 import { ProductContext } from '../../../hooks/contextprovider';
 import { ProductFlavor, Price, SeeMore } from './styles';
+import LoadingPage from '../../../components/loadingPage';
 
 function ProductCardCategory({
   product,
@@ -38,6 +39,7 @@ function ProductCardCategory({
   const { id, name, quantity, img_url, priceFormatted } = product || {};
 
   const [selectedConfirm, setSelectedConfirm] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFavorite = useCallback(() => {
     onToggleFavorited(id);
@@ -49,6 +51,7 @@ function ProductCardCategory({
 
   async function handleDelete() {
     try {
+      setIsLoading(true);
       await axios.delete(`/products/${id}`);
       toast.success('produto deletado!');
       setSelectedConfirm(false);
@@ -56,11 +59,14 @@ function ProductCardCategory({
     } catch (error) {
       const errors = error.response?.data?.errors ?? 'Ocorreu um erro!';
       errors.forEach(erro => toast.error(erro));
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <ProductCard>
+      {isLoading && <LoadingPage />}
       <ConfirmModal
         visible={selectedConfirm}
         onCancel={() => setSelectedConfirm(false)}

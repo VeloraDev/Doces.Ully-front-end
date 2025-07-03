@@ -11,7 +11,7 @@ import Register from '../pages/register';
 import PrivateRoute from './privateRoute';
 import CategoryProducts from '../pages/categoryProducts';
 import Order from '../pages/order';
-import ProductCategoryForm from '../pages/productCategoryForm';
+import Crud from '../pages/crud';
 
 function AppRoutes() {
   const routes = [
@@ -30,7 +30,7 @@ function AppRoutes() {
     { path: '/pedido/:categoria?/:id?', element: <Order />, isClosed: true },
     {
       path: '/admin/:tipo/:id?',
-      element: <ProductCategoryForm />,
+      element: <Crud />,
       isClosed: true,
       role: 'admin',
     },

@@ -25,6 +25,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from '../../services/axios';
 import ConfirmModal from '../../components/confirmModal';
+import LoadingPage from '../../components/loadingPage';
 
 function Products() {
   const navigate = useNavigate();
@@ -32,17 +33,21 @@ function Products() {
   const role = useSelector(state => state.auth.user.type);
 
   const [selectedConfirm, setSelectedConfirm] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function deleteCategory(id) {
     try {
+      setIsLoading(true);
       await axios.delete(`/categories/${id}`);
       toast.success('Categoria deletada com sucesso');
       removeCategory(id);
     } catch (error) {
       const errors = error.response?.data?.errors ?? [];
       errors.forEach(erro => toast.error(erro));
+    } finally {
+      setSelectedConfirm(null);
+      setIsLoading(false);
     }
-    setSelectedConfirm(null);
   }
 
   const CrumbItems = [
@@ -52,6 +57,7 @@ function Products() {
 
   return (
     <ProductsContainer>
+      {isLoading && <LoadingPage />}
       <BreadCrumbs items={CrumbItems} size="big"></BreadCrumbs>
       <SectionCategory>
         {categories.map(category => (

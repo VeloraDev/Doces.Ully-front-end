@@ -18,14 +18,12 @@ export function crudSchema({ isProduct, id }) {
     } else {
       body.image = imagePutField;
     }
-    body.name = nameField;
     body.description = descriptionField;
     body.price = priceField;
     body.quantity = quantityField;
     body.category_id = categoryField;
-  } else {
-    body.name = nameField;
   }
+  body.name = nameField;
 
   return Yup.object().shape(body);
 }
